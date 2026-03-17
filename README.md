@@ -16,45 +16,89 @@ The native C++ plugin is the primary inference path (~4ms on NPU). The Python We
 
 ## Prerequisites
 
-| Component | Requirement |
-|-----------|-------------|
-| Hardware  | Snapdragon X Elite (X1E80100) — NPU path only. CPU fallback works on any Windows ARM64 machine. |
-| Unity     | Unity 6 (6000.3.x LTS) |
-| Visual Studio | VS 2022 with C++ Desktop and ARM64 build tools |
-| Python    | 3.11 ARM64 — [download ARM64 installer from python.org](https://www.python.org/downloads/windows/) |
+Install these before cloning the repo:
 
-All required DLLs (QNN, ONNX Runtime, OpenCV) and the ONNX model are included in the repo — no additional SDK downloads needed.
+| Tool | Download |
+|------|----------|
+| Unity 6 (6000.3.x LTS) | [unity.com/download](https://unity.com/download) |
+| Git + Git LFS | [git-scm.com](https://git-scm.com) — run `git lfs install` after installing |
+| Python 3.11 ARM64 | [python.org/downloads/windows](https://www.python.org/downloads/windows/) — make sure to pick the ARM64 installer |
+| Visual Studio 2022 | Only needed if modifying C++ plugin code |
+
+> **Hardware note:** The NPU backend requires a Snapdragon X Elite (X1E80100) machine (Dell XPS 13 9345 or similar). The CPU fallback works on any Windows ARM64 machine.
+
+All required DLLs (QNN, ONNX Runtime, OpenCV) and the ONNX model are already included in the repo — no additional SDK downloads needed.
 
 ---
 
-## Setup
+## Getting Started
 
-### 1. Clone the repo
+### Step 1 — Clone the repo
+
+Git LFS must be installed before cloning, otherwise large DLL files will be missing.
 
 ```powershell
-git clone <repo-url>
+git lfs install
+git clone https://github.com/TrietLe347/TACO.git
 cd TACO
+```
+
+If you already cloned without LFS, run:
+```powershell
+git lfs pull
 ```
 
 ---
 
-### 2. Unity
+### Step 2 — Open the Unity project
 
-Open `TACOUnity/` in Unity 6.
+1. Open **Unity Hub**
+2. Click **Add** → **Add project from disk**
+3. Select the `TACOUnity/` folder
+4. Open the project in Unity 6 (6000.3.x LTS)
+5. Wait for Unity to finish importing assets (first time takes a few minutes)
+6. Open `Assets/Scenes/SampleScene`
 
-All required DLLs are already in `TACOUnity/Assets/Plugins/` — Unity will pick them up automatically.
-
-In the scene, select the **PoseManager** GameObject and configure:
-- `PoseBackendController` → check **Use Plugin** for native NPU/CPU, uncheck for WebSocket
-- `NativePluginBackend` → toggle **Use NPU** (requires Snapdragon X Elite)
-- `WebSocketBackend` → **Server Url** defaults to `ws://localhost:8765`
-
-Hit Play.
+All required DLLs are already in `TACOUnity/Assets/Plugins/Windows/ARM64/` — Unity picks them up automatically.
 
 ---
 
-### 3. Python WebSocket Server (optional — for reference/comparison)
+### Step 3 — Configure the scene
 
+In the **Hierarchy** panel, find the **PoseManager** GameObject. In the Inspector you will see:
+
+**PoseBackendController**
+- `Use Plugin` — check this to use the native C++ plugin (NPU or CPU), uncheck to use the Python WebSocket server
+
+**NativePluginBackend**
+- `Model Path` — leave as `model.onnx` (file is in `StreamingAssets/`)
+- `Use NPU` — check for NPU (Snapdragon X Elite required), uncheck for CPU fallback
+
+**WebSocketBackend**
+- `Server Url` — leave as `ws://localhost:8765` unless running the server on another machine
+
+---
+
+### Step 4 — Run the project
+
+**Option A — Native Plugin (recommended)**
+1. In `PoseBackendController` check **Use Plugin**
+2. In `NativePluginBackend` set **Use NPU** based on your hardware
+3. Make sure a webcam is connected
+4. Hit **Play**
+
+**Option B — Python WebSocket Server**
+1. Set up the Python server (see Step 5 below) and make sure it is running
+2. In `PoseBackendController` uncheck **Use Plugin**
+3. Hit **Play**
+
+---
+
+### Step 5 — Python WebSocket Server (optional)
+
+Only needed if using the WebSocket backend or doing server-side development.
+
+**Install dependencies:**
 ```powershell
 cd TACOServer
 python -m venv .venv
@@ -62,42 +106,46 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-**Configure the QNN DLL path** by setting an environment variable:
+**Set the QNN DLL path** (required for NPU mode, skip if using CPU):
 
+The `QnnHtp.dll` is included in the repo. Point to it using an environment variable:
 ```powershell
-$env:QNN_HTP_DLL = "C:\path\to\QnnHtp.dll"
+$env:QNN_HTP_DLL = "..\TACOPlugin\ARM64\Release\QnnHtp.dll"
 ```
 
-The DLL from the repo can be used directly:
-```powershell
-$env:QNN_HTP_DLL = "..\TACOPlugin\Dependencies\QnnHtp.dll"
-```
-
-To switch to CPU (no NPU required):
+To use CPU instead of NPU, open `app.py` and change:
 ```python
-# In app.py
 USE_NPU = False
 ```
 
-Run the server:
+**Run the server:**
 ```powershell
 python app.py
 ```
 
-Then in Unity set `PoseBackendController` → **Use Plugin** to unchecked.
+You should see:
+```
+PoseNet server on ws://localhost:8765  |  backend = NPU
+```
+
+Leave this terminal running, then hit Play in Unity.
 
 ---
 
-### 4. Building the C++ Plugin (only needed if modifying plugin code)
+### Step 6 — Building the C++ Plugin (only if modifying plugin code)
 
-Team members who only work on Unity or Python do not need to do this — the compiled `TACOPlugin.dll` is already in `TACOUnity/Assets/Plugins/`.
+> Most team members will not need this — the compiled `TACOPlugin.dll` is already in the repo.
 
-If you modify any C++ source:
+If you change any `.cpp` or `.h` files in `TACOPlugin/`:
 
-1. Open `TACOPlugin/TACOPlugin.sln` in Visual Studio 2022
-2. Set configuration to **Release / ARM64**
-3. Build the solution
-4. Copy `TACOPlugin/ARM64/Release/TACOPlugin.dll` to `TACOUnity/Assets/Plugins/`
+1. Install **Visual Studio 2022** with the **Desktop development with C++** workload and **ARM64 build tools**
+2. Open `TACOPlugin/TACOPlugin.sln`
+3. Set configuration to **Release / ARM64** (top toolbar dropdown)
+4. Build → Build Solution (`Ctrl+Shift+B`)
+5. Copy the output DLL to Unity:
+```powershell
+Copy-Item "TACOPlugin\ARM64\Release\TACOPlugin.dll" "TACOUnity\Assets\Plugins\Windows\ARM64\TACOPlugin.dll"
+```
 
 ---
 
@@ -107,8 +155,8 @@ If you modify any C++ source:
 |---------|-----------|-------|-------|
 | NPU Plugin | ~1–4ms | ~4ms | Snapdragon X Elite required |
 | CPU Plugin | ~80ms | ~80ms | Any ARM64 Windows |
-| WebSocket NPU | ~4ms | ~200ms | Round trip overhead |
-| WebSocket CPU | ~80ms | ~200ms | Round trip overhead |
+| WebSocket NPU | ~4ms | ~200ms | Round trip + network overhead |
+| WebSocket CPU | ~80ms | ~200ms | Round trip + network overhead |
 
 ---
 
@@ -118,16 +166,18 @@ If you modify any C++ source:
 TACO/
 ├── TACOUnity/                  Unity project
 │   └── Assets/
-│       ├── Plugins/            TACOPlugin.dll + all runtime DLLs
+│       ├── Plugins/
+│       │   └── Windows/ARM64/  TACOPlugin.dll + all runtime DLLs
 │       ├── StreamingAssets/    model.onnx
-│       └── Scripts/            C# source
+│       └── Scripts/            C# source files
 ├── TACOPlugin/                 C++ Visual Studio project
-│   ├── Dependencies/           Headers and libs for building
+│   ├── ARM64/Release/          Compiled DLL output
 │   └── *.cpp / *.h             Plugin source
 ├── TACOServer/                 Python WebSocket server
-│   ├── app.py
-│   ├── model.onnx
-│   └── requirements.txt
+│   ├── app.py                  Server entry point
+│   ├── model.onnx              ONNX model
+│   └── requirements.txt        Python dependencies
+├── .gitattributes
 ├── .gitignore
 └── README.md
 ```
@@ -136,7 +186,8 @@ TACO/
 
 ## Known Issues
 
-- **NPU driver state**: If the NPU stops responding after a crash or sleep, reboot the machine. If the issue persists, reinstall the Qualcomm NPU driver from [Dell support](https://www.dell.com/support/home/en-us/product-support/product/xps-13-9345/drivers).
-- **Unity Editor crash**: `TACOPlugin.dll` must be set to **ARM64 standalone only** in the Plugin Inspector — do not enable it for Editor. Loading it in the Editor will crash Unity.
-- **WebSocket perf overlay**: Pre/Inf breakdown requires the Python server to be running. If values show 0, check the server is running and connected.
-- **CPU fallback**: The quantized uint8 model produces correct results on CPU but runs ~20x slower than NPU.
+- **NPU not working after crash or sleep**: Reboot the machine. If it still fails after reboot, reinstall the Qualcomm NPU driver from [Dell support](https://www.dell.com/support/home/en-us/product-support/product/xps-13-9345/drivers).
+- **Unity crashes on open**: `TACOPlugin.dll` must be configured as **ARM64 standalone only** in the Plugin Inspector. If you accidentally enable it for Editor it will crash Unity on startup. Fix: rename `TACOPlugin.dll` to `TACOPlugin.dll.bak` outside of Unity, open the project, configure the plugin settings, rename it back.
+- **No keypoints showing**: Check the Console for errors. Most likely cause is the model file missing from `StreamingAssets/` or the wrong backend selected.
+- **WebSocket perf overlay shows 0ms**: The Python server must be running and connected. Check the terminal for errors.
+- **CPU fallback**: Works on any machine but runs ~20x slower than NPU. Confidence scores may differ slightly from NPU due to floating point vs quantized execution.
