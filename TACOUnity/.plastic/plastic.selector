@@ -1,0 +1,3 @@
+repository "TrackingAnimationDemo1/TrackingAnimationDemo1@20067534307332@cloud"
+  path "/"
+    smartbranch "/main"
