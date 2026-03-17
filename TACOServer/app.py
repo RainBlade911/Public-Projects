@@ -3,6 +3,7 @@ import json
 import io
 import time
 import collections
+import os
 
 import numpy as np
 import onnxruntime as rt
@@ -69,7 +70,7 @@ def load_npu_session():
     options = rt.SessionOptions()
     options.graph_optimization_level = rt.GraphOptimizationLevel.ORT_ENABLE_ALL
     provider_options = {
-        "backend_path":         r"C:\Users\minht\Downloads\v2.44.0.260225\qairt\2.44.0.260225\lib\arm64x-windows-msvc\QnnHtp.dll",   
+       "backend_path": os.environ.get("QNN_HTP_DLL", "QnnHtp.dll"),   
         "htp_performance_mode": "burst",
         "profiling_level": "off"
     }
