@@ -1453,7 +1453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NativePluginBackend
   webcamFeed: {fileID: 160132715}
   modelPath: model.onnx
-  useNPU: 0
+  useNPU: 1
 --- !u!114 &1632587313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PoseBackendController
   webSocketBackend: {fileID: 1632587314}
   nativePluginBackend: {fileID: 1632587312}
-  usePlugin: 0
+  usePlugin: 1
 --- !u!114 &1632587314
 MonoBehaviour:
   m_ObjectHideFlags: 0

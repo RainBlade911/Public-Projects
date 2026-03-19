@@ -70,9 +70,10 @@ def load_npu_session():
     options = rt.SessionOptions()
     options.graph_optimization_level = rt.GraphOptimizationLevel.ORT_ENABLE_ALL
     provider_options = {
-       "backend_path": os.environ.get("QNN_HTP_DLL", "QnnHtp.dll"),   
+       "backend_path": "QnnHtp.dll",   
         "htp_performance_mode": "burst",
-        "profiling_level": "off"
+        "profiling_level": "off",
+        "htp_arch":             "v73",  # add this
     }
     sess = rt.InferenceSession(
         MODEL_PATH,

@@ -33,23 +33,17 @@ public class FrameReadback : System.IDisposable
     /// </summary>
     public byte[] ReadRGB(Texture source)
     {
-        int w = source.width;
-        int h = source.height;
+        var webcam = source as WebCamTexture;
+        if (webcam == null) return buffer;
+
+        int w = webcam.width;
+        int h = webcam.height;
 
         if (w != currentWidth || h != currentHeight)
             Reallocate(w, h);
 
-        Graphics.Blit(source, rt);
+        webcam.GetPixels32(pixels);
 
-        RenderTexture.active = rt;
-        readback.ReadPixels(new Rect(0, 0, w, h), 0, 0);
-        readback.Apply();
-        RenderTexture.active = null;
-
-        // GetPixels32 returns rows bottom-to-top (OpenGL convention).
-        // We reverse row order so C++ receives pixels top-to-bottom,
-        // matching what Python sees via JPEG decode.
-        pixels = readback.GetPixels32();
         int idx = 0;
         for (int row = h - 1; row >= 0; row--)
         {
@@ -74,12 +68,8 @@ public class FrameReadback : System.IDisposable
     void Reallocate(int w, int h)
     {
         Release();
-
-        rt = new RenderTexture(w, h, 0, RenderTextureFormat.ARGB32);
-        readback = new Texture2D(w, h, TextureFormat.RGB24, false);
-        buffer = new byte[w * h * 3];
         pixels = new Color32[w * h];
-
+        buffer = new byte[w * h * 3];
         currentWidth = w;
         currentHeight = h;
     }
@@ -88,6 +78,7 @@ public class FrameReadback : System.IDisposable
     {
         if (rt != null) { rt.Release(); Object.Destroy(rt); rt = null; }
         if (readback != null) { Object.Destroy(readback); readback = null; }
+        pixels = null;
         buffer = null;
     }
 }
