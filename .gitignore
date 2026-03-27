@@ -100,3 +100,15 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 Assets/Art/Imports/BOKI/LowPolyNature/Terrain/data/*.asset
+
+# OS junk
+.DS_Store
+
+# Visual Studio config
+.vsconfig
+
+# Unity auto-generated solution files
+*.sln
+*.slnx
+
+
