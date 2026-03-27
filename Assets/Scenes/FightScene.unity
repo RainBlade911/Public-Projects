@@ -773,8 +773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   animator: {fileID: 1523638970}
-  playerUnit: {fileID: 0}
-  enemyUnits: []
+  currentEnemy: {fileID: 2014174954}
 --- !u!4 &96767078
 Transform:
   m_ObjectHideFlags: 0
