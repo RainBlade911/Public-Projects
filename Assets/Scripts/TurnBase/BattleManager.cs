@@ -178,11 +178,16 @@ public class BattleManager : MonoBehaviour
         return true;
     }
 
-    public void AttackSelected()
+    public void AttackSelected(Move move)
     {
-        Debug.Log("Performing Attack");
+        Debug.Log("Performing Attack: " + move.name);
         animator.SetTrigger("AttackTrigger");
 
         //call attack stuff here
+    }
+
+    public Move getMove(int i)
+    {
+        return PlayerManager.Instance.GetMove(i);
     }
 }
