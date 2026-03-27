@@ -23,7 +23,7 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        StartBattle();
+        //StartBattle();
     }
 
     private void StartBattle()
