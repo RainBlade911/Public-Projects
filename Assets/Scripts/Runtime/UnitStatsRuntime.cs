@@ -12,6 +12,7 @@ public class UnitStatsRuntime : MonoBehaviour
     public int MaxHealth => maxHealth;
 
     public event Action<int, int> OnHealthChanged;
+    public event Action<UnitStatsRuntime> OnDied;
 
     private void Start()
     {
@@ -25,8 +26,6 @@ public class UnitStatsRuntime : MonoBehaviour
         currentHealth = maxHealth;
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-
-        ApplyDamage(5);
     }
 
     public int ApplyDamage(int damageAmount)
@@ -37,6 +36,11 @@ public class UnitStatsRuntime : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        if (currentHealth <= 0)
+        {
+            OnDied?.Invoke(this);
+        }
 
         return currentHealth;
     }
