@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,7 @@ public class StartMenuUI : MonoBehaviour
 
     public void StartGame()
     {
+        Debug.Log("Start button clicked");
         SceneManager.LoadScene(fightSceneName);
     }
 
