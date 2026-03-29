@@ -47,8 +47,10 @@ public class BattleManager : MonoBehaviour
             animator.SetTrigger("AttackTrigger");
         }
 
-        int remainingHealth = currentEnemy.ApplyDamage(5);
-        Debug.Log("Enemy took 5 damage. Remaining HP: " + remainingHealth);
+        float remainingHealth = currentEnemy.ApplyDamage(move.getDamage());
+        float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
+        Debug.Log("Player used " + move.getMoveName() + ". Remaining Mana: " + remainingMana);
+        Debug.Log("Enemy took " + move.getDamage()+ " damage. Remaining HP: " + remainingHealth);
     }
 
     private void HandleEnemyDied(UnitStatsRuntime deadEnemy)

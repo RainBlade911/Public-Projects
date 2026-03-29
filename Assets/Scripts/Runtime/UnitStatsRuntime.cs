@@ -5,13 +5,14 @@ public class UnitStatsRuntime : MonoBehaviour
 {
     [SerializeField] private Enemy enemyData;
 
-    private int currentHealth;
-    private int maxHealth;
+    private float currentHealth;
+    private float maxHealth;
+    private Damage damage;
 
-    public int CurrentHealth => currentHealth;
-    public int MaxHealth => maxHealth;
+    public float CurrentHealth => currentHealth;
+    public float MaxHealth => maxHealth;
 
-    public event Action<int, int> OnHealthChanged;
+    public event Action<float, float> OnHealthChanged;
     public event Action<UnitStatsRuntime> OnDied;
 
     private void Start()
@@ -22,26 +23,23 @@ public class UnitStatsRuntime : MonoBehaviour
             return;
         }
 
+        damage = GetComponent<Damage>();
+
         maxHealth = enemyData.GetHealth();
         currentHealth = maxHealth;
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
-    public int ApplyDamage(int damageAmount)
+    public float ApplyDamage(float damageAmount)
     {
         damageAmount = Mathf.Max(0, damageAmount);
-
-        currentHealth -= damageAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
+        currentHealth = damage.TakeDamage(currentHealth, maxHealth, damageAmount);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-
-        if (currentHealth <= 0)
+        if(currentHealth <= 0)
         {
             OnDied?.Invoke(this);
         }
-
         return currentHealth;
     }
 

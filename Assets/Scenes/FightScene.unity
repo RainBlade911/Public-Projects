@@ -759,10 +759,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 65876133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 183257d92bd3881428759e57efd65e12, type: 3}
+  m_Script: {fileID: 11500000, guid: 9706a3b0c7334dd479289da5ab02afd7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProgressBar
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBar
   Fill: {fileID: 65876135}
+  healthBar: {fileID: 0}
 --- !u!1 &96767076
 GameObject:
   m_ObjectHideFlags: 0
@@ -2329,6 +2330,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5784691228054346114, guid: b393c686f66c1d140b914e932d55c944, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2014174954}
+    - targetCorrespondingSourceObject: {fileID: 5784691228054346114, guid: b393c686f66c1d140b914e932d55c944, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2014174958}
   m_SourcePrefab: {fileID: 100100000, guid: b393c686f66c1d140b914e932d55c944, type: 3}
 --- !u!1 &452198129
 GameObject:
@@ -4774,7 +4778,7 @@ GameObject:
   - component: {fileID: 1069278524}
   - component: {fileID: 1069278527}
   - component: {fileID: 1069278526}
-  - component: {fileID: 1069278525}
+  - component: {fileID: 1069278528}
   m_Layer: 5
   m_Name: ManaProgress
   m_TagString: Untagged
@@ -4802,19 +4806,6 @@ RectTransform:
   m_AnchoredPosition: {x: 4.5449, y: 6.25}
   m_SizeDelta: {x: 409.0899, y: 37.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1069278525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069278523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 183257d92bd3881428759e57efd65e12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProgressBar
-  Fill: {fileID: 1069278526}
 --- !u!114 &1069278526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4853,6 +4844,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069278523}
   m_CullTransparentMesh: 1
+--- !u!114 &1069278528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069278523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2855e5a6b36234d875bb0059f1eb5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerManaBar
+  Fill: {fileID: 1069278526}
+  manaBar: {fileID: 0}
 --- !u!1001 &1071907250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4920,6 +4925,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5492824731111369019, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1523638971}
+    - targetCorrespondingSourceObject: {fileID: 5492824731111369019, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1523638973}
   m_SourcePrefab: {fileID: 100100000, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
 --- !u!1 &1071907251 stripped
 GameObject:
@@ -5684,7 +5692,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   moves: []
+  manaBar: {fileID: 1069278528}
+  healthBar: {fileID: 65876137}
   defaultMoves: {fileID: 11400000, guid: b0563217ba13e1441a177a7476101fd5, type: 2}
+--- !u!114 &1523638973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071907251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d01bd6b8501be74f8065b258e1c7eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damage
 --- !u!1 &1531632299
 GameObject:
   m_ObjectHideFlags: 0
@@ -7207,6 +7229,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4517526722195019032, guid: b393c686f66c1d140b914e932d55c944, type: 3}
   m_PrefabInstance: {fileID: 447240282}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2014174958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014174951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d01bd6b8501be74f8065b258e1c7eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damage
 --- !u!1 &2024910342
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,11 @@ public class Move : ScriptableObject
         return damage;
     }
 
+    public float getManaCost()
+    {
+        return manaCost;
+    }
+
     public Affinity getType()
     {
         return type;

@@ -47,7 +47,7 @@ public class EnemyUIHandler : MonoBehaviour
         }
     }
 
-    private void RefreshUI(int currentHealth, int maxHealth)
+    private void RefreshUI(float currentHealth, float maxHealth)
     {
         if (healthText != null)
         {
