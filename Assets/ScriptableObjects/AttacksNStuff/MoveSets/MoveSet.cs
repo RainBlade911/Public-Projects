@@ -4,4 +4,9 @@ using UnityEngine;
 public class MoveSet : ScriptableObject
 {
     [SerializeField] private Move[] moves;
+
+    public Move[] GetMoves()
+    {
+        return moves;
+    }
 }

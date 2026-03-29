@@ -341,6 +341,7 @@ GameObject:
   - component: {fileID: 25518206}
   - component: {fileID: 25518205}
   - component: {fileID: 25518204}
+  - component: {fileID: 25518207}
   m_Layer: 5
   m_Name: Attack 2
   m_TagString: Untagged
@@ -412,14 +413,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 519479868}
-        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
-        m_MethodName: AttackSelection
-        m_Mode: 5
+      - m_Target: {fileID: 25518207}
+        m_TargetAssemblyTypeName: AttackButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: Attack2
           m_BoolArgument: 0
@@ -462,6 +463,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25518202}
   m_CullTransparentMesh: 1
+--- !u!114 &25518207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25518202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97dc6195dfba3f45a8ce966494da4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackButton
+  playerMenus: {fileID: 30335885}
+  attackLabel: {fileID: 794151484}
 --- !u!1 &30335883
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +529,11 @@ MonoBehaviour:
   ItemMenu: {fileID: 469222243}
   BlockMenu: {fileID: 519479866}
   DefaultMenu: {fileID: 519479866}
+  attackButtons:
+  - {fileID: 264909760}
+  - {fileID: 25518207}
+  - {fileID: 585472931}
+  - {fileID: 582060544}
 --- !u!1 &33386865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,6 +1210,7 @@ GameObject:
   - component: {fileID: 264909759}
   - component: {fileID: 264909758}
   - component: {fileID: 264909757}
+  - component: {fileID: 264909760}
   m_Layer: 5
   m_Name: Attack 1
   m_TagString: Untagged
@@ -1261,10 +1282,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 519479868}
-        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
-        m_MethodName: AttackSelection
-        m_Mode: 5
+      - m_Target: {fileID: 264909760}
+        m_TargetAssemblyTypeName: AttackButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1311,6 +1332,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 264909755}
   m_CullTransparentMesh: 1
+--- !u!114 &264909760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264909755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97dc6195dfba3f45a8ce966494da4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackButton
+  playerMenus: {fileID: 30335885}
+  attackLabel: {fileID: 33386867}
 --- !u!1001 &267399610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2886,6 +2921,7 @@ GameObject:
   - component: {fileID: 582060543}
   - component: {fileID: 582060542}
   - component: {fileID: 582060541}
+  - component: {fileID: 582060544}
   m_Layer: 5
   m_Name: Attack 4
   m_TagString: Untagged
@@ -2957,14 +2993,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 519479868}
-        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
-        m_MethodName: AttackSelection
-        m_Mode: 5
+      - m_Target: {fileID: 582060544}
+        m_TargetAssemblyTypeName: AttackButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: Attack4
           m_BoolArgument: 0
@@ -3007,6 +3043,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582060539}
   m_CullTransparentMesh: 1
+--- !u!114 &582060544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582060539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97dc6195dfba3f45a8ce966494da4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackButton
+  playerMenus: {fileID: 30335885}
+  attackLabel: {fileID: 1727883282}
 --- !u!1 &585472926
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,6 +3069,7 @@ GameObject:
   - component: {fileID: 585472930}
   - component: {fileID: 585472929}
   - component: {fileID: 585472928}
+  - component: {fileID: 585472931}
   m_Layer: 5
   m_Name: Attack 3
   m_TagString: Untagged
@@ -3090,14 +3141,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 519479868}
-        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
-        m_MethodName: AttackSelection
-        m_Mode: 5
+      - m_Target: {fileID: 585472931}
+        m_TargetAssemblyTypeName: AttackButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: Attack3
           m_BoolArgument: 0
@@ -3140,6 +3191,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 585472926}
   m_CullTransparentMesh: 1
+--- !u!114 &585472931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585472926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97dc6195dfba3f45a8ce966494da4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackButton
+  playerMenus: {fileID: 30335885}
+  attackLabel: {fileID: 859208148}
 --- !u!1 &594136056
 GameObject:
   m_ObjectHideFlags: 0
@@ -4851,8 +4916,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5492824731111369019, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1523638971}
   m_SourcePrefab: {fileID: 100100000, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
+--- !u!1 &1071907251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5492824731111369019, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
+  m_PrefabInstance: {fileID: 1071907250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1125620118 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 24d1c7dc810987346a978f33687b6850, type: 3}
@@ -5598,6 +5671,20 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 6557242774254812581, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
   m_PrefabInstance: {fileID: 1071907250}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1523638971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071907251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec86ae95b8a2e0742ac4126baaa05d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  moves: []
+  defaultMoves: {fileID: 11400000, guid: b0563217ba13e1441a177a7476101fd5, type: 2}
 --- !u!1 &1531632299
 GameObject:
   m_ObjectHideFlags: 0

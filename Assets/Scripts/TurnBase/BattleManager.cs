@@ -30,13 +30,17 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void AttackSelected()
+    public void AttackSelected(Move move)
     {
+
         if (currentEnemy == null)
         {
             Debug.LogWarning("BattleManager: No enemy to attack.");
             return;
         }
+
+        Debug.Log("Performing Attack: " + move.name);
+
 
         if (animator != null)
         {
@@ -57,5 +61,10 @@ public class BattleManager : MonoBehaviour
         }
 
         currentEnemy = null;
+    }
+
+    public Move getMove(int i)
+    {
+        return PlayerManager.Instance.GetMove(i);
     }
 }

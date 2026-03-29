@@ -8,17 +8,17 @@ public class Move : ScriptableObject
     [SerializeField] private Affinity type;
     [SerializeField] private float manaCost;
 
-    private string getMoveName()
+    public string getMoveName()
     {
         return moveName;
     }
 
-    private float getDamage()
+    public float getDamage()
     {
         return damage;
     }
 
-    private Affinity getType()
+    public Affinity getType()
     {
         return type;
     }
