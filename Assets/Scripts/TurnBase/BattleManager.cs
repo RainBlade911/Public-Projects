@@ -60,6 +60,7 @@ public class BattleManager : MonoBehaviour
         if (deadEnemy != null)
         {
             Destroy(deadEnemy.gameObject);
+            ParticlePlayer.Instance.PlayParticleEffect();
         }
 
         currentEnemy = null;
