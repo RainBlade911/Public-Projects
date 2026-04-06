@@ -3,7 +3,7 @@ import json
 import io
 import time
 import collections
-import os
+
 
 import numpy as np
 import onnxruntime as rt
