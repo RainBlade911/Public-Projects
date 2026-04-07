@@ -795,6 +795,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   animator: {fileID: 1523638970}
   currentEnemy: {fileID: 2014174954}
+  turnController: {fileID: 655711405}
+  playerManager: {fileID: 1523638971}
 --- !u!4 &96767078
 Transform:
   m_ObjectHideFlags: 0
@@ -2379,6 +2381,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5784691228054346114, guid: b393c686f66c1d140b914e932d55c944, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2014174958}
+    - targetCorrespondingSourceObject: {fileID: 5784691228054346114, guid: b393c686f66c1d140b914e932d55c944, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2014174960}
   m_SourcePrefab: {fileID: 100100000, guid: b393c686f66c1d140b914e932d55c944, type: 3}
 --- !u!1 &452198129
 GameObject:
@@ -3541,6 +3546,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625931417}
   m_CullTransparentMesh: 1
+--- !u!1 &655711404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 655711406}
+  - component: {fileID: 655711405}
+  m_Layer: 0
+  m_Name: TurnController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &655711405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655711404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c47e4254690870641880c5cf7d00911b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnController
+  playerMenus: {fileID: 30335885}
+  battleManager: {fileID: 96767077}
+--- !u!4 &655711406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655711404}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.10125, y: 0, z: 10.11274}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &661737204
 GameObject:
   m_ObjectHideFlags: 0
@@ -4979,6 +5030,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5492824731111369019, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1523638973}
+    - targetCorrespondingSourceObject: {fileID: 5492824731111369019, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1523638975}
   m_SourcePrefab: {fileID: 100100000, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
 --- !u!1 &1071907251 stripped
 GameObject:
@@ -5763,6 +5817,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d01bd6b8501be74f8065b258e1c7eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damage
+--- !u!114 &1523638975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071907251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c946da103dcf64b60924366f49a69942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleUnit
+  isPlayer: 1
+  enemy: {fileID: 0}
 --- !u!1 &1531632299
 GameObject:
   m_ObjectHideFlags: 0
@@ -7362,6 +7430,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d01bd6b8501be74f8065b258e1c7eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damage
+--- !u!114 &2014174960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014174951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c946da103dcf64b60924366f49a69942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleUnit
+  isPlayer: 0
+  enemy: {fileID: 2014174954}
 --- !u!1 &2024910342
 GameObject:
   m_ObjectHideFlags: 0
@@ -7791,3 +7873,4 @@ SceneRoots:
   - {fileID: 711795338}
   - {fileID: 279768971}
   - {fileID: 1623336294}
+  - {fileID: 655711406}

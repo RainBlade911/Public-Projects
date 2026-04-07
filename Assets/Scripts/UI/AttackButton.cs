@@ -18,7 +18,7 @@ public class AttackButton : ButtonScript
         Move selectedMove = battleManager.getMove(moveIndex);
         battleManager.AttackSelected(selectedMove);
 
-        ActionSelection("Default");
+        //ActionSelection("Default");
     }
 
 }

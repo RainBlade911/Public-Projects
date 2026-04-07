@@ -1,13 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private UnitStatsRuntime currentEnemy;
+    [SerializeField] private TurnController turnController;
+    [SerializeField] private PlayerManager playerManager;
+
 
     private void Start()
     {
+        
         StartBattle();
+
     }
 
     private void StartBattle()
@@ -18,7 +24,7 @@ public class BattleManager : MonoBehaviour
             Debug.LogError("BattleManager: No current enemy assigned.", this);
             return;
         }
-
+        turnController.OnBattleStart();
         currentEnemy.OnDied += HandleEnemyDied;
     }
 
@@ -51,6 +57,9 @@ public class BattleManager : MonoBehaviour
         float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
         Debug.Log("Player used " + move.getMoveName() + ". Remaining Mana: " + remainingMana);
         Debug.Log("Enemy took " + move.getDamage()+ " damage. Remaining HP: " + remainingHealth);
+
+        Debug.Log("Turn Ended.");
+        turnController.EndTurn();
     }
 
     private void HandleEnemyDied(UnitStatsRuntime deadEnemy)
@@ -69,5 +78,19 @@ public class BattleManager : MonoBehaviour
     public Move getMove(int i)
     {
         return PlayerManager.Instance.GetMove(i);
+    }
+
+    public void EnemyAttack(BattleUnit enemy)
+    {
+        if(enemy == null)
+        {
+            Debug.LogWarning("BattleManager: No enemy to perform attack.");
+            return;
+        }
+
+        Move enemyMove = enemy.GetEnemy().GetEnemyData().GetRandomMove();
+
+        playerManager.ApplyDamage(enemyMove.getDamage());
+
     }
 }

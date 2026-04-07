@@ -33,7 +33,7 @@ public class PlayerMenus : MonoBehaviour
     }
     private void Start()
     {
-        SetSoloActive(DefaultMenu);
+        //SetSoloActive(DefaultMenu);
     }
 
     public void ChangeUITo(string menu)

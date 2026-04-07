@@ -2,19 +2,70 @@ using UnityEngine;
 
 public class BattleUnit : MonoBehaviour
 {
-    [SerializeField] private string unitName = "Unit";
+    private string unitName;
     [SerializeField] private bool isPlayer;
-    [SerializeField] private Health health;
-    [SerializeField] private CombatStats stats;
-
-    public string UnitName => unitName;
-    public bool IsPlayer => isPlayer;
-    public Health Health => health;
-    public CombatStats Stats => stats;
+    [SerializeField] private UnitStatsRuntime enemy;
+    private float speed;
+  
 
     private void Reset()
     {
-        health = GetComponent<Health>();
-        stats = GetComponent<CombatStats>();
+    }
+
+    private void Start()
+    {
+        SetSpeed();
+        SetName();
+    }
+
+    private void SetSpeed()
+    {
+        if (isPlayer)
+        {
+            speed = PlayerManager.Instance.getCurrentSpeed();
+        }
+        else
+        {
+            speed = enemy.GetEnemyData().GetSpeed();
+        }
+    }
+
+    private void SetName()
+    {
+        if (isPlayer)
+        {
+            unitName = "Player";
+        }
+        else
+        {
+            unitName = enemy.GetEnemyData().GetEnemyName();
+        }
+    }
+
+    public string GetName()
+    {
+        return unitName;
+    }
+
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+    public bool IsPlayer()
+    {
+        return isPlayer;
+    }
+
+    public UnitStatsRuntime GetEnemy()
+    {
+        if(!isPlayer)
+        {
+            return enemy;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

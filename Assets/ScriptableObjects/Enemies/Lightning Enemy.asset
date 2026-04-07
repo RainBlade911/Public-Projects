@@ -16,3 +16,4 @@ MonoBehaviour:
   Health: 20
   moves: {fileID: 11400000, guid: 189a7b6697420f04ab0ad0ec63d168f8, type: 2}
   affinity: {fileID: 11400000, guid: 93882fde680784a41b870a8d0b95a472, type: 2}
+  speed: 7

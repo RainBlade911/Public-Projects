@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviour
     private float MaxHealth = 20f;
     private float CurrentMana;
     private float MaxMana = 10f;
+    private float BaseSpeed = 5f;
+    private float CurrentSpeed;
 
     [SerializeField] PlayerManaBar manaBar;
     [SerializeField] PlayerHealthBar healthBar;
@@ -26,14 +28,18 @@ public class PlayerManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // Initialize stats early so other scripts can read them
+        CurrentHealth = MaxHealth;
+        CurrentMana = MaxMana;
+        CurrentSpeed = BaseSpeed;
     }
 
 
     private void Start()
     {
         moves = defaultMoves.GetMoves();
-        CurrentHealth = MaxHealth;
-        CurrentMana = MaxMana;
+        
     }
 
     public Move GetMove(int index)
@@ -73,6 +79,22 @@ public class PlayerManager : MonoBehaviour
         CurrentMana = Mathf.Clamp(CurrentMana, 0, MaxMana);
         manaBar.SetProgress(CurrentMana / MaxMana);
         return CurrentMana;
+    }
+
+    public float getCurrentSpeed()
+    {
+        Debug.Log("PlayerManager CurrentSpeed = " + CurrentSpeed);
+
+        return CurrentSpeed;
+    }
+
+    public float ApplyDamage(float damage)
+    {
+        damage = Mathf.Max(0, damage);
+        CurrentHealth -= damage;
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        healthBar.SetProgress(CurrentHealth / MaxHealth);
+        return CurrentHealth;
     }
 
 }

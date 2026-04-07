@@ -7,7 +7,7 @@ public class Enemy : ScriptableObject
     [SerializeField] private int Health;
     [SerializeField] private MoveSet moves;
     [SerializeField] Affinity affinity;
-
+    [SerializeField] private float speed;
 
     public string GetEnemyName()
     {
@@ -22,5 +22,27 @@ public class Enemy : ScriptableObject
     public Affinity GetAffinity()
     {
         return affinity;
+    }
+
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+    public Move[] GetMoves()
+    {
+        return moves.GetMoves();
+    }
+
+    public Move GetRandomMove()
+    {
+        Move[] availableMoves = GetMoves();
+        if (availableMoves.Length == 0)
+        {
+            Debug.LogWarning("Enemy " + EnemyName + " has no moves defined!");
+            return null;
+        }
+        int randomIndex = Random.Range(0, availableMoves.Length);
+        return availableMoves[randomIndex];
     }
 }
