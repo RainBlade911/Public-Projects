@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private UnitStatsRuntime currentEnemy;
     [SerializeField] private TurnController turnController;
     [SerializeField] private PlayerManager playerManager;
+    private bool cont = false;
+
+    public Move enemyMove;
 
 
     private void Start()
@@ -82,15 +86,27 @@ public class BattleManager : MonoBehaviour
 
     public void EnemyAttack(BattleUnit enemy)
     {
-        if(enemy == null)
+        if (enemy == null)
         {
             Debug.LogWarning("BattleManager: No enemy to perform attack.");
             return;
         }
+        StartCoroutine(EnemyAttackRoutine(enemy));
 
-        Move enemyMove = enemy.GetEnemy().GetEnemyData().GetRandomMove();
+    }
+
+    private IEnumerator EnemyAttackRoutine(BattleUnit enemy)
+    {
+        cont = false;
+        enemyMove = enemy.GetEnemy().GetEnemyData().GetRandomMove();
+
+        yield return new WaitUntil(() => cont);
 
         playerManager.ApplyDamage(enemyMove.getDamage());
+    }
 
+    public void ContinueBattle()
+    {
+        cont = true;
     }
 }

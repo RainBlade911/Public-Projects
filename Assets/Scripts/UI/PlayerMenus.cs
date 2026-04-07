@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerMenus : MonoBehaviour
@@ -33,7 +34,7 @@ public class PlayerMenus : MonoBehaviour
     }
     private void Start()
     {
-        //SetSoloActive(DefaultMenu);
+        SetSoloActive(DefaultMenu);
     }
 
     public void ChangeUITo(string menu)
@@ -71,10 +72,17 @@ public class PlayerMenus : MonoBehaviour
     private void SetSoloActive(GameObject activeMenu)
     {
         Debug.Log("Setting active menu: " + activeMenu.name);
+        SetAllInactive();
+        activeMenu.SetActive(true);
+    }
+
+    public void SetAllInactive()
+    {
         attackMenu.SetActive(false);
         ItemMenu.SetActive(false);
         BlockMenu.SetActive(false);
         DefaultMenu.SetActive(false);
-        activeMenu.SetActive(true);
     }
+
+    
 }

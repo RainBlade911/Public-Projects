@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyUIHandler : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class EnemyUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI affinityText;
+    [SerializeField] private GameObject EnemyAttackUI;
+    [SerializeField] private BattleManager battleManager;
+    private Enemy enemyData;
+    public bool Continue = false;
 
     void Start()
     {
@@ -17,7 +22,11 @@ public class EnemyUIHandler : MonoBehaviour
             return;
         }
 
-        Enemy enemyData = statsRuntime.GetEnemyData();
+        EnemyAttackUI.SetActive(false);
+
+        
+
+        enemyData = statsRuntime.GetEnemyData();
 
         if (enemyData == null)
         {
@@ -59,5 +68,29 @@ public class EnemyUIHandler : MonoBehaviour
             Debug.Log("Should Update Progress Bar: " + (float)currentHealth / maxHealth);
             progressBar.SetProgress((float)currentHealth / maxHealth);
         }
+    }
+
+    public void OnContinue()
+    {
+        Continue = true;
+        battleManager.ContinueBattle();
+        HideEnemyAttackUI();
+    }
+
+    public void StartEnemyMessage(Move attack)
+    {
+        HandleEnemyAttackUI(enemyData.GetEnemyName(), attack.getMoveName(), attack.getDamage());
+    }
+    private void HandleEnemyAttackUI(string EnemyName, string attack, float damage)
+    {
+        Continue = false;
+        EnemyAttackUI.SetActive(true);
+        var text = EnemyAttackUI.GetComponentInChildren<TextMeshProUGUI>();
+        text.text = EnemyName + " is attacking with " + attack + "!\nIt deals " + damage + " damage!"; 
+    }
+
+    private void HideEnemyAttackUI()
+    {
+        EnemyAttackUI.SetActive(false);
     }
 }

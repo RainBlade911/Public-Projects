@@ -45,4 +45,5 @@ public class Enemy : ScriptableObject
         int randomIndex = Random.Range(0, availableMoves.Length);
         return availableMoves[randomIndex];
     }
+
 }

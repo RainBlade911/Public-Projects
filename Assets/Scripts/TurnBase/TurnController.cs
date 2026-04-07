@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class TurnController : MonoBehaviour
     private int turnIndex = 0;
     [SerializeField] private PlayerMenus playerMenus;
     [SerializeField] private BattleManager battleManager;
+    [SerializeField] private EnemyUIHandler enemyUIHandler;
 
 
     public void OnBattleStart()
@@ -88,11 +90,14 @@ public class TurnController : MonoBehaviour
 
     private IEnumerator EnemyActionRoutine(BattleUnit enemy)
     {
-        yield return new WaitForSeconds(1f); // Simulate thinking time
-
+        battleManager.EnemyAttack(enemy);
+        yield return new WaitForSeconds(2f); // Simulate thinking time
+        playerMenus.SetAllInactive();
+        enemyUIHandler.StartEnemyMessage(battleManager.enemyMove);
+        yield return new WaitUntil(() => enemyUIHandler.Continue);
         Debug.Log($"{enemy.GetName()} attacks!");
 
-        battleManager.EnemyAttack(enemy);
+        playerMenus.ChangeUITo("Default");
 
         EndTurn();
     }
