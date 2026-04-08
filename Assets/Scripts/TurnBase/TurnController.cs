@@ -15,6 +15,10 @@ public class TurnController : MonoBehaviour
     [SerializeField] private PlayerMenus playerMenus;
     [SerializeField] private BattleManager battleManager;
     [SerializeField] private EnemyUIHandler enemyUIHandler;
+    [SerializeField] private ButtonScript button;
+    [SerializeField] private PlayerActionUI playerActionUI;
+
+    private bool actionSelected = false;
 
 
     public void OnBattleStart()
@@ -78,7 +82,22 @@ public class TurnController : MonoBehaviour
     private void StartPlayerTurn(BattleUnit player)
     {
         Debug.Log("Player's turn started. Awaiting player action...");
+        StartCoroutine(PlayerActionRoutine(player));
+
+    }
+
+    private IEnumerator PlayerActionRoutine(BattleUnit player)
+    {
+        actionSelected = false;
         playerMenus.ChangeUITo("Default");
+        yield return new WaitUntil(() => actionSelected);
+        playerMenus.SetAllInactive();
+        playerActionUI.SetTextActive();
+        yield return new WaitForSeconds(1f);
+        Debug.Log("Player action completed.");
+
+        EndTurn();
+
     }
 
     private void StartEnemyTurn(BattleUnit enemy)
@@ -92,6 +111,7 @@ public class TurnController : MonoBehaviour
     {
         battleManager.EnemyAttack(enemy);
         yield return new WaitForSeconds(2f); // Simulate thinking time
+        playerActionUI.HideText();
         playerMenus.SetAllInactive();
         enemyUIHandler.StartEnemyMessage(battleManager.enemyMove);
         yield return new WaitUntil(() => enemyUIHandler.Continue);
@@ -100,6 +120,11 @@ public class TurnController : MonoBehaviour
         playerMenus.ChangeUITo("Default");
 
         EndTurn();
+    }
+
+    public void ActionSelected()
+    {
+        actionSelected = true;
     }
 
 }

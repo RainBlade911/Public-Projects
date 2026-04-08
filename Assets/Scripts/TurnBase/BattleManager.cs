@@ -62,8 +62,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("Player used " + move.getMoveName() + ". Remaining Mana: " + remainingMana);
         Debug.Log("Enemy took " + move.getDamage()+ " damage. Remaining HP: " + remainingHealth);
 
-        Debug.Log("Turn Ended.");
-        turnController.EndTurn();
+
     }
 
     private void HandleEnemyDied(UnitStatsRuntime deadEnemy)

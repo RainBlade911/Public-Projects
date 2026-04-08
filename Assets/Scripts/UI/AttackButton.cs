@@ -16,9 +16,16 @@ public class AttackButton : ButtonScript
     public void OnClick()
     {
         Move selectedMove = battleManager.getMove(moveIndex);
+        SetAttackMessage();
         battleManager.AttackSelected(selectedMove);
+        ActionSelected();
 
         //ActionSelection("Default");
+    }
+
+    public void SetAttackMessage()
+    {
+        SetActionMessage("Player attacks with " + attackLabel.text + "!");
     }
 
 }
