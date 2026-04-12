@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ef9a730363c453479fa2d9e85ee2fbc, type: 3}
-  m_Name: None
+  m_Name: Neutral
   m_EditorClassIdentifier: Assembly-CSharp::Affinity
-  affinityName: No Affinity
+  affinityName: Neutral
   StrongAgainst: []
   WeakAgainst: []

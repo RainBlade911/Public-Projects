@@ -68,4 +68,16 @@ public class BattleUnit : MonoBehaviour
             return null;
         }
     }
+
+    public Sprite GetSprite()
+    {
+        if (isPlayer)
+        {
+            return PlayerManager.Instance.GetSprite();
+        }
+        else
+        {
+            return enemy.GetEnemyData().GetSprite();
+        }
+    }
 }

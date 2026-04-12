@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] PlayerHealthBar healthBar;
 
     [SerializeField] MoveSet defaultMoves;
+    [SerializeField] Sprite playerSprite;
 
     public static PlayerManager Instance { get; private set; }
 
@@ -95,6 +96,11 @@ public class PlayerManager : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
         healthBar.SetProgress(CurrentHealth / MaxHealth);
         return CurrentHealth;
+    }
+
+    public Sprite GetSprite()
+    {
+        return playerSprite;
     }
 
 }

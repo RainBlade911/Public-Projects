@@ -8,6 +8,7 @@ public class Enemy : ScriptableObject
     [SerializeField] private MoveSet moves;
     [SerializeField] Affinity affinity;
     [SerializeField] private float speed;
+    [SerializeField] private Sprite enemySprite;
 
     public string GetEnemyName()
     {
@@ -44,6 +45,11 @@ public class Enemy : ScriptableObject
         }
         int randomIndex = Random.Range(0, availableMoves.Length);
         return availableMoves[randomIndex];
+    }
+
+    public Sprite GetSprite()
+    {
+        return enemySprite;
     }
 
 }

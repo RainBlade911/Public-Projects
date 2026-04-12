@@ -17,6 +17,7 @@ public class TurnController : MonoBehaviour
     [SerializeField] private EnemyUIHandler enemyUIHandler;
     [SerializeField] private ButtonScript button;
     [SerializeField] private PlayerActionUI playerActionUI;
+    [SerializeField] private TurnOrderSlider turnOrderSlider;
 
     private bool actionSelected = false;
 
@@ -24,6 +25,7 @@ public class TurnController : MonoBehaviour
     public void OnBattleStart()
     {
         DetermineTurnOrder();
+        turnOrderSlider.UpdateTurnOrder(turnOrderToUI());
         // After bubble sorting orderedUnits
         Debug.Log("=== TURN ORDER ===");
         for (int i = 0; i < orderedUnits.Count; i++)
@@ -35,11 +37,26 @@ public class TurnController : MonoBehaviour
         StartNextTurn();
     }
 
+    private Sprite[] turnOrderToUI()
+    {
+        Sprite[] sprites = new Sprite[orderedUnits.Count];
+
+        for (int i = 0; i < orderedUnits.Count; i++)
+        {
+            int index = (turnIndex + i) % orderedUnits.Count;
+            sprites[i] = orderedUnits[index].GetSprite();
+        }
+
+        return sprites;
+    }
+
     private void StartNextTurn()
     {
         BattleUnit currentUnit = orderedUnits[turnIndex];
 
         Debug.Log($"It's {currentUnit.GetName()}'s turn!");
+
+        turnOrderSlider.UpdateTurnOrder(turnOrderToUI());
 
         if (currentUnit.IsPlayer())
         {
@@ -51,10 +68,18 @@ public class TurnController : MonoBehaviour
         }
 
         turnIndex = (turnIndex + 1) % orderedUnits.Count;
+
     }
 
-    public void EndTurn()
+    private void EndTurn()
     {
+        // If we just finished the last unit in the round
+        if (turnIndex == orderedUnits.Count)
+        {
+            turnIndex = 0;
+            DetermineTurnOrder();
+        }
+
         StartNextTurn();
     }
 
