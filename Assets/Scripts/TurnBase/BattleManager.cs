@@ -15,9 +15,7 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        
         StartBattle();
-
     }
 
     private void StartBattle()
