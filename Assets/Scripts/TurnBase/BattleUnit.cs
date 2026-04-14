@@ -80,4 +80,5 @@ public class BattleUnit : MonoBehaviour
             return enemy.GetEnemyData().GetSprite();
         }
     }
+
 }

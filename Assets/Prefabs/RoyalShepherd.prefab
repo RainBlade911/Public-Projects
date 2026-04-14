@@ -2584,6 +2584,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802790616059245658}
     m_Modifications:
+    - target: {fileID: 1057342534612896808, guid: 7686e77ee0bdcc441a1fd5f6fa80a700, type: 3}
+      propertyPath: statsRuntime
+      value: 
+      objectReference: {fileID: 5195979355374113356}
     - target: {fileID: 1484869432252953403, guid: 7686e77ee0bdcc441a1fd5f6fa80a700, type: 3}
       propertyPath: m_Name
       value: EnemyUIHandler

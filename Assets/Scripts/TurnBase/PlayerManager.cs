@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] MoveSet defaultMoves;
     [SerializeField] Sprite playerSprite;
+    [SerializeField] private BattleUnit playerUnit;
 
     public static PlayerManager Instance { get; private set; }
 
@@ -101,6 +102,11 @@ public class PlayerManager : MonoBehaviour
     public Sprite GetSprite()
     {
         return playerSprite;
+    }
+
+    public BattleUnit GetBattleUnit()
+    {
+        return playerUnit;
     }
 
 }

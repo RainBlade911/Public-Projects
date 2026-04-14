@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1808568734982371714}
-  - component: {fileID: 7409028503980917729}
+  - component: {fileID: 1057342534612896808}
   m_Layer: 0
   m_Name: EnemyUIHandler
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 7048901357944956000}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7409028503980917729
+--- !u!114 &1057342534612896808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,11 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1484869432252953403}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc8ceeb2bcabb544ca3ed52c2d07a309, type: 3}
+  m_Script: {fileID: 11500000, guid: 0504867ef54708348aa967fcdb7f3a86, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyUIHandler
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyWorldUIHandler
   statsRuntime: {fileID: 0}
-  progressBar: {fileID: 0}
+  progressBar: {fileID: 7681383740762387909}
   healthText: {fileID: 8657486046943884222}
   nameText: {fileID: 1773039974496919164}
   affinityText: {fileID: 4210244958274170022}

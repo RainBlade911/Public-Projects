@@ -5,9 +5,12 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    private BattleUnit currentEnemyUnit;
     [SerializeField] private UnitStatsRuntime currentEnemy;
     [SerializeField] private TurnController turnController;
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
     private bool cont = false;
 
     public Move enemyMove;
@@ -15,19 +18,40 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+        // 1. Spawn enemy
+        BattleUnit spawnedEnemy = enemySpawner.Spawn();
+
+        if (spawnedEnemy == null)
+        {
+            Debug.LogError("BattleManager: EnemySpawner failed to spawn an enemy.");
+            return;
+        }
+
+        // 2. Cache references
+        currentEnemyUnit = spawnedEnemy;
+        currentEnemy = spawnedEnemy.GetEnemy();
+
+        if (currentEnemy == null)
+        {
+            Debug.LogError("BattleManager: Spawned enemy has no UnitStatsRuntime.");
+            return;
+        }
+
+        // 3. Hook death event
+        currentEnemy.OnDied += HandleEnemyDied;
+
+        // 4. Bind world-space UI (floating health bar)
+        EnemyWorldUIHandler worldUI = spawnedEnemy.GetComponentInChildren<EnemyWorldUIHandler>();
+        if (worldUI != null)
+            worldUI.Bind(currentEnemy);
+
+        // 5. Start the battle AFTER everything is ready
         StartBattle();
     }
 
     private void StartBattle()
     {
-
-        if (currentEnemy == null)
-        {
-            Debug.LogError("BattleManager: No current enemy assigned.", this);
-            return;
-        }
         turnController.OnBattleStart();
-        currentEnemy.OnDied += HandleEnemyDied;
     }
 
     private void OnDestroy()
@@ -96,6 +120,9 @@ public class BattleManager : MonoBehaviour
     {
         cont = false;
         enemyMove = enemy.GetEnemy().GetEnemyData().GetRandomMove();
+
+        // Show attack message on screen-space UI
+        enemyBattleUIHandler.ShowEnemyAttackMessage(enemy.GetName(), enemyMove);
 
         yield return new WaitUntil(() => cont);
 
