@@ -160,4 +160,39 @@ public class TurnController : MonoBehaviour
 
         EndTurn();
     }
+
+    public void RemoveBattleUnit(BattleUnit unit)
+    {
+        battleUnits.Remove(unit);
+        orderedUnits.Remove(unit);
+        // If the removed unit is before the current turn index, adjust the index
+        int removedIndex = orderedUnits.IndexOf(unit);
+        if (removedIndex >= 0 && removedIndex < turnIndex)
+            turnIndex--;
+
+        if (orderedUnits.Count == 2)
+            OneEnemyRemaining();
+
+    }
+
+    private void OneEnemyRemaining()
+    {
+        BattleUnit remainingEnemy = null;
+        for (int i = 0; i < orderedUnits.Count; i++)
+        {
+            if (!orderedUnits[i].IsPlayer())
+            {
+
+                if(remainingEnemy != null)
+                {
+                    Debug.LogError("More than one enemy remaining! This should not happen.");
+                    return;
+                }
+                remainingEnemy = orderedUnits[i];
+            }
+        }
+        Debug.Log("Only one enemy remaining!");
+
+        battleManager.HandleOneEnemyLeft(remainingEnemy);
+    }
 }

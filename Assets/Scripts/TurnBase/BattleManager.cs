@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,49 +6,56 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    private BattleUnit currentEnemyUnit;
     [SerializeField] private UnitStatsRuntime currentEnemy;
     [SerializeField] private TurnController turnController;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
+    [SerializeField] private RaycastSelectionManager selectionManager;
     private bool cont = false;
 
     public Move enemyMove;
 
+    List<BattleUnit> spawnedEnemyUnits = new List<BattleUnit>();
+    List<UnitStatsRuntime> enemyStatsRuntimes = new List<UnitStatsRuntime>();
+
+    private BattleUnit selectedEnemy;
 
     private void Start()
     {
-        // 1. Spawn enemy
-        BattleUnit spawnedEnemy = enemySpawner.Spawn();
-
-        if (spawnedEnemy == null)
+        for (int i = 0; i < 3; i++)
         {
-            Debug.LogError("BattleManager: EnemySpawner failed to spawn an enemy.");
-            return;
+            BattleUnit spawnedEnemyUnit = enemySpawner.Spawn();
+            if (spawnedEnemyUnit == null)
+            {
+                Debug.LogError("BattleManager: EnemySpawner failed to spawn an enemy.");
+                return;
+            }
+
+            spawnedEnemyUnits.Add(spawnedEnemyUnit);
+
+            // Get runtime stats
+            UnitStatsRuntime stats = spawnedEnemyUnit.GetComponent<UnitStatsRuntime>();
+            if (stats == null)
+            {
+                Debug.LogError("BattleManager: Spawned enemy has no UnitStatsRuntime.");
+                return;
+            }
+
+            enemyStatsRuntimes.Add(stats);
+
+            // Subscribe to death event
+            stats.OnDied += HandleEnemyDied;
+
+            // Bind UI
+            EnemyWorldUIHandler worldUI = spawnedEnemyUnit.GetComponentInChildren<EnemyWorldUIHandler>();
+            if (worldUI != null)
+                worldUI.Bind(stats);
         }
 
-        // 2. Cache references
-        currentEnemyUnit = spawnedEnemy;
-        currentEnemy = spawnedEnemy.GetEnemy();
-
-        if (currentEnemy == null)
-        {
-            Debug.LogError("BattleManager: Spawned enemy has no UnitStatsRuntime.");
-            return;
-        }
-
-        // 3. Hook death event
-        currentEnemy.OnDied += HandleEnemyDied;
-
-        // 4. Bind world-space UI (floating health bar)
-        EnemyWorldUIHandler worldUI = spawnedEnemy.GetComponentInChildren<EnemyWorldUIHandler>();
-        if (worldUI != null)
-            worldUI.Bind(currentEnemy);
-
-        // 5. Start the battle AFTER everything is ready
         StartBattle();
     }
+
 
     private void StartBattle()
     {
@@ -64,6 +72,17 @@ public class BattleManager : MonoBehaviour
 
     public void AttackSelected(Move move)
     {
+
+        //if no enemy selected return
+
+        selectedEnemy = selectionManager.GetSelectedEnemy();
+        currentEnemy = selectedEnemy.GetEnemy();
+
+        if (selectedEnemy == null)
+        {
+            Debug.LogWarning("BattleManager: No enemy selected.");
+            return;
+        }
 
         if (currentEnemy == null)
         {
@@ -93,6 +112,8 @@ public class BattleManager : MonoBehaviour
 
         if (deadEnemy != null)
         {
+            Debug.Log("Removing enemy from battle and destroying game object.");
+            RemoveFromBattle(deadEnemy);
             Destroy(deadEnemy.gameObject);
             ParticlePlayer.Instance.PlayParticleEffect();
         }
@@ -132,5 +153,24 @@ public class BattleManager : MonoBehaviour
     public void ContinueBattle()
     {
         cont = true;
+    }
+
+    private void RemoveFromBattle(UnitStatsRuntime unit)
+    {
+        if(unit == null)
+        {
+            Debug.LogWarning("BattleManager: Attempted to remove null unit from battle.");
+            return;
+        }
+
+        turnController.RemoveBattleUnit(unit.GetComponent<BattleUnit>());
+
+    }
+
+    public void HandleOneEnemyLeft(BattleUnit enemy)
+    {
+        currentEnemy = enemy.GetEnemy();
+        selectedEnemy = enemy;
+        selectionManager.KeepSelected(enemy);
     }
 }

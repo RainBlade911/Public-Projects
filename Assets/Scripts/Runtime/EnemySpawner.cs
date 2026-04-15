@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     public static event Action<BattleUnit> OnEnemySpawned;
 
-    [SerializeField] private BattleUnit enemyPrefab;
+    [SerializeField] private List<BattleUnit> enemyPrefabs;
     [SerializeField] private Transform[] spawnPoints;
 
     private int nextIndex = 0;
@@ -18,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
         Transform point = spawnPoints[nextIndex];
         nextIndex++;
 
-        BattleUnit enemy = Instantiate(enemyPrefab, point.position, point.rotation);
+        BattleUnit enemy = Instantiate(enemyPrefabs[0], point.position, point.rotation);
         OnEnemySpawned?.Invoke(enemy);
         return enemy;
     }

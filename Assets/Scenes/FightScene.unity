@@ -934,6 +934,7 @@ MonoBehaviour:
   playerManager: {fileID: 1523638971}
   enemySpawner: {fileID: 111268739}
   enemyBattleUIHandler: {fileID: 1666483149}
+  selectionManager: {fileID: 655711407}
   enemyMove: {fileID: 0}
 --- !u!4 &96767078
 Transform:
@@ -997,7 +998,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cceec323c557c7e45b366f487688f62f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 7878119514747652129, guid: 19783fa7b1b59304396df173e08b0300, type: 3}
+  enemyPrefabs:
+  - {fileID: 7878119514747652129, guid: 19783fa7b1b59304396df173e08b0300, type: 3}
   spawnPoints:
   - {fileID: 1736892679}
   - {fileID: 1708148785}
@@ -3868,6 +3870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 655711406}
   - component: {fileID: 655711405}
+  - component: {fileID: 655711407}
   m_Layer: 0
   m_Name: TurnController
   m_TagString: Untagged
@@ -3907,6 +3910,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &655711407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655711404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f712ca198279c489cf93bd6919fbf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RaycastSelectionManager
 --- !u!1 &661737204
 GameObject:
   m_ObjectHideFlags: 0
@@ -6597,7 +6612,7 @@ MonoBehaviour:
   moves: []
   manaBar: {fileID: 1069278528}
   healthBar: {fileID: 65876137}
-  defaultMoves: {fileID: 11400000, guid: b0563217ba13e1441a177a7476101fd5, type: 2}
+  defaultMoves: {fileID: 11400000, guid: 49ece827812c0414ba7330d38aefe91b, type: 2}
   playerSprite: {fileID: 21300000, guid: 33e431e1f0212ad4da9abf0fc2ed48bd, type: 3}
   playerUnit: {fileID: 1523638975}
 --- !u!114 &1523638973
