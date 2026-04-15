@@ -26,6 +26,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float currentMana = 10f;
     [SerializeField] private float speed = 5f;
 
+    [Header("Battle Unit Reference")]
+    [SerializeField] private BattleUnit playerUnit;
+
     private bool initialized = false;
 
     private void Awake()
@@ -303,5 +306,11 @@ public class PlayerManager : MonoBehaviour
         {
             manaBar.Fill = maxMana <= 0 ? 0f : currentMana / maxMana;
         }
+    }
+
+    // Added from EnemySpawns
+    public BattleUnit GetBattleUnit()
+    {
+        return playerUnit;
     }
 }

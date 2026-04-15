@@ -10,14 +10,17 @@ public class TurnController : MonoBehaviour
 
     [SerializeField] private PlayerMenus playerMenus;
     [SerializeField] private BattleManager battleManager;
-    [SerializeField] private EnemyUIHandler enemyUIHandler;
-    [SerializeField] private ButtonScript button;
     [SerializeField] private PlayerActionUI playerActionUI;
     [SerializeField] private TurnOrderSlider turnOrderSlider;
+
+    [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
 
     private bool actionSelected = false;
     private bool battleStopped = false;
 
+    // ============================
+    // BATTLE START
+    // ============================
     public void OnBattleStart()
     {
         battleStopped = false;
@@ -28,9 +31,7 @@ public class TurnController : MonoBehaviour
 
         Debug.Log("=== TURN ORDER ===");
         for (int i = 0; i < orderedUnits.Count; i++)
-        {
             Debug.Log($"{i + 1}: {orderedUnits[i].GetName()} (SPD: {orderedUnits[i].GetSpeed()})");
-        }
         Debug.Log("==================");
 
         StartNextTurn();
@@ -58,6 +59,9 @@ public class TurnController : MonoBehaviour
         return sprites;
     }
 
+    // ============================
+    // TURN FLOW
+    // ============================
     private void StartNextTurn()
     {
         if (battleStopped) return;
@@ -70,13 +74,9 @@ public class TurnController : MonoBehaviour
         turnOrderSlider.UpdateTurnOrder(turnOrderToUI());
 
         if (currentUnit.IsPlayer())
-        {
             StartPlayerTurn(currentUnit);
-        }
         else
-        {
             StartEnemyTurn(currentUnit);
-        }
 
         turnIndex = (turnIndex + 1) % orderedUnits.Count;
     }
@@ -85,37 +85,31 @@ public class TurnController : MonoBehaviour
     {
         if (battleStopped) return;
 
-        if (turnIndex == orderedUnits.Count)
-        {
-            turnIndex = 0;
-            DetermineTurnOrder();
-        }
-
         StartNextTurn();
     }
 
+    // ============================
+    // TURN ORDER SETUP
+    // ============================
     private void DetermineTurnOrder()
     {
         battleUnits.Clear();
-        battleUnits.AddRange(FindObjectsByType<BattleUnit>(FindObjectsSortMode.None));
 
+        // Add player
+        battleUnits.Add(PlayerManager.Instance.GetBattleUnit());
+
+        // Add all spawned enemies
+        battleUnits.AddRange(EnemyManager.Instance.GetEnemies());
+
+        // Sort by speed (descending)
         orderedUnits.Clear();
         orderedUnits.AddRange(battleUnits);
-
-        for (int i = 0; i < orderedUnits.Count - 1; i++)
-        {
-            for (int j = 0; j < orderedUnits.Count - i - 1; j++)
-            {
-                if (orderedUnits[j].GetSpeed() < orderedUnits[j + 1].GetSpeed())
-                {
-                    BattleUnit temp = orderedUnits[j];
-                    orderedUnits[j] = orderedUnits[j + 1];
-                    orderedUnits[j + 1] = temp;
-                }
-            }
-        }
+        orderedUnits.Sort((a, b) => b.GetSpeed().CompareTo(a.GetSpeed()));
     }
 
+    // ============================
+    // PLAYER TURN
+    // ============================
     private void StartPlayerTurn(BattleUnit player)
     {
         if (battleStopped) return;
@@ -135,14 +129,26 @@ public class TurnController : MonoBehaviour
 
         playerMenus.SetAllInactive();
         playerActionUI.SetTextActive();
+
         yield return new WaitForSeconds(1f);
 
         if (battleStopped) yield break;
+
+        playerActionUI.HideText();
 
         Debug.Log("Player action completed.");
         EndTurn();
     }
 
+    public void ActionSelected()
+    {
+        if (battleStopped) return;
+        actionSelected = true;
+    }
+
+    // ============================
+    // ENEMY TURN
+    // ============================
     private void StartEnemyTurn(BattleUnit enemy)
     {
         if (battleStopped) return;
@@ -155,27 +161,59 @@ public class TurnController : MonoBehaviour
     {
         battleManager.EnemyAttack(enemy);
 
-        yield return new WaitForSeconds(2f);
+        enemyBattleUIHandler.ShowEnemyAttackMessage(
+            enemy.GetName(),
+            battleManager.enemyMove
+        );
+
+        yield return new WaitUntil(() => enemyBattleUIHandler.Continue || battleStopped);
 
         if (battleStopped) yield break;
 
         playerActionUI.HideText();
         playerMenus.SetAllInactive();
-        enemyUIHandler.StartEnemyMessage(battleManager.enemyMove);
-
-        yield return new WaitUntil(() => enemyUIHandler.Continue || battleStopped);
-
-        if (battleStopped) yield break;
 
         Debug.Log($"{enemy.GetName()} attacks!");
 
         playerMenus.ChangeUITo("Default");
+
         EndTurn();
     }
 
-    public void ActionSelected()
+    // ============================
+    // UNIT REMOVAL
+    // ============================
+    public void RemoveBattleUnit(BattleUnit unit)
     {
-        if (battleStopped) return;
-        actionSelected = true;
+        battleUnits.Remove(unit);
+        orderedUnits.Remove(unit);
+
+        int removedIndex = orderedUnits.IndexOf(unit);
+        if (removedIndex >= 0 && removedIndex < turnIndex)
+            turnIndex--;
+
+        if (orderedUnits.Count == 2)
+            OneEnemyRemaining();
+    }
+
+    private void OneEnemyRemaining()
+    {
+        BattleUnit remainingEnemy = null;
+
+        foreach (var unit in orderedUnits)
+        {
+            if (!unit.IsPlayer())
+            {
+                if (remainingEnemy != null)
+                {
+                    Debug.LogError("More than one enemy remaining! This should not happen.");
+                    return;
+                }
+                remainingEnemy = unit;
+            }
+        }
+
+        Debug.Log("Only one enemy remaining!");
+        battleManager.HandleOneEnemyLeft(remainingEnemy);
     }
 }
