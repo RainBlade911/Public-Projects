@@ -1,37 +1,54 @@
-using TMPro;
 using UnityEngine;
 
 public class PlayerMenus : MonoBehaviour
 {
-
     [SerializeField] private GameObject attackMenu;
     [SerializeField] private GameObject ItemMenu;
     [SerializeField] private GameObject BlockMenu;
     [SerializeField] private GameObject DefaultMenu;
 
     [SerializeField] private AttackButton[] attackButtons;
+    [SerializeField] private SupportItemButton[] itemButtons;
 
     public void FillAttackMenu()
     {
-        Move[] moves = PlayerManager.Instance.moves;
-        int count = Mathf.Min(moves.Length, attackButtons.Length);
+        Move[] playerMoves = PlayerManager.Instance.moves.ToArray();
+        int count = Mathf.Min(playerMoves.Length, attackButtons.Length);
+
         for (int i = 0; i < count; i++)
         {
-            
-            if (moves[i] != null)
+            if (playerMoves[i] != null)
             {
-                attackButtons[i].Initialize(i, moves[i].getMoveName());
+                attackButtons[i].Initialize(i, playerMoves[i].getMoveName());
             }
             else
             {
                 attackButtons[i].Initialize(i, "Empty");
             }
         }
-        for(int i = count; i < attackButtons.Length; i++)
+
+        for (int i = count; i < attackButtons.Length; i++)
         {
             attackButtons[i].Initialize(i, "Empty");
         }
     }
+
+    public void FillItemMenu()
+    {
+        string[] playerItems = PlayerManager.Instance.GetItems().ToArray();
+        int count = Mathf.Min(playerItems.Length, itemButtons.Length);
+
+        for (int i = 0; i < count; i++)
+        {
+            itemButtons[i].Initialize(i, playerItems[i]);
+        }
+
+        for (int i = count; i < itemButtons.Length; i++)
+        {
+            itemButtons[i].Initialize(i, "Empty");
+        }
+    }
+
     private void Start()
     {
         SetSoloActive(DefaultMenu);
@@ -40,6 +57,7 @@ public class PlayerMenus : MonoBehaviour
     public void ChangeUITo(string menu)
     {
         Debug.Log("Changing menu to: " + menu);
+
         switch (menu)
         {
             case "Attack":
@@ -47,26 +65,29 @@ public class PlayerMenus : MonoBehaviour
                 SetSoloActive(attackMenu);
                 FillAttackMenu();
                 break;
+
             case "Block":
                 Debug.Log("Block");
                 SetSoloActive(BlockMenu);
                 break;
+
             case "Use Item":
                 Debug.Log("Use Item");
                 SetSoloActive(ItemMenu);
+                FillItemMenu();
                 break;
+
             case "Default":
                 Debug.Log("Default");
                 SetSoloActive(DefaultMenu);
                 break;
+
             default:
                 Debug.Log("Unknown menu: " + menu);
                 Debug.Log("Default");
                 SetSoloActive(DefaultMenu);
                 break;
         }
-
-
     }
 
     private void SetSoloActive(GameObject activeMenu)
@@ -83,6 +104,4 @@ public class PlayerMenus : MonoBehaviour
         BlockMenu.SetActive(false);
         DefaultMenu.SetActive(false);
     }
-
-    
 }

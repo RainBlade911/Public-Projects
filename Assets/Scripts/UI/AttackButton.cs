@@ -16,16 +16,37 @@ public class AttackButton : ButtonScript
     public void OnClick()
     {
         Move selectedMove = battleManager.getMove(moveIndex);
+
+        if (selectedMove == null)
+        {
+            Debug.LogWarning("AttackButton: No move assigned at index " + moveIndex);
+            playerMenus.ChangeUITo("Default");
+            return;
+        }
+
+        float currentMana = PlayerManager.Instance.GetCurrentMana();
+        float moveCost = selectedMove.getManaCost();
+
+        if (currentMana < moveCost)
+        {
+            Debug.Log(
+                "Not enough mana to use " +
+                selectedMove.getMoveName() +
+                ". Current Mana: " + currentMana +
+                ", Required: " + moveCost
+            );
+
+            playerMenus.ChangeUITo("Default");
+            return;
+        }
+
         SetAttackMessage();
         battleManager.AttackSelected(selectedMove);
         ActionSelected();
-
-        //ActionSelection("Default");
     }
 
     public void SetAttackMessage()
     {
         SetActionMessage("Player attacks with " + attackLabel.text + "!");
     }
-
 }
