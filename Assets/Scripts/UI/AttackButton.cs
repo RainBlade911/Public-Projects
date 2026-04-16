@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class AttackButton : ButtonScript
@@ -40,10 +40,22 @@ public class AttackButton : ButtonScript
             return;
         }
 
+       
         SetAttackMessage();
-        battleManager.AttackSelected(selectedMove);
-        ActionSelected();
+
+       
+        if (battleManager.AttackSelected(selectedMove))
+        {
+            ActionSelected();
+        }
+        else
+        {
+            Debug.Log("Attack failed — no enemy selected.");
+            
+            playerMenus.ChangeUITo("Default");
+        }
     }
+
 
     public void SetAttackMessage()
     {

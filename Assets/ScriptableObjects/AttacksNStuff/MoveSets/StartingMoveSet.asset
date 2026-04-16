@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoveSet
   moves:
   - {fileID: 11400000, guid: df612149d09e227408f64e91844e4f92, type: 2}
-  - {fileID: 11400000, guid: 80e8b2b091cd8024b98ea172c261e5ef, type: 2}
   - {fileID: 11400000, guid: 1666f0216ed2569428a5ecf9b1485d4a, type: 2}
   - {fileID: 11400000, guid: e39616d23bd79f44d96a4fb5d4978a78, type: 2}

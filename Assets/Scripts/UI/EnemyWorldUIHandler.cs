@@ -15,18 +15,9 @@ public class EnemyWorldUIHandler : MonoBehaviour
     private void Start()
     {
         if (statsRuntime == null)
-        {
-            Debug.LogError("EnemyWorldUIHandler: No UnitStatsRuntime assigned!", this);
             return;
-        }
 
         enemyData = statsRuntime.GetEnemyData();
-
-        if (enemyData == null)
-        {
-            Debug.LogError("EnemyWorldUIHandler: UnitStatsRuntime has no Enemy data assigned!", this);
-            return;
-        }
 
         if (nameText != null)
             nameText.text = enemyData.GetEnemyName();
@@ -34,7 +25,7 @@ public class EnemyWorldUIHandler : MonoBehaviour
         if (affinityText != null)
             affinityText.text = enemyData.GetAffinity()?.affinityName ?? "None";
 
-        statsRuntime.OnHealthChanged += RefreshUI;
+
         RefreshUI(statsRuntime.CurrentHealth, statsRuntime.MaxHealth);
     }
 
@@ -55,8 +46,17 @@ public class EnemyWorldUIHandler : MonoBehaviour
 
     public void Bind(UnitStatsRuntime stats)
     {
+        // Unsubscribe from old stats if needed
+        if (statsRuntime != null)
+            statsRuntime.OnHealthChanged -= RefreshUI;
+
         statsRuntime = stats;
         enemyData = stats.GetEnemyData();
+
+        // Subscribe to new stats
+        statsRuntime.OnHealthChanged += RefreshUI;
+
+        // Update immediately
         RefreshUI(stats.CurrentHealth, stats.MaxHealth);
     }
 }

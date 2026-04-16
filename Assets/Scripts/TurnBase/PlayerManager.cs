@@ -31,6 +31,9 @@ public class PlayerManager : MonoBehaviour
 
     private bool initialized = false;
 
+    [SerializeField] private MoveSet moveSet; // ScriptableObject containing moves
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,7 +43,10 @@ public class PlayerManager : MonoBehaviour
         }
 
         Instance = this;
+        moves = new List<Move>(moveSet.GetMoves());
     }
+
+    
 
     private void Start()
     {
@@ -77,11 +83,7 @@ public class PlayerManager : MonoBehaviour
             currentHealth = maxHealth;
             currentMana = maxMana;
 
-            moves = new List<Move>();
-            if (defaultMoves != null && defaultMoves.Count > 0)
-            {
-                moves.AddRange(defaultMoves);
-            }
+            moves = new List<Move>(moveSet.GetMoves());
 
             supportItems = new List<string>();
 
@@ -137,39 +139,19 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Player restored mana. Current Mana: " + currentMana);
     }
 
+    public List<Move> GetMoves() => moves;
+
     public Move GetMove(int index)
     {
         if (index < 0 || index >= moves.Count)
-        {
-            Debug.LogWarning("PlayerManager: Invalid move index " + index);
             return null;
-        }
-
         return moves[index];
-    }
-
-    public List<Move> GetMoves()
-    {
-        return moves;
     }
 
     public void AddMove(Move move)
     {
-        if (move == null)
-        {
-            Debug.LogWarning("PlayerManager: Tried to add a null move.");
-            return;
-        }
-
         if (!moves.Contains(move))
-        {
             moves.Add(move);
-            Debug.Log("PlayerManager: Added move " + move.getMoveName());
-        }
-        else
-        {
-            Debug.Log("PlayerManager: Move already owned: " + move.getMoveName());
-        }
     }
 
     public void AddItem(string itemName)

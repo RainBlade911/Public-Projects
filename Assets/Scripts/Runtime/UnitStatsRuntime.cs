@@ -23,6 +23,8 @@ public class UnitStatsRuntime : MonoBehaviour
             return;
         }
 
+
+
         damage = GetComponent<Damage>();
 
         maxHealth = enemyData.GetHealth();

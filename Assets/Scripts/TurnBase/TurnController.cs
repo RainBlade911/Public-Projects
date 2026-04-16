@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -175,22 +175,30 @@ public class TurnController : MonoBehaviour
 
         Debug.Log($"{enemy.GetName()} attacks!");
 
-        playerMenus.ChangeUITo("Default");
 
         EndTurn();
     }
+
 
     // ============================
     // UNIT REMOVAL
     // ============================
     public void RemoveBattleUnit(BattleUnit unit)
     {
-        battleUnits.Remove(unit);
-        orderedUnits.Remove(unit);
-
         int removedIndex = orderedUnits.IndexOf(unit);
-        if (removedIndex >= 0 && removedIndex < turnIndex)
-            turnIndex--;
+
+        battleUnits.Remove(unit);
+
+        if (removedIndex >= 0)
+        {
+            orderedUnits.RemoveAt(removedIndex);
+
+            if (removedIndex < turnIndex)
+                turnIndex--;
+
+            if (turnIndex >= orderedUnits.Count)
+                turnIndex = 0;
+        }
 
         if (orderedUnits.Count == 2)
             OneEnemyRemaining();

@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -87,14 +88,14 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void AttackSelected(Move move)
+    public bool AttackSelected(Move move)
     {
-        if (battleEnded) return;
+        if (battleEnded) return false;
 
         if (move == null)
         {
             Debug.LogWarning("BattleManager: Selected move was null.");
-            return;
+            return false;
         }
 
         // Get selected enemy
@@ -103,7 +104,7 @@ public class BattleManager : MonoBehaviour
         if (selectedEnemy == null)
         {
             Debug.LogWarning("BattleManager: No enemy selected.");
-            return;
+            return false; 
         }
 
         currentEnemy = selectedEnemy.GetEnemy();
@@ -111,55 +112,61 @@ public class BattleManager : MonoBehaviour
         if (currentEnemy == null)
         {
             Debug.LogWarning("BattleManager: No enemy to attack.");
-            return;
+            return false;
         }
 
-        Debug.Log("Performing Attack: " + move.name);
-
-        if (animator != null)
-            animator.SetTrigger("AttackTrigger");
-
+        // Perform attack
         float remainingHealth = currentEnemy.ApplyDamage(move.getDamage());
         float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
 
-        Debug.Log("Player used " + move.getMoveName() + ". Remaining Mana: " + remainingMana);
-        Debug.Log("Enemy took " + move.getDamage() + " damage. Remaining HP: " + remainingHealth);
+        //do the attack animation
+        animator.SetTrigger("AttackTrigger");
+
+        Debug.Log("SelectedEnemy: " + selectedEnemy);
+        Debug.Log("currentEnemy: " + currentEnemy);
+
+        return true; 
     }
 
     private void HandleEnemyDied(UnitStatsRuntime deadEnemy)
     {
         if (battleEnded) return;
 
+        // Remove from turn order + internal lists
+        RemoveFromBattle(deadEnemy);
+        ParticlePlayer.Instance.PlayParticleEffect();
+
+        // Check if any enemies remain
+        if (enemyStatsRuntimes.Count > 0)
+        {
+            // If only one enemy left, lock selection
+            if (enemyStatsRuntimes.Count == 1)
+            {
+                BattleUnit lastEnemy = spawnedEnemyUnits[0];
+                HandleOneEnemyLeft(lastEnemy);
+            }
+
+            return; // battle continues
+        }
+
+        // No enemies left → end battle
         battleEnded = true;
-        StartCoroutine(HandleEnemyDefeatRoutine(deadEnemy));
+        StartCoroutine(HandleEnemyDefeatRoutine());
     }
 
-    private IEnumerator HandleEnemyDefeatRoutine(UnitStatsRuntime deadEnemy)
+    private IEnumerator HandleEnemyDefeatRoutine()
     {
-        Debug.Log("Enemy defeated.");
+        Debug.Log("All enemies defeated.");
 
         turnController.StopBattleFlow();
 
         if (ParticlePlayer.Instance != null)
-        {
             ParticlePlayer.Instance.PlayParticleEffect();
-        }
 
         yield return new WaitForSeconds(rewardDelay);
 
-        if (deadEnemy != null)
-        {
-            Debug.Log("Removing enemy from battle and destroying game object.");
-            RemoveFromBattle(deadEnemy);
-            Destroy(deadEnemy.gameObject);
-        }
-
-        currentEnemy = null;
-
         if (rewardController != null)
-        {
             rewardController.ShowRewardUI();
-        }
     }
 
     public Move getMove(int i)
@@ -198,9 +205,23 @@ public class BattleManager : MonoBehaviour
         {
             battleEnded = true;
             turnController.StopBattleFlow();
-            Debug.Log("Player defeated.");
+            StartCoroutine(HandlePlayerDefeat());
         }
     }
+
+    private IEnumerator HandlePlayerDefeat()
+    {
+        Debug.Log("Player defeated.");
+
+        // Optional: play animation or particle
+        yield return new WaitForSeconds(1f);
+
+        // Show a defeat UI or reload scene
+        //rewardController.ShowDefeatUI(); // if you have one
+                                         // OR:
+        SceneManager.LoadScene("FightScene");
+    }
+
 
     public void ContinueBattle()
     {
@@ -216,7 +237,17 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        turnController.RemoveBattleUnit(unit.GetComponent<BattleUnit>());
+        BattleUnit battleUnit = unit.GetComponent<BattleUnit>();
+
+        int index = enemyStatsRuntimes.IndexOf(unit);
+        if (index >= 0)
+        {
+            enemyStatsRuntimes.RemoveAt(index);
+            spawnedEnemyUnits.RemoveAt(index);
+        }
+
+        turnController.RemoveBattleUnit(battleUnit);
+        Destroy(unit.gameObject);
     }
 
     public void HandleOneEnemyLeft(BattleUnit enemy)

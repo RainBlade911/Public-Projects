@@ -21,10 +21,7 @@ public class ProgressBar : MonoBehaviour
                 fillImage.fillAmount = fill;
             }
 
-            if (fillText != null)
-            {
-                fillText.text = Mathf.RoundToInt(fill * 100f) + "%";
-            }
+            
         }
     }
 
