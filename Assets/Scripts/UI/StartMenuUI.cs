@@ -9,7 +9,7 @@ public class StartMenuUI : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Start button clicked");
-        SceneManager.LoadScene(fightSceneName);
+        SceneTransitionManager.LoadSceneWithTransition(fightSceneName);
     }
 
     public void QuitGame()

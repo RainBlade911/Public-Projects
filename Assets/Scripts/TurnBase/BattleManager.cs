@@ -211,13 +211,13 @@ public class BattleManager : MonoBehaviour
     }
 
     private IEnumerator HandlePlayerDefeat()
-    {
-        Debug.Log("Player defeated.");
+{
+    Debug.Log("Player defeated.");
 
-        yield return new WaitForSeconds(1f);
+    yield return new WaitForSeconds(1f);
 
-        SceneManager.LoadScene(deathSceneName);
-    }
+    SceneTransitionManager.LoadSceneWithTransition(deathSceneName);
+}
 
 
     public void ContinueBattle()

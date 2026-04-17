@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class DeathSceneUI : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class DeathSceneUI : MonoBehaviour
             PlayerState.Instance.ClearState();
         }
 
-        SceneManager.LoadScene(fightSceneName);
+        SceneTransitionManager.LoadSceneWithTransition(fightSceneName);
     }
 
     public void GoToMainMenu()
@@ -23,6 +24,6 @@ public class DeathSceneUI : MonoBehaviour
             PlayerState.Instance.ClearState();
         }
 
-        SceneManager.LoadScene(mainMenuSceneName);
+        SceneTransitionManager.LoadSceneWithTransition(mainMenuSceneName);
     }
 }
