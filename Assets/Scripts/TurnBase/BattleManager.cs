@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
+    [SerializeField] private string deathSceneName = "DeathScene";
     [SerializeField] private Animator animator;
     [SerializeField] private UnitStatsRuntime currentEnemy;
     [SerializeField] private TurnController turnController;
@@ -213,13 +214,9 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log("Player defeated.");
 
-        // Optional: play animation or particle
         yield return new WaitForSeconds(1f);
 
-        // Show a defeat UI or reload scene
-        //rewardController.ShowDefeatUI(); // if you have one
-                                         // OR:
-        SceneManager.LoadScene("FightScene");
+        SceneManager.LoadScene(deathSceneName);
     }
 
 
