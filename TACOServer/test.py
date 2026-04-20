@@ -1,4 +1,4 @@
-import onnx
-m = onnx.load("model_fixed.onnx")
-onnx.checker.check_model(m)
-print("checker ok")
+import onnxruntime as rt
+
+providers = rt.get_all_providers()
+print(providers)

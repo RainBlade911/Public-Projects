@@ -21,9 +21,10 @@ public class WebSocketBackend : MonoBehaviour, IPoseBackend
     public string serverUrl = "ws://localhost:8765";
 
     [Header("Adaptive rate")]
-    public float minInterval = 0.04f;
+    public float minInterval = 0.08f;
     public float maxInterval = 0.12f;
     public float latencyMultiplier = 2.0f;
+   
 
     // ── IPoseBackend ──────────────────────────────────────────────────────────
 
@@ -58,6 +59,8 @@ public class WebSocketBackend : MonoBehaviour, IPoseBackend
 
     IEnumerator StartWhenReady()
     {
+
+        Application.targetFrameRate = 60;
         downscaler = new FrameDownscaler(320, 180, 40);
 
         yield return new WaitUntil(() => webcamFeed != null && webcamFeed.IsReady);

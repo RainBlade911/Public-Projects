@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +9,11 @@ public class PoseOverlayRenderer : MonoBehaviour
     public RectTransform overlayArea;
     public GameObject jointPrefab;
     public GameObject bonePrefab;
+    
 
     private List<RectTransform> joints = new();
     private List<RectTransform> bones = new();
+    
 
     // Matches Python CONNECTED_PART_NAMES mapped to PART_IDS
     private readonly int[,] bonePairs =
@@ -41,6 +44,8 @@ public class PoseOverlayRenderer : MonoBehaviour
         {
             var j = Instantiate(jointPrefab, overlayArea);
             joints.Add(j.GetComponent<RectTransform>());
+
+            
         }
 
         // Create bones
@@ -58,6 +63,8 @@ public class PoseOverlayRenderer : MonoBehaviour
     {
         // ── CHANGED: replaced fake sine/cosine block + bone loop ──────────
         processor.Update(joints, bones, overlayArea);
+
+       
     }
 
     void DrawBone(RectTransform bone, Vector2 start, Vector2 end)
@@ -68,6 +75,9 @@ public class PoseOverlayRenderer : MonoBehaviour
         bone.anchoredPosition = mid;
 
         float length = dir.magnitude;
+
+       
+
         bone.sizeDelta = new Vector2(bone.sizeDelta.x, length);
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;

@@ -9,8 +9,8 @@ using UnityEngine;
 /// </summary>
 public class VisibilityController
 {
-    public float ShowThreshold = 0.1f;
-    public float HideThreshold = -0.1f;
+    public float ShowThreshold = 0f;
+    public float HideThreshold = -0.2f;
     public float LostHoldTime = 0.35f;
     public float NaturalReturnSpeed = 1.0f;
 

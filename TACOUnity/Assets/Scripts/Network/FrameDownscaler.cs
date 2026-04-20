@@ -19,12 +19,19 @@ public class FrameDownscaler : System.IDisposable
 
     public byte[] Encode(Texture source)
     {
-        Graphics.Blit(source, rt);
+        try
+        {
+            Graphics.Blit(source, rt);
 
-        RenderTexture.active = rt;
-        readback.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        readback.Apply();
-        RenderTexture.active = null;
+            RenderTexture.active = rt;
+            readback.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+            readback.Apply();
+        }
+        finally
+        {
+            RenderTexture.active = null; // ALWAYS reset
+        }
+
 
         return readback.EncodeToJPG(quality);
     }

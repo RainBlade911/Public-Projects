@@ -94,6 +94,8 @@ public class NativePluginBackend : MonoBehaviour, IPoseBackend
 
     IEnumerator InitWhenReady()
     {
+
+        Application.targetFrameRate = 60;
         yield return new WaitUntil(() => webcamFeed != null && webcamFeed.IsReady);
 
         readback = new FrameReadback();
