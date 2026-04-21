@@ -52,4 +52,6 @@ public class Enemy : ScriptableObject
         return enemySprite;
     }
 
+
+
 }

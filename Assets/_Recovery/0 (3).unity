@@ -895,19 +895,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 40520861}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 720534112}
-        m_TargetAssemblyTypeName: NextEncounter, Assembly-CSharp
-        m_MethodName: SelectEncounter
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &40520861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1446,19 +1434,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 125023655}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 720534112}
-        m_TargetAssemblyTypeName: NextEncounter, Assembly-CSharp
-        m_MethodName: SelectEncounter
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &125023655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,7 +1507,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 151}
+  m_AnchoredPosition: {x: -2.6699867, y: 163.3}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125061189
@@ -1588,7 +1564,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1620,7 +1596,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.417393, y: 0.0030269027, z: -40.88122, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2517,7 +2493,7 @@ GameObject:
   - component: {fileID: 280161046}
   - component: {fileID: 280161045}
   m_Layer: 5
-  m_Name: Affinity
+  m_Name: Affinity2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2539,7 +2515,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: -67}
+  m_AnchoredPosition: {x: -2.6699867, y: -76.9}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &280161045
@@ -2596,7 +2572,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2628,7 +2604,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.415848, y: 0.0030269027, z: -41.986397, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3353,7 +3329,7 @@ GameObject:
   - component: {fileID: 344007634}
   - component: {fileID: 344007633}
   m_Layer: 5
-  m_Name: Affinity
+  m_Name: Affinity2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3375,7 +3351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: -66}
+  m_AnchoredPosition: {x: -2.6699867, y: -76.9}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &344007633
@@ -3432,7 +3408,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3464,7 +3440,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 13.311668, y: 0.0030269027, z: -40.88122, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3565,7 +3541,7 @@ GameObject:
   - component: {fileID: 371573909}
   - component: {fileID: 371573908}
   m_Layer: 5
-  m_Name: EnemyName
+  m_Name: EnemyName2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3587,7 +3563,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: -39}
+  m_AnchoredPosition: {x: -2.6699867, y: -27.699987}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &371573908
@@ -3644,7 +3620,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3676,7 +3652,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 12.205811, y: 0.0030269027, z: -41.986397, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3817,7 +3793,7 @@ GameObject:
   - component: {fileID: 406870927}
   - component: {fileID: 406870926}
   m_Layer: 5
-  m_Name: Affinity
+  m_Name: Affinity1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3839,7 +3815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 34}
+  m_AnchoredPosition: {x: -2.6699867, y: 23.9}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &406870926
@@ -3896,7 +3872,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3928,7 +3904,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 15.521664, y: 0.0030269027, z: -37.567726, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4696,6 +4672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 500908096}
+  - component: {fileID: 500908097}
   m_Layer: 5
   m_Name: EnemyTextBoxes
   m_TagString: Untagged
@@ -4725,6 +4702,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &500908097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500908095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ad370fc38184b88e78b1bb36ef16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyEncounters
+  EnemyInfo:
+  - {fileID: 456867014}
+  - {fileID: 1771184317}
+  - {fileID: 1722784046}
 --- !u!1 &507196012
 GameObject:
   m_ObjectHideFlags: 0
@@ -5511,6 +5504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 615828585}
+  - component: {fileID: 615828586}
   m_Layer: 5
   m_Name: EnemyTextBoxes
   m_TagString: Untagged
@@ -5540,6 +5534,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &615828586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615828584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ad370fc38184b88e78b1bb36ef16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyEncounters
+  EnemyInfo:
+  - {fileID: 762298289}
+  - {fileID: 310843098}
+  - {fileID: 765555133}
 --- !u!1001 &625895628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5762,7 +5772,7 @@ GameObject:
   - component: {fileID: 655842324}
   - component: {fileID: 655842323}
   m_Layer: 5
-  m_Name: EnemyName
+  m_Name: EnemyName2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5784,7 +5794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: -39}
+  m_AnchoredPosition: {x: -2.6699867, y: -27.699987}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &655842323
@@ -5841,7 +5851,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -5873,7 +5883,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 12.206257, y: 0.0030269027, z: -40.88122, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6168,7 +6178,7 @@ GameObject:
   - component: {fileID: 697263325}
   - component: {fileID: 697263324}
   m_Layer: 5
-  m_Name: EnemyName
+  m_Name: EnemyName1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6190,7 +6200,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 62}
+  m_AnchoredPosition: {x: -2.6699867, y: 71.30001}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &697263324
@@ -6247,7 +6257,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -6279,7 +6289,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 13.311668, y: 0.0030269027, z: -41.98663, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7380,7 +7390,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 149}
+  m_AnchoredPosition: {x: -2.6699867, y: 163.3}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &825667783
@@ -7430,14 +7440,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.95
+  m_fontSize: 22
   m_fontSizeBase: 22
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -7469,7 +7479,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 12.20612, y: 0.0030269027, z: -36.46267, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8030,7 +8040,7 @@ GameObject:
   - component: {fileID: 873313666}
   - component: {fileID: 873313665}
   m_Layer: 5
-  m_Name: Affinity
+  m_Name: Affinity1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8052,7 +8062,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 34}
+  m_AnchoredPosition: {x: -2.6699867, y: 23.9}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &873313665
@@ -8109,7 +8119,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -8141,7 +8151,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 13.311668, y: 0.0030269027, z: -39.78007, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8167,7 +8177,7 @@ GameObject:
   - component: {fileID: 887439750}
   - component: {fileID: 887439749}
   m_Layer: 5
-  m_Name: EnemyIcon
+  m_Name: EnemyIcon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8242,7 +8252,7 @@ GameObject:
   - component: {fileID: 904728414}
   - component: {fileID: 904728413}
   m_Layer: 5
-  m_Name: EnemyIcon
+  m_Name: EnemyIcon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8522,7 +8532,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 947447210}
-  - component: {fileID: 947447211}
   m_Layer: 5
   m_Name: EnemyContainer
   m_TagString: Untagged
@@ -8552,22 +8561,6 @@ RectTransform:
   m_AnchoredPosition: {x: -247, y: -75}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &947447211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 947447209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c32ad370fc38184b88e78b1bb36ef16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyEncounters
-  EnemyInfo:
-  - {fileID: 456867014}
-  - {fileID: 1771184317}
-  - {fileID: 1722784046}
 --- !u!1 &977449965
 GameObject:
   m_ObjectHideFlags: 0
@@ -8792,7 +8785,7 @@ GameObject:
   - component: {fileID: 1041872394}
   - component: {fileID: 1041872393}
   m_Layer: 5
-  m_Name: EnemyIcon
+  m_Name: EnemyIcon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9174,7 +9167,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1119259553}
-  - component: {fileID: 1119259554}
   m_Layer: 5
   m_Name: EnemyContainer (1)
   m_TagString: Untagged
@@ -9204,22 +9196,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1119259554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119259552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c32ad370fc38184b88e78b1bb36ef16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyEncounters
-  EnemyInfo:
-  - {fileID: 2106993521}
-  - {fileID: 1728642944}
-  - {fileID: 1186406404}
 --- !u!4 &1125620118 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 24d1c7dc810987346a978f33687b6850, type: 3}
@@ -9566,7 +9542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 127}
+  m_AnchoredPosition: {x: -2.6699867, y: 115.6}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1195676923
@@ -9623,7 +9599,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -9655,7 +9631,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 13.311611, y: 0.0030269027, z: -36.46337, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -10108,7 +10084,7 @@ GameObject:
   - component: {fileID: 1287289529}
   - component: {fileID: 1287289528}
   m_Layer: 5
-  m_Name: EnemyIcon
+  m_Name: EnemyIcon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10185,7 +10161,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1350416609}
-  - component: {fileID: 1350416610}
   m_Layer: 5
   m_Name: EnemyContainer (2)
   m_TagString: Untagged
@@ -10215,22 +10190,6 @@ RectTransform:
   m_AnchoredPosition: {x: 242, y: -75}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1350416610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350416608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c32ad370fc38184b88e78b1bb36ef16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyEncounters
-  EnemyInfo:
-  - {fileID: 762298289}
-  - {fileID: 310843098}
-  - {fileID: 765555133}
 --- !u!1 &1361358193
 GameObject:
   m_ObjectHideFlags: 0
@@ -10390,6 +10349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1390682870}
+  - component: {fileID: 1390682871}
   m_Layer: 5
   m_Name: EnemyTextBoxes
   m_TagString: Untagged
@@ -10419,6 +10379,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1390682871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390682869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ad370fc38184b88e78b1bb36ef16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyEncounters
+  EnemyInfo:
+  - {fileID: 2106993521}
+  - {fileID: 1728642944}
+  - {fileID: 1186406404}
 --- !u!1 &1420353436
 GameObject:
   m_ObjectHideFlags: 0
@@ -10506,7 +10482,7 @@ GameObject:
   - component: {fileID: 1467988000}
   - component: {fileID: 1467987999}
   m_Layer: 5
-  m_Name: EnemyIcon
+  m_Name: EnemyIcon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10961,7 +10937,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 150}
+  m_AnchoredPosition: {x: -2.6699867, y: 163.3}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1564617640
@@ -11018,7 +10994,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -11050,7 +11026,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.41721, y: 0.0030269027, z: -41.98774, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -11098,7 +11074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 122}
+  m_AnchoredPosition: {x: -2.6699867, y: 115.6}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1577826482
@@ -11155,7 +11131,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -11187,7 +11163,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.417393, y: 0.0030269027, z: -37.568874, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -11558,7 +11534,7 @@ GameObject:
   - component: {fileID: 1659106074}
   - component: {fileID: 1659106073}
   m_Layer: 5
-  m_Name: EnemyName
+  m_Name: EnemyName1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11580,7 +11556,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 61}
+  m_AnchoredPosition: {x: -2.6699867, y: 71.30001}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1659106073
@@ -11637,7 +11613,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -11669,7 +11645,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 13.311611, y: 0.0030269027, z: -38.673325, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -12939,7 +12915,7 @@ GameObject:
   - component: {fileID: 1788766325}
   - component: {fileID: 1788766324}
   m_Layer: 5
-  m_Name: EnemyIcon
+  m_Name: EnemyIcon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13300,7 +13276,7 @@ GameObject:
   - component: {fileID: 1858544581}
   - component: {fileID: 1858544580}
   m_Layer: 5
-  m_Name: EnemyName
+  m_Name: EnemyName2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13322,7 +13298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: -39}
+  m_AnchoredPosition: {x: -2.6699867, y: -27.699987}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1858544580
@@ -13379,7 +13355,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -13411,7 +13387,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.41721, y: 0.0030269027, z: -40.883316, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -13823,7 +13799,7 @@ GameObject:
   - component: {fileID: 1945018634}
   - component: {fileID: 1945018633}
   m_Layer: 5
-  m_Name: Affinity
+  m_Name: Affinity1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13845,7 +13821,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 35}
+  m_AnchoredPosition: {x: -2.6699867, y: 23.9}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1945018633
@@ -13902,7 +13878,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -13934,7 +13910,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 12.205811, y: 0.0030269027, z: -41.986397, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -13960,7 +13936,7 @@ GameObject:
   - component: {fileID: 1946367722}
   - component: {fileID: 1946367721}
   m_Layer: 5
-  m_Name: EnemyName
+  m_Name: EnemyName1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13982,7 +13958,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 63}
+  m_AnchoredPosition: {x: -2.6699867, y: 71.30001}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1946367721
@@ -14039,7 +14015,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -14071,7 +14047,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 13.31168, y: 0.0030269027, z: -40.88211, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -14305,7 +14281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: 123}
+  m_AnchoredPosition: {x: -2.6699867, y: 115.6}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1994557685
@@ -14362,7 +14338,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -14394,7 +14370,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 12.204361, y: 0.0030269027, z: -37.564842, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -14815,7 +14791,7 @@ GameObject:
   - component: {fileID: 2066754877}
   - component: {fileID: 2066754876}
   m_Layer: 5
-  m_Name: Affinity
+  m_Name: Affinity2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14837,7 +14813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6699867, y: -68}
+  m_AnchoredPosition: {x: -2.6699867, y: -76.9}
   m_SizeDelta: {x: 109.66, y: 36.1626}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2066754876
@@ -14894,7 +14870,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -14926,7 +14902,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.41721, y: 0.0030269027, z: -38.673325, w: -3.1550274}
+  m_margin: {x: 1.1571426, y: 0.0030269027, z: 0, w: -3.1550274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -15138,19 +15114,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2109179280}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 720534112}
-        m_TargetAssemblyTypeName: NextEncounter, Assembly-CSharp
-        m_MethodName: SelectEncounter
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2109179280
 MonoBehaviour:
   m_ObjectHideFlags: 0

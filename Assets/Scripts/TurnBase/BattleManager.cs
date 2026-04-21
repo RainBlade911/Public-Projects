@@ -34,14 +34,16 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+       
         StartBattle();
     }
 
     private void StartBattle()
     {
+
         nextEncounter.ShowEncounterScreen();
 
-        SpawnEnemies();
+        //SpawnEnemies();
 
         // Reset reward UI
         if (rewardController != null)
@@ -51,7 +53,7 @@ public class BattleManager : MonoBehaviour
 
         battleEnded = false;
 
-        turnController.OnBattleStart();
+        
     }
 
     private void OnDestroy()
@@ -239,7 +241,8 @@ public class BattleManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        List<BattleUnit> prepared = enemySpawner.GetPreparedEnemies();
+        int index = nextEncounter.SelectedEncounterIndex;
+        List<BattleUnit> prepared = enemySpawner.GetPreparedEnemies(index);
 
         foreach (var _ in prepared)
         {
@@ -256,6 +259,16 @@ public class BattleManager : MonoBehaviour
             if (worldUI != null)
                 worldUI.Bind(stats);
         }
+    }
+
+    public void BeginBattleAfterEncounter()
+    {
+        int index = nextEncounter.SelectedEncounterIndex;
+
+        enemySpawner.BeginSpawningEncounter(index);
+        SpawnEnemies();
+
+        turnController.OnBattleStart();
     }
 
 }
