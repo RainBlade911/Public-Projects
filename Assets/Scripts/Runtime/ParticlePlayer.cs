@@ -19,16 +19,18 @@ public class ParticlePlayer : MonoBehaviour
             Instance = null;
         }
     }
-    public void PlayParticleEffect()
+    public void PlayParticleEffect(Vector3 position)
     {
         Debug.Log("Particle effect triggered!");
+
+        // Move the particle systems to the enemy's position
+        transform.position = position;
+
         if (cubesEffect != null)
-        {
             cubesEffect.Play();
-        }
+
         if (poofEffect != null)
-        {
             poofEffect.Play();
-        }
     }
+
 }
