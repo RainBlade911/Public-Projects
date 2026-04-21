@@ -16,6 +16,10 @@ public class EnemyManager : MonoBehaviour
     {
         EnemySpawner.OnEnemySpawned += HandleEnemySpawned;
     }
+    public void UnregisterEnemy(BattleUnit enemy)
+    {
+        enemies.Remove(enemy);
+    }
 
     void OnDisable()
     {
