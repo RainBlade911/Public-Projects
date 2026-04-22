@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cff0e2b68bba364b9ec63edfd3d9609, type: 3}
-  m_Name: HotHound
+  m_Name: Skeley
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  EnemyName: Hot Hound
-  Health: 20
-  moves: {fileID: 11400000, guid: b0563217ba13e1441a177a7476101fd5, type: 2}
-  affinity: {fileID: 11400000, guid: 97e87a8f85fbcfd44a2d81a45fc8d8e2, type: 2}
-  speed: 6
-  enemySprite: {fileID: 21300000, guid: 9d3507b5ddc84b5419a50cd53162d067, type: 3}
+  EnemyName: Skeley
+  Health: 5
+  moves: {fileID: 11400000, guid: 5fa04788d963e334584006c4fe106a90, type: 2}
+  affinity: {fileID: 11400000, guid: 95ce979dc82ded14e97288118dc77ca2, type: 2}
+  speed: 3
+  enemySprite: {fileID: 21300000, guid: 7faf05d7ef089cc49b9df0dfcf39fdbe, type: 3}

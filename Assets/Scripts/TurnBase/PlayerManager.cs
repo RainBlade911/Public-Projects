@@ -282,11 +282,13 @@ public class PlayerManager : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.Fill = maxHealth <= 0 ? 0f : currentHealth / maxHealth;
+            healthBar.SetProgressText($"{currentHealth}/{maxHealth}");
         }
 
         if (manaBar != null)
         {
             manaBar.Fill = maxMana <= 0 ? 0f : currentMana / maxMana;
+            manaBar.SetProgressText($"{currentMana}/{maxMana}");
         }
     }
 

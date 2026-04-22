@@ -29,4 +29,12 @@ public class ProgressBar : MonoBehaviour
     {
         Fill = value;
     }
+
+    public void SetProgressText(string text)
+    {
+        if (fillText != null)
+        {
+            fillText.text = text;
+        }
+    }
 }
