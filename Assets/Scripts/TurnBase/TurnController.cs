@@ -18,9 +18,12 @@ public class TurnController : MonoBehaviour
     private bool actionSelected = false;
     private bool battleStopped = false;
 
+
+
     // ============================
     // BATTLE START
     // ============================
+
     public void OnBattleStart()
     {
         battleStopped = false;

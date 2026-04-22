@@ -11,6 +11,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private UnitStatsRuntime currentEnemy;
     [SerializeField] private TurnController turnController;
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private NextEncounter nextEncounter;
 
     // Rewards System
     [SerializeField] private RewardController rewardController;
@@ -39,42 +40,17 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        // Spawn 3 enemies
-        for (int i = 0; i < 3; i++)
-        {
-            BattleUnit spawnedEnemyUnit = enemySpawner.Spawn();
-            if (spawnedEnemyUnit == null)
-            {
-                Debug.LogError("BattleManager: EnemySpawner failed to spawn an enemy.");
-                return;
-            }
-
-            spawnedEnemyUnits.Add(spawnedEnemyUnit);
-
-            // Get runtime stats
-            UnitStatsRuntime stats = spawnedEnemyUnit.GetComponent<UnitStatsRuntime>();
-            if (stats == null)
-            {
-                Debug.LogError("BattleManager: Spawned enemy has no UnitStatsRuntime.");
-                return;
-            }
-
-            enemyStatsRuntimes.Add(stats);
-
-            // Subscribe to death event
-            stats.OnDied += HandleEnemyDied;
-
-            // Bind UI
-            EnemyWorldUIHandler worldUI = spawnedEnemyUnit.GetComponentInChildren<EnemyWorldUIHandler>();
-            if (worldUI != null)
-                worldUI.Bind(stats);
-        }
-
+       
         StartBattle();
     }
 
     private void StartBattle()
     {
+
+        nextEncounter.ShowEncounterScreen();
+
+        //SpawnEnemies();
+
         // Reset reward UI
         if (rewardController != null)
         {
@@ -83,7 +59,7 @@ public class BattleManager : MonoBehaviour
 
         battleEnded = false;
 
-        turnController.OnBattleStart();
+        
     }
 
     private void OnDestroy()
@@ -138,8 +114,10 @@ public class BattleManager : MonoBehaviour
     {
         if (battleEnded) return;
 
+        // Remove from turn order + internal lists
+        ParticlePlayer.Instance.PlayParticleEffect(deadEnemy.transform.position);
         RemoveFromBattle(deadEnemy);
-        ParticlePlayer.Instance.PlayParticleEffect();
+       
 
         if (enemyStatsRuntimes.Count > 0)
         {
@@ -227,8 +205,8 @@ public void BeginPostRewardSkeletonFight()
 
         turnController.StopBattleFlow();
 
-        if (ParticlePlayer.Instance != null)
-            ParticlePlayer.Instance.PlayParticleEffect();
+        //if (ParticlePlayer.Instance != null)
+        //    ParticlePlayer.Instance.PlayParticleEffect();
 
         yield return new WaitForSeconds(rewardDelay);
 
@@ -326,4 +304,42 @@ private void RemoveFromBattle(UnitStatsRuntime unit)
         selectedEnemy = enemy;
         selectionManager.KeepSelected(enemy);
     }
+
+    public List<BattleUnit> GetSpawnedEnemies()
+    {
+        return spawnedEnemyUnits;
+    }
+
+    public void SpawnEnemies()
+    {
+        int index = nextEncounter.SelectedEncounterIndex;
+        List<BattleUnit> prepared = enemySpawner.GetPreparedEnemies(index);
+
+        foreach (var _ in prepared)
+        {
+            BattleUnit spawned = enemySpawner.SpawnNext();
+
+            spawnedEnemyUnits.Add(spawned);
+
+            UnitStatsRuntime stats = spawned.GetComponent<UnitStatsRuntime>();
+            enemyStatsRuntimes.Add(stats);
+
+            stats.OnDied += HandleEnemyDied;
+
+            EnemyWorldUIHandler worldUI = spawned.GetComponentInChildren<EnemyWorldUIHandler>();
+            if (worldUI != null)
+                worldUI.Bind(stats);
+        }
+    }
+
+    public void BeginBattleAfterEncounter()
+    {
+        int index = nextEncounter.SelectedEncounterIndex;
+
+        enemySpawner.BeginSpawningEncounter(index);
+        SpawnEnemies();
+
+        turnController.OnBattleStart();
+    }
+
 }

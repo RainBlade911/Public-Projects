@@ -32,4 +32,9 @@ public class Affinity : ScriptableObject
         }
         return false;
     }
+
+    public string GetAffinityName()
+    {
+        return affinityName;
+    }
 }
