@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Move
   moveName: BIG Fireball
   damage: 5
-  type: {fileID: 0}
+  type: {fileID: 11400000, guid: 95ce979dc82ded14e97288118dc77ca2, type: 2}
   manaCost: 3

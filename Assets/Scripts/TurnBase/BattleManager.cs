@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
@@ -10,11 +9,13 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private RewardController rewardController;
     [SerializeField] private float rewardDelay = 1.5f;
+    [SerializeField] private PlayerActionUI playerActionUI;
 
     private bool cont = false;
     private bool battleEnded = false;
 
     public Move enemyMove;
+    public string LastEnemyEffectivenessMessage { get; private set; } = "";
 
     private void Start()
     {
@@ -32,10 +33,10 @@ public class BattleManager : MonoBehaviour
         if (rewardController != null)
         {
             rewardController.HideRewardUI();
-            // Removed due to moving to cleaner system: rewardController.ClearCurrentChoices();
         }
 
         battleEnded = false;
+        LastEnemyEffectivenessMessage = "";
         turnController.OnBattleStart();
         currentEnemy.OnDied += HandleEnemyDied;
     }
@@ -48,35 +49,73 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public Move getMove(int i)
+    {
+        return PlayerManager.Instance.GetMove(i);
+    }
+
     public void AttackSelected(Move move)
-{
-    if (battleEnded) return;
-
-    if (move == null)
     {
-        Debug.LogWarning("BattleManager: Selected move was null.");
-        return;
+        if (battleEnded) return;
+
+        if (move == null)
+        {
+            Debug.LogWarning("BattleManager: Selected move was null.");
+            return;
+        }
+
+        if (currentEnemy == null)
+        {
+            Debug.LogWarning("BattleManager: No enemy to attack.");
+            return;
+        }
+
+        Debug.Log("Performing Attack: " + move.name);
+
+        if (animator != null)
+        {
+            animator.SetTrigger("AttackTrigger");
+        }
+
+        float baseDamage = move.getDamage();
+
+        Affinity moveAffinity = move.getType();
+        Affinity enemyAffinity = currentEnemy.GetEnemyData().GetAffinity();
+
+        string effectivenessMessage;
+        float multiplier = GetAffinityMultiplier(moveAffinity, enemyAffinity, out effectivenessMessage);
+        float finalDamage = baseDamage * multiplier;
+
+        float remainingHealth = currentEnemy.ApplyDamage(finalDamage);
+        float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
+
+        PlayerManager.Instance.SetAffinity(moveAffinity);
+
+        if (playerActionUI != null)
+        {
+            string finalText = "Player used " + move.getMoveName() + "!";
+            if (!string.IsNullOrEmpty(effectivenessMessage))
+            {
+                finalText += "\n" + effectivenessMessage;
+            }
+
+            playerActionUI.SetActionText(finalText);
+            playerActionUI.SetTextActive();
+        }
+
+        Debug.Log(
+            "Player used " + move.getMoveName() +
+            " | Base: " + baseDamage +
+            " | Multiplier: " + multiplier +
+            " | Final: " + finalDamage
+        );
+
+        Debug.Log(
+            "Enemy took " + finalDamage +
+            " damage. Remaining HP: " + remainingHealth +
+            ". Player remaining mana: " + remainingMana
+        );
     }
-
-    if (currentEnemy == null)
-    {
-        Debug.LogWarning("BattleManager: No enemy to attack.");
-        return;
-    }
-
-    Debug.Log("Performing Attack: " + move.name);
-
-    if (animator != null)
-    {
-        animator.SetTrigger("AttackTrigger");
-    }
-
-    float remainingHealth = currentEnemy.ApplyDamage(move.getDamage());
-    float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
-
-    Debug.Log("Player used " + move.getMoveName() + ". Remaining Mana: " + remainingMana);
-    Debug.Log("Enemy took " + move.getDamage() + " damage. Remaining HP: " + remainingHealth);
-}
 
     private void HandleEnemyDied(UnitStatsRuntime deadEnemy)
     {
@@ -108,14 +147,8 @@ public class BattleManager : MonoBehaviour
 
         if (rewardController != null)
         {
-            // UNREMOVE AFTER IMPLEMENTATION: rewardController.GenerateRewards();
             rewardController.ShowRewardUI();
         }
-    }
-
-    public Move getMove(int i)
-    {
-        return PlayerManager.Instance.GetMove(i);
     }
 
     public void EnemyAttack(BattleUnit enemy)
@@ -140,7 +173,31 @@ public class BattleManager : MonoBehaviour
 
         if (battleEnded) yield break;
 
-        float remainingHealth = playerManager.ApplyDamage(enemyMove.getDamage());
+        if (enemyMove == null)
+        {
+            Debug.LogWarning("BattleManager: Enemy selected a null move.");
+            yield break;
+        }
+
+        float baseDamage = enemyMove.getDamage();
+
+        Affinity moveAffinity = enemyMove.getType();
+        Affinity playerAffinity = PlayerManager.Instance.GetAffinity();
+
+        string effectivenessMessage;
+        float multiplier = GetAffinityMultiplier(moveAffinity, playerAffinity, out effectivenessMessage);
+        float finalDamage = baseDamage * multiplier;
+
+        LastEnemyEffectivenessMessage = effectivenessMessage;
+
+        float remainingHealth = playerManager.ApplyDamage(finalDamage);
+
+        Debug.Log(
+            "Enemy used " + enemyMove.getMoveName() +
+            " | Base: " + baseDamage +
+            " | Multiplier: " + multiplier +
+            " | Final: " + finalDamage
+        );
 
         if (!battleEnded && remainingHealth <= 0)
         {
@@ -154,5 +211,27 @@ public class BattleManager : MonoBehaviour
     {
         if (battleEnded) return;
         cont = true;
+    }
+
+    private float GetAffinityMultiplier(Affinity attack, Affinity target, out string effectivenessMessage)
+    {
+        effectivenessMessage = "";
+
+        if (attack == null || target == null)
+            return 1f;
+
+        if (attack.IsStrongAgainst(target))
+        {
+            effectivenessMessage = "<color=red>It's super effective!</color>";
+            return 2f;
+        }
+
+        if (attack.IsWeakAgainst(target))
+        {
+            effectivenessMessage = "<color=red>It's not very effective...</color>";
+            return 0.5f;
+        }
+
+        return 1f;
     }
 }

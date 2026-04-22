@@ -940,6 +940,7 @@ MonoBehaviour:
   playerManager: {fileID: 1523638971}
   rewardController: {fileID: 1628928839}
   rewardDelay: 1.5
+  playerActionUI: {fileID: 1135902648}
   enemyMove: {fileID: 0}
 --- !u!4 &96767078
 Transform:
@@ -7356,11 +7357,15 @@ MonoBehaviour:
   moves: []
   defaultMoves:
   - {fileID: 11400000, guid: df612149d09e227408f64e91844e4f92, type: 2}
-  - {fileID: 11400000, guid: 1a5ba27d0f4424328971918ce3aea53d, type: 2}
+  - {fileID: 11400000, guid: 7cf8d49c9d4d1fc4688b793a59754292, type: 2}
+  - {fileID: 11400000, guid: 1666f0216ed2569428a5ecf9b1485d4a, type: 2}
+  - {fileID: 11400000, guid: 3c89d81fda9b8cd48b59f0875ac66b39, type: 2}
   supportItems: []
   manaBar: {fileID: 1069278528}
   healthBar: {fileID: 65876137}
   playerSprite: {fileID: 21300000, guid: 33e431e1f0212ad4da9abf0fc2ed48bd, type: 3}
+  defaultAffinity: {fileID: 11400000, guid: 95ce979dc82ded14e97288118dc77ca2, type: 2}
+  currentAffinity: {fileID: 0}
   maxHealth: 15
   currentHealth: 15
   maxMana: 10

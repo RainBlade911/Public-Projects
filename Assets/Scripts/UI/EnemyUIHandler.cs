@@ -11,6 +11,7 @@ public class EnemyUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI affinityText;
     [SerializeField] private GameObject EnemyAttackUI;
     [SerializeField] private BattleManager battleManager;
+
     private Enemy enemyData;
     public bool Continue = false;
 
@@ -22,9 +23,10 @@ public class EnemyUIHandler : MonoBehaviour
             return;
         }
 
-        EnemyAttackUI.SetActive(false);
-
-        
+        if (EnemyAttackUI != null)
+        {
+            EnemyAttackUI.SetActive(false);
+        }
 
         enemyData = statsRuntime.GetEnemyData();
 
@@ -65,32 +67,69 @@ public class EnemyUIHandler : MonoBehaviour
 
         if (progressBar != null && maxHealth > 0)
         {
-            Debug.Log("Should Update Progress Bar: " + (float)currentHealth / maxHealth);
-            progressBar.SetProgress((float)currentHealth / maxHealth);
+            progressBar.SetProgress(currentHealth / maxHealth);
         }
     }
 
     public void OnContinue()
     {
         Continue = true;
-        battleManager.ContinueBattle();
+
+        if (battleManager != null)
+        {
+            battleManager.ContinueBattle();
+        }
+
         HideEnemyAttackUI();
     }
 
     public void StartEnemyMessage(Move attack)
     {
-        HandleEnemyAttackUI(enemyData.GetEnemyName(), attack.getMoveName(), attack.getDamage());
+        if (attack == null)
+        {
+            Debug.LogWarning("EnemyUIHandler: attack was null.");
+            return;
+        }
+
+        string effectivenessMessage = "";
+        if (battleManager != null)
+        {
+            effectivenessMessage = battleManager.LastEnemyEffectivenessMessage;
+        }
+
+        HandleEnemyAttackUI(enemyData.GetEnemyName(), attack.getMoveName(), effectivenessMessage);
     }
-    private void HandleEnemyAttackUI(string EnemyName, string attack, float damage)
+
+    private void HandleEnemyAttackUI(string enemyName, string attackName, string effectivenessMessage)
     {
         Continue = false;
-        EnemyAttackUI.SetActive(true);
+
+        if (EnemyAttackUI != null)
+        {
+            EnemyAttackUI.SetActive(true);
+        }
+
         var text = EnemyAttackUI.GetComponentInChildren<TextMeshProUGUI>();
-        text.text = EnemyName + " is attacking with " + attack + "!\nIt deals " + damage + " damage!"; 
+        if (text != null)
+        {
+            text.richText = true;
+
+            string finalText = enemyName + " used " + attackName + "!";
+
+            if (!string.IsNullOrEmpty(effectivenessMessage))
+            {
+                finalText += "\n" + effectivenessMessage;
+            }
+
+            text.text = finalText;
+        }
     }
 
     private void HideEnemyAttackUI()
     {
-        EnemyAttackUI.SetActive(false);
+        if (EnemyAttackUI != null)
+        {
+            EnemyAttackUI.SetActive(false);
+        }
     }
 }
