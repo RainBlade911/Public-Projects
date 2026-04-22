@@ -86,6 +86,7 @@ Makefile
 
 # BUT include your REQUIRED plugin DLL(s)
 !TACOPlugin/**/*.dll
+!TACOServer/runtime/*.dll
 
 # If you ONLY want specific DLLs:
 # !TACOPlugin/ARM64/Release/TACODLL.dll
