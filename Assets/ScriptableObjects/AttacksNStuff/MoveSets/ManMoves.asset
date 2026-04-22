@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59bd02552bca04f4f8c6221a3179851c, type: 3}
-  m_Name: StartingMoveSet
+  m_Name: ManMoves
   m_EditorClassIdentifier: Assembly-CSharp::MoveSet
   moves:
-  - {fileID: 11400000, guid: 18fc4c12ea7c4f34a92455a68b2890df, type: 2}
-  - {fileID: 11400000, guid: afb9a848da725af4c963d7c05c998849, type: 2}
-  - {fileID: 11400000, guid: e39616d23bd79f44d96a4fb5d4978a78, type: 2}
+  - {fileID: 11400000, guid: 36d26a1c934986744baea240f765e607, type: 2}
+  - {fileID: 11400000, guid: b3d26dc77f4eb7645a73c731d183febf, type: 2}
+  - {fileID: 11400000, guid: 9ea8a43cd87d0a74681abbebc04761a4, type: 2}
+  - {fileID: 11400000, guid: a4a8ec2049e37de4cb5041ae8905f235, type: 2}
