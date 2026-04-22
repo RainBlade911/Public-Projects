@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PoseBackendController
   webSocketBackend: {fileID: 1632587314}
   nativePluginBackend: {fileID: 1632587312}
-  usePlugin: 1
+  usePlugin: 0
 --- !u!114 &1632587314
 MonoBehaviour:
   m_ObjectHideFlags: 0
