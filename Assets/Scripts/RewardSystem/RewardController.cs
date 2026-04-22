@@ -13,7 +13,6 @@ public class RewardController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject rewardUI;
     [SerializeField] private string fightSceneName = "FightScene";
-    [SerializeField] private BattleManager battleManager;
 
     public void ShowRewardUI()
     {
@@ -55,18 +54,7 @@ public class RewardController : MonoBehaviour
             Debug.Log("Equipment Upgrade: Player gained +5 Max Mana.");
         }
 
-        CompleteRewardStep();
-    }
-
-    private void CompleteRewardStep()
-    {
-        if (rewardUI != null)
-            rewardUI.SetActive(false);
-
-        if (battleManager != null)
-            battleManager.BeginPostRewardSkeletonFight();
-        else
-            Debug.LogError("RewardController: BattleManager is not assigned.");
+        ReloadFightScene();
     }
 
     public void ApplyRandomMovesetUpgrade()
@@ -80,7 +68,7 @@ public class RewardController : MonoBehaviour
         if (moveRewardPool == null || moveRewardPool.Count == 0)
         {
             Debug.LogWarning("RewardController: No moves assigned in Move Reward Pool.");
-            CompleteRewardStep();
+            ReloadFightScene();
             return;
         }
 
@@ -97,7 +85,7 @@ public class RewardController : MonoBehaviour
         if (availableMoves.Count == 0)
         {
             Debug.Log("Moveset Upgrade: No new moves available. Player already has all reward moves.");
-            CompleteRewardStep();
+            ReloadFightScene();
             return;
         }
 
@@ -111,7 +99,7 @@ public class RewardController : MonoBehaviour
             " | Mana Cost: " + chosenMove.getManaCost()
         );
 
-        CompleteRewardStep();
+        ReloadFightScene();
     }
 
     public void ApplyRandomSupportItemUpgrade()
@@ -125,7 +113,7 @@ public class RewardController : MonoBehaviour
         if (supportItemRewardPool == null || supportItemRewardPool.Count == 0)
         {
             Debug.LogWarning("RewardController: No support items assigned in Support Item Reward Pool.");
-            CompleteRewardStep();
+            ReloadFightScene();
             return;
         }
 
@@ -133,7 +121,7 @@ public class RewardController : MonoBehaviour
         PlayerManager.Instance.AddItem(chosenItem);
 
         Debug.Log("Support Item Upgrade: Player received " + chosenItem + ".");
-        CompleteRewardStep();
+        ReloadFightScene();
     }
 
     public void ReloadFightScene()

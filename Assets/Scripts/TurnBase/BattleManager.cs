@@ -21,11 +21,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
     [SerializeField] private RaycastSelectionManager selectionManager;
-    [SerializeField] private BattleUnit postRewardSkeletonPrefab;
-    [SerializeField] private Transform postRewardSkeletonSpawnPoint;
 
     private bool waitingForRewardChoice = false;
-    private bool postRewardSkeletonSpawned = false;
 
     private bool cont = false;
     private bool battleEnded = false;
@@ -49,7 +46,6 @@ public class BattleManager : MonoBehaviour
 
         nextEncounter.ShowEncounterScreen();
 
-        //SpawnEnemies();
 
         // Reset reward UI
         if (rewardController != null)
@@ -130,83 +126,16 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        // First wave cleared -> show rewards
-        if (!postRewardSkeletonSpawned)
-        {
-            waitingForRewardChoice = true;
-            battleEnded = true;
-            StartCoroutine(HandleEnemyDefeatRoutine());
-            return;
-        }
+        StartCoroutine(HandleEnemyDefeatRoutine());
 
-        // Skeleton defeated -> real end, no second reward
-        battleEnded = true;
-        turnController.StopBattleFlow();
-        Debug.Log("Skeleton defeated. Battle complete.");
-    }
-public void BeginPostRewardSkeletonFight()
-    {
-        if (!waitingForRewardChoice || postRewardSkeletonSpawned)
-            return;
-
-        if (postRewardSkeletonPrefab == null || postRewardSkeletonSpawnPoint == null)
-        {
-            Debug.LogError("BattleManager: Missing skeleton prefab or spawn point.");
-            return;
-        }
-
-        waitingForRewardChoice = false;
-        postRewardSkeletonSpawned = true;
-
-        if (rewardController != null)
-            rewardController.HideRewardUI();
-
-        BattleUnit spawnedEnemyUnit = Instantiate(
-            postRewardSkeletonPrefab,
-            postRewardSkeletonSpawnPoint.position,
-            postRewardSkeletonSpawnPoint.rotation
-        );
-
-        spawnedEnemyUnits.Add(spawnedEnemyUnit);
-
-        UnitStatsRuntime stats = spawnedEnemyUnit.GetComponent<UnitStatsRuntime>();
-        if (stats == null)
-        {
-            Debug.LogError("BattleManager: Skeleton has no UnitStatsRuntime.");
-            return;
-        }
-
-        enemyStatsRuntimes.Add(stats);
-        stats.OnDied += HandleEnemyDied;
-
-        EnemyWorldUIHandler worldUI = spawnedEnemyUnit.GetComponentInChildren<EnemyWorldUIHandler>();
-        if (worldUI != null)
-            worldUI.Bind(stats);
-
-        EnemyManager.Instance.RegisterEnemy(spawnedEnemyUnit);
-
-        currentEnemy = stats;
-        selectedEnemy = spawnedEnemyUnit;
-        selectionManager.KeepSelected(spawnedEnemyUnit);
-
-        battleEnded = false;
-        StartCoroutine(RestartBattleFlowNextFrame());
     }
 
-    private IEnumerator RestartBattleFlowNextFrame()
-    {
-        yield return null;
-        turnController.OnBattleStart();
-    }
 
     private IEnumerator HandleEnemyDefeatRoutine()
     {
         Debug.Log("All enemies defeated.");
 
         turnController.StopBattleFlow();
-
-        //if (ParticlePlayer.Instance != null)
-        //    ParticlePlayer.Instance.PlayParticleEffect();
 
         yield return new WaitForSeconds(rewardDelay);
 
@@ -261,13 +190,13 @@ public void BeginPostRewardSkeletonFight()
     }
 
     private IEnumerator HandlePlayerDefeat()
-{
-    Debug.Log("Player defeated.");
+    {
+        Debug.Log("Player defeated.");
 
-    yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
 
-    SceneTransitionManager.LoadSceneWithTransition(deathSceneName);
-}
+        SceneTransitionManager.LoadSceneWithTransition(deathSceneName);
+    }
 
 
     public void ContinueBattle()
@@ -276,7 +205,7 @@ public void BeginPostRewardSkeletonFight()
         cont = true;
     }
 
-private void RemoveFromBattle(UnitStatsRuntime unit)
+    private void RemoveFromBattle(UnitStatsRuntime unit)
     {
         if (unit == null)
         {
