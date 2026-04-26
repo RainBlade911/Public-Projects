@@ -7,6 +7,8 @@ public class Move : ScriptableObject
     [SerializeField] private float damage;
     [SerializeField] private Affinity type;
     [SerializeField] private float manaCost;
+    [SerializeField] private ParticleSystem moveEffectPrefab;
+    [SerializeField] private Vector3 offset;
 
     public string getMoveName()
     {
@@ -26,5 +28,15 @@ public class Move : ScriptableObject
     public Affinity getType()
     {
         return type;
+    }
+
+    public ParticleSystem getMoveEffectPrefab()
+    {
+        return moveEffectPrefab;
+    }
+
+    public Vector3 getOffset()
+    {
+        return offset;
     }
 }

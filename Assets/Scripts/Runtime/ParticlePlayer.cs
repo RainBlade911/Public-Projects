@@ -28,4 +28,18 @@ public class ParticlePlayer : MonoBehaviour
         if (poofEffect != null)
             poofEffect.Play();
     }
+
+    public ParticleSystem PlayAttackParticle(Vector3 position, ParticleSystem effectPrefab, Transform target)
+    {
+        transform.position = position;
+
+        // Rotate the particle so its forward direction points toward the target
+        Vector3 direction = (target.position - position).normalized;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        ParticleSystem effect = Instantiate(effectPrefab, position, rotation);
+        effect.Play();
+
+        return effect;
+    }
 }

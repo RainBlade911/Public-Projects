@@ -16,3 +16,5 @@ MonoBehaviour:
   damage: 5
   type: {fileID: 11400000, guid: df07c58133ba7ef4983f08688e450039, type: 2}
   manaCost: 2
+  moveEffectPrefab: {fileID: 6486449618339203059, guid: 3a62d24219d316145a74ec3b860ad5d4, type: 3}
+  offset: {x: -4.5, y: 0, z: -4.5}

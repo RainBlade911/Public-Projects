@@ -21,6 +21,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
     [SerializeField] private RaycastSelectionManager selectionManager;
+    [SerializeField] private ParticlePlayer particlePlayer;
 
     private bool waitingForRewardChoice = false;
 
@@ -34,6 +35,10 @@ public class BattleManager : MonoBehaviour
     List<UnitStatsRuntime> enemyStatsRuntimes = new List<UnitStatsRuntime>();
 
     private BattleUnit selectedEnemy;
+
+    private bool inputLocked = false;
+    public bool playerAttackInProgress = false;
+
 
     private void Start()
     {
@@ -69,49 +74,92 @@ public class BattleManager : MonoBehaviour
     public bool AttackSelected(Move move)
     {
         if (battleEnded) return false;
+        if (inputLocked) return false;   // prevent UI spam
+        if (move == null) return false;
 
-        if (move == null)
-        {
-            Debug.LogWarning("BattleManager: Selected move was null.");
-            return false;
-        }
-
-        // Get selected enemy
         selectedEnemy = selectionManager.GetSelectedEnemy();
-
-        if (selectedEnemy == null)
-        {
-            Debug.LogWarning("BattleManager: No enemy selected.");
-            return false; 
-        }
+        if (selectedEnemy == null) return false;
 
         currentEnemy = selectedEnemy.GetEnemy();
+        if (currentEnemy == null) return false;
 
-        if (currentEnemy == null)
+        inputLocked = true;
+        playerAttackInProgress = true;
+
+        StartCoroutine(AttackRoutine(move));
+        return true;
+    }
+
+    private IEnumerator AttackRoutine(Move move)
+    {
+        animator.SetTrigger("AttackTrigger");
+
+        Vector3 hitPos = currentEnemy.transform.position + move.getOffset();
+        
+        if (move.getMoveEffectPrefab() != null)
         {
-            Debug.LogWarning("BattleManager: No enemy to attack.");
-            return false;
+            ParticleSystem effect = particlePlayer.PlayAttackParticle(hitPos, move.getMoveEffectPrefab(), currentEnemy.transform);
+
+            yield return new WaitForSeconds(effect.main.duration);
         }
 
-        // Perform attack
+
         float remainingHealth = currentEnemy.ApplyDamage(move.getDamage());
         float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
 
-        //do the attack animation
-        animator.SetTrigger("AttackTrigger");
-
-        Debug.Log("SelectedEnemy: " + selectedEnemy);
-        Debug.Log("currentEnemy: " + currentEnemy);
-
-        return true; 
+        inputLocked = false;
+        playerAttackInProgress = false;
     }
+
+
+    //public bool AttackSelected(Move move)
+    //{
+    //    if (battleEnded) return false;
+
+    //    if (move == null)
+    //    {
+    //        Debug.LogWarning("BattleManager: Selected move was null.");
+    //        return false;
+    //    }
+
+    //    // Get selected enemy
+    //    selectedEnemy = selectionManager.GetSelectedEnemy();
+
+    //    if (selectedEnemy == null)
+    //    {
+    //        Debug.LogWarning("BattleManager: No enemy selected.");
+    //        return false; 
+    //    }
+
+    //    currentEnemy = selectedEnemy.GetEnemy();
+
+    //    if (currentEnemy == null)
+    //    {
+    //        Debug.LogWarning("BattleManager: No enemy to attack.");
+    //        return false;
+    //    }
+
+    //    // Perform attack
+    //    float remainingHealth = currentEnemy.ApplyDamage(move.getDamage());
+    //    float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
+
+    //    //do the attack animation
+    //    animator.SetTrigger("AttackTrigger");
+
+    //    particlePlayer.PlayAttackParticle(currentEnemy.transform.position, move.getMoveEffectPrefab());
+
+    //    Debug.Log("SelectedEnemy: " + selectedEnemy);
+    //    Debug.Log("currentEnemy: " + currentEnemy);
+
+    //    return true; 
+    //}
 
     private void HandleEnemyDied(UnitStatsRuntime deadEnemy)
     {
         if (battleEnded) return;
 
         // Remove from turn order + internal lists
-        ParticlePlayer.Instance.PlayParticleEffect(deadEnemy.transform.position);
+        particlePlayer.PlayParticleEffect(deadEnemy.transform.position);
         RemoveFromBattle(deadEnemy);
        
 

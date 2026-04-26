@@ -16,3 +16,4 @@ MonoBehaviour:
   damage: 999
   type: {fileID: 11400000, guid: 95ce979dc82ded14e97288118dc77ca2, type: 2}
   manaCost: 0
+  moveEffectPrefab: {fileID: 7627495193456303764, guid: d7570e48d6f775e4aa5ef1747e7bcf4d, type: 3}

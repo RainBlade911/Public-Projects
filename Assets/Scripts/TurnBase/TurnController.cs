@@ -88,8 +88,17 @@ public class TurnController : MonoBehaviour
     {
         if (battleStopped) return;
 
+        StartCoroutine(WaitAndStartNextTurn());
+    }
+
+    private IEnumerator WaitAndStartNextTurn()
+    {
+        // Wait for player attack to finish
+        yield return new WaitUntil(() => !battleManager.playerAttackInProgress);
+
         StartNextTurn();
     }
+
 
     // ============================
     // TURN ORDER SETUP
