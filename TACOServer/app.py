@@ -30,7 +30,7 @@ OFF_ZERO   = 127
 STRIDE_Y = INPUT_H / 33
 STRIDE_X = INPUT_W / 17
 
-USE_NPU = True # ← flip this to switch backend
+USE_NPU = False # ← flip this to switch backend
 
 
 # ---------------- PERFORMANCE MONITOR ----------------
