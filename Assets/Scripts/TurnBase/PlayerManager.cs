@@ -19,6 +19,10 @@ public class PlayerManager : MonoBehaviour
     [Header("Player Display")]
     [SerializeField] private Sprite playerSprite;
 
+    [Header("Affinity")]
+    [SerializeField] private Affinity defaultAffinity;
+    [SerializeField] private Affinity currentAffinity;
+
     [Header("Base Stats")]
     [SerializeField] private float maxHealth = 10f;
     [SerializeField] private float currentHealth = 10f;
@@ -94,6 +98,9 @@ public class PlayerManager : MonoBehaviour
                 ", Moves: " + moves.Count
             );
         }
+
+        currentAffinity = defaultAffinity;
+        Debug.Log("Player affinity reset to: " + GetAffinityName());
 
         UpdateBars();
         initialized = true;
@@ -220,6 +227,22 @@ public class PlayerManager : MonoBehaviour
     {
         speed += amount;
         Debug.Log("PlayerManager: Speed increased by " + amount + ". New Speed: " + speed);
+    }
+
+    public void SetAffinity(Affinity newAffinity)
+    {
+        currentAffinity = newAffinity;
+        Debug.Log("Player affinity changed to: " + GetAffinityName());
+    }
+
+    public Affinity GetAffinity()
+    {
+        return currentAffinity;
+    }
+
+    public string GetAffinityName()
+    {
+        return currentAffinity != null ? currentAffinity.affinityName : "None";
     }
 
     public float GetCurrentHealth()

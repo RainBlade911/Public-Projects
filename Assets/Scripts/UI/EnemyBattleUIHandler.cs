@@ -20,7 +20,18 @@ public class EnemyBattleUIHandler : MonoBehaviour
         Continue = false;
 
         enemyAttackUI.SetActive(true);
-        attackText.text = $"{enemyName} is attacking with {attack.getMoveName()}!\nIt deals {attack.getDamage()} damage!";
+
+   
+        string effectivenessMessage = battleManager.LastEnemyEffectivenessMessage;
+
+        string text = $"{enemyName} used {attack.getMoveName()}!";
+
+        if (!string.IsNullOrEmpty(effectivenessMessage))
+        {
+            text += "\n" + effectivenessMessage;
+        }
+
+        attackText.text = text;
     }
 
     public void OnContinue()

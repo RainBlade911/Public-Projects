@@ -13,24 +13,21 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private NextEncounter nextEncounter;
 
-    // Rewards System
     [SerializeField] private RewardController rewardController;
     [SerializeField] private float rewardDelay = 1.5f;
+    [SerializeField] private PlayerActionUI playerActionUI;
 
-    // Enemy Spawning + Selection
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
     [SerializeField] private RaycastSelectionManager selectionManager;
     [SerializeField] private ParticlePlayer particlePlayer;
 
-    private bool waitingForRewardChoice = false;
-
     private bool cont = false;
     private bool battleEnded = false;
 
     public Move enemyMove;
+    public string LastEnemyEffectivenessMessage { get; private set; } = "";
 
-    // Multi-enemy support
     List<BattleUnit> spawnedEnemyUnits = new List<BattleUnit>();
     List<UnitStatsRuntime> enemyStatsRuntimes = new List<UnitStatsRuntime>();
 
@@ -39,43 +36,25 @@ public class BattleManager : MonoBehaviour
     private bool inputLocked = false;
     public bool playerAttackInProgress = false;
 
-
     private void Start()
     {
-       
         StartBattle();
     }
 
     private void StartBattle()
     {
-
         nextEncounter.ShowEncounterScreen();
 
-
-        // Reset reward UI
         if (rewardController != null)
-        {
             rewardController.HideRewardUI();
-        }
 
         battleEnded = false;
-
-        
-    }
-
-    private void OnDestroy()
-    {
-        if (currentEnemy != null)
-        {
-            currentEnemy.OnDied -= HandleEnemyDied;
-        }
+        LastEnemyEffectivenessMessage = "";
     }
 
     public bool AttackSelected(Move move)
     {
-        if (battleEnded) return false;
-        if (inputLocked) return false;   // prevent UI spam
-        if (move == null) return false;
+        if (battleEnded || inputLocked || move == null) return false;
 
         selectedEnemy = selectionManager.GetSelectedEnemy();
         if (selectedEnemy == null) return false;
@@ -95,117 +74,80 @@ public class BattleManager : MonoBehaviour
         animator.SetTrigger("AttackTrigger");
 
         Vector3 hitPos = currentEnemy.transform.position + move.getOffset();
-        
-        if (move.getMoveEffectPrefab() != null)
-        {
-            ParticleSystem effect = particlePlayer.PlayAttackParticle(hitPos, move.getMoveEffectPrefab(), currentEnemy.transform);
 
-            yield return new WaitForSeconds(effect.main.duration);
+       if (move.getMoveEffectPrefab() != null)
+        {
+            particlePlayer.PlayAttackParticle(
+                hitPos,
+                move.getMoveEffectPrefab(),
+                currentEnemy.transform
+            );
         }
 
+        // small delay not for particle
+        yield return new WaitForSeconds(0.2f);
 
-        float remainingHealth = currentEnemy.ApplyDamage(move.getDamage());
+        float baseDamage = move.getDamage();
+
+        Affinity moveAffinity = move.getType();
+        Affinity enemyAffinity = currentEnemy.GetEnemyData().GetAffinity();
+
+        string effectivenessMessage;
+        float multiplier = GetAffinityMultiplier(moveAffinity, enemyAffinity, out effectivenessMessage);
+        float finalDamage = baseDamage * multiplier;
+
+        float remainingHealth = currentEnemy.ApplyDamage(finalDamage);
         float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
+        Debug.Log(
+    $"[PLAYER ATTACK] Target: {currentEnemy.name} | Base: {baseDamage} | Multiplier: {multiplier} | Final: {finalDamage}");
+
+        PlayerManager.Instance.SetAffinity(moveAffinity);
+
+     
+        if (playerActionUI != null)
+        {
+            string text = "Player used " + move.getMoveName() + "!";
+            if (!string.IsNullOrEmpty(effectivenessMessage))
+                text += "\n" + effectivenessMessage;
+
+            playerActionUI.SetActionText(text);
+            playerActionUI.SetTextActive();
+        }
 
         inputLocked = false;
         playerAttackInProgress = false;
     }
 
-
-    //public bool AttackSelected(Move move)
-    //{
-    //    if (battleEnded) return false;
-
-    //    if (move == null)
-    //    {
-    //        Debug.LogWarning("BattleManager: Selected move was null.");
-    //        return false;
-    //    }
-
-    //    // Get selected enemy
-    //    selectedEnemy = selectionManager.GetSelectedEnemy();
-
-    //    if (selectedEnemy == null)
-    //    {
-    //        Debug.LogWarning("BattleManager: No enemy selected.");
-    //        return false; 
-    //    }
-
-    //    currentEnemy = selectedEnemy.GetEnemy();
-
-    //    if (currentEnemy == null)
-    //    {
-    //        Debug.LogWarning("BattleManager: No enemy to attack.");
-    //        return false;
-    //    }
-
-    //    // Perform attack
-    //    float remainingHealth = currentEnemy.ApplyDamage(move.getDamage());
-    //    float remainingMana = PlayerManager.Instance.ApplyManaCost(move.getManaCost());
-
-    //    //do the attack animation
-    //    animator.SetTrigger("AttackTrigger");
-
-    //    particlePlayer.PlayAttackParticle(currentEnemy.transform.position, move.getMoveEffectPrefab());
-
-    //    Debug.Log("SelectedEnemy: " + selectedEnemy);
-    //    Debug.Log("currentEnemy: " + currentEnemy);
-
-    //    return true; 
-    //}
-
     private void HandleEnemyDied(UnitStatsRuntime deadEnemy)
     {
         if (battleEnded) return;
 
-        // Remove from turn order + internal lists
         particlePlayer.PlayParticleEffect(deadEnemy.transform.position);
         RemoveFromBattle(deadEnemy);
-       
 
         if (enemyStatsRuntimes.Count > 0)
         {
             if (enemyStatsRuntimes.Count == 1)
-            {
-                BattleUnit lastEnemy = spawnedEnemyUnits[0];
-                HandleOneEnemyLeft(lastEnemy);
-            }
+                HandleOneEnemyLeft(spawnedEnemyUnits[0]);
 
             return;
         }
 
         StartCoroutine(HandleEnemyDefeatRoutine());
-
     }
-
 
     private IEnumerator HandleEnemyDefeatRoutine()
     {
-        Debug.Log("All enemies defeated.");
-
         turnController.StopBattleFlow();
-
         yield return new WaitForSeconds(rewardDelay);
 
         if (rewardController != null)
             rewardController.ShowRewardUI();
     }
 
-    public Move getMove(int i)
-    {
-        return PlayerManager.Instance.GetMove(i);
-    }
-
     public void EnemyAttack(BattleUnit enemy)
     {
         if (battleEnded) return;
-
-        if (enemy == null)
-        {
-            Debug.LogWarning("BattleManager: No enemy to perform attack.");
-            return;
-        }
-
         StartCoroutine(EnemyAttackRoutine(enemy));
     }
 
@@ -214,20 +156,27 @@ public class BattleManager : MonoBehaviour
         cont = false;
         enemyMove = enemy.GetEnemy().GetEnemyData().GetRandomMove();
 
-        // Show attack message on screen-space UI
         enemyBattleUIHandler.ShowEnemyAttackMessage(enemy.GetName(), enemyMove);
 
         EnemyAnimatorHandler enemyAnim = enemy.GetComponent<EnemyAnimatorHandler>();
         if (enemyAnim != null)
-        {
             enemyAnim.PlayAttack();
-        }
 
         yield return new WaitUntil(() => cont);
 
-        if (battleEnded) yield break;
+        float baseDamage = enemyMove.getDamage();
 
-        float remainingHealth = playerManager.ApplyDamage(enemyMove.getDamage());
+        Affinity moveAffinity = enemyMove.getType();
+        Affinity playerAffinity = PlayerManager.Instance.GetAffinity();
+
+        string effectivenessMessage;
+        float multiplier = GetAffinityMultiplier(moveAffinity, playerAffinity, out effectivenessMessage);
+        float finalDamage = baseDamage * multiplier;
+
+     
+        LastEnemyEffectivenessMessage = effectivenessMessage;
+
+        float remainingHealth = playerManager.ApplyDamage(finalDamage);
 
         if (!battleEnded && remainingHealth <= 0)
         {
@@ -239,13 +188,9 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator HandlePlayerDefeat()
     {
-        Debug.Log("Player defeated.");
-
         yield return new WaitForSeconds(1f);
-
         SceneTransitionManager.LoadSceneWithTransition(deathSceneName);
     }
-
 
     public void ContinueBattle()
     {
@@ -253,14 +198,30 @@ public class BattleManager : MonoBehaviour
         cont = true;
     }
 
-    private void RemoveFromBattle(UnitStatsRuntime unit)
+    private float GetAffinityMultiplier(Affinity attack, Affinity target, out string effectivenessMessage)
     {
-        if (unit == null)
+        effectivenessMessage = "";
+
+        if (attack == null || target == null)
+            return 1f;
+
+        if (attack.IsStrongAgainst(target))
         {
-            Debug.LogWarning("BattleManager: Attempted to remove null unit from battle.");
-            return;
+            effectivenessMessage = "<color=red>It's super effective!</color>";
+            return 2f;
         }
 
+        if (attack.IsWeakAgainst(target))
+        {
+            effectivenessMessage = "<color=red>It's not very effective...</color>";
+            return 0.5f;
+        }
+
+        return 1f;
+    }
+
+    private void RemoveFromBattle(UnitStatsRuntime unit)
+    {
         BattleUnit battleUnit = unit.GetComponent<BattleUnit>();
 
         int index = enemyStatsRuntimes.IndexOf(unit);
@@ -282,15 +243,10 @@ public class BattleManager : MonoBehaviour
         selectionManager.KeepSelected(enemy);
     }
 
-    public List<BattleUnit> GetSpawnedEnemies()
-    {
-        return spawnedEnemyUnits;
-    }
-
     public void SpawnEnemies()
     {
         int index = nextEncounter.SelectedEncounterIndex;
-        List<BattleUnit> prepared = enemySpawner.GetPreparedEnemies(index);
+        var prepared = enemySpawner.GetPreparedEnemies(index);
 
         foreach (var _ in prepared)
         {
@@ -302,21 +258,18 @@ public class BattleManager : MonoBehaviour
             enemyStatsRuntimes.Add(stats);
 
             stats.OnDied += HandleEnemyDied;
-
-            EnemyWorldUIHandler worldUI = spawned.GetComponentInChildren<EnemyWorldUIHandler>();
-            if (worldUI != null)
-                worldUI.Bind(stats);
         }
     }
 
     public void BeginBattleAfterEncounter()
     {
         int index = nextEncounter.SelectedEncounterIndex;
-
         enemySpawner.BeginSpawningEncounter(index);
         SpawnEnemies();
-
         turnController.OnBattleStart();
     }
-
+    public Move getMove(int index)
+    {
+        return PlayerManager.Instance.GetMove(index);
+    }
 }
