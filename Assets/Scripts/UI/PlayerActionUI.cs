@@ -13,16 +13,26 @@ public class PlayerActionUI : MonoBehaviour
 
     public void SetActionText(string text)
     {
-        actionText.text = text;
+        if (actionText != null)
+        {
+            actionText.richText = true;
+            actionText.text = text;
+        }
     }
 
     public void SetTextActive()
     {
-        actionTextContainer.SetActive(true);
+        if (actionTextContainer != null)
+        {
+            actionTextContainer.SetActive(true);
+        }
     }
 
     public void HideText()
     {
-        actionTextContainer.SetActive(false);
+        if (actionTextContainer != null)
+        {
+            actionTextContainer.SetActive(false);
+        }
     }
 }
