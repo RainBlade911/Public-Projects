@@ -43,21 +43,27 @@ class DecodeStage(Stage):
             px = (x + 0.5) * STRIDE_X + offs[k + 17, y, x]
             py = (y + 0.5) * STRIDE_Y + offs[k,      y, x]
 
-            print("offset x:", offs[k + 17, y, x])
-            print("offset y:", offs[k, y, x])
-            print("raw off:",  off_u8[k, y, x])
+            #print("offset x:", offs[k + 17, y, x])
+            #print("offset y:", offs[k, y, x])
+            #print("raw off:",  off_u8[k, y, x])
 
             px = (px - meta["pad_x"]) / meta["scale"]
             py = (py - meta["pad_y"]) / meta["scale"]
 
+            x_norm = px / meta["orig_w"]
+            y_norm = py / meta["orig_h"]
+
+            x_norm = max(0.0, min(1.0, x_norm))
+            y_norm = max(0.0, min(1.0, y_norm))
+
             keypoints.append({
                 "id":    k,
-                "x":     float(px / meta["orig_w"]),
-                "y":     float(py / meta["orig_h"]),
+                "x":     float(x_norm),
+                "y":     float(y_norm),
                 "score": score,
             })
 
-            print(f"id={k}  x={x}  y={y}  score={score:.4f}")
+            #print(f"id={k}  x={x}  y={y}  score={score:.4f}")
 
         context.keypoints = keypoints
         context.timings["decode"] = (time.perf_counter() - t0) * 1000
