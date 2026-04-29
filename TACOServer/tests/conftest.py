@@ -8,7 +8,8 @@ import onnxruntime as rt
 
 
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_TEST_FRAME   = os.path.join(_PROJECT_ROOT, "test_frame.jpg")
+
+_TEST_FRAME   = os.path.join(_PROJECT_ROOT, "tests\\test_frame.jpg")
 _MODEL_PATH   = os.path.join(_PROJECT_ROOT, "model.onnx")
 
 
