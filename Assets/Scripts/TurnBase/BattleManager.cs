@@ -106,7 +106,7 @@ public class BattleManager : MonoBehaviour
      
         if (playerActionUI != null)
         {
-            string text = "Player used " + move.getMoveName() + "!";
+            string text = "The Player used " + move.getMoveName() + "!";
             if (!string.IsNullOrEmpty(effectivenessMessage))
                 text += "\n" + effectivenessMessage;
 
@@ -156,25 +156,25 @@ public class BattleManager : MonoBehaviour
         cont = false;
         enemyMove = enemy.GetEnemy().GetEnemyData().GetRandomMove();
 
-        enemyBattleUIHandler.ShowEnemyAttackMessage(enemy.GetName(), enemyMove);
+        float baseDamage = enemyMove.getDamage();
+
+        Affinity moveAffinity = enemyMove.getType();
+        Affinity playerAffinity = playerManager.GetAffinity();
+
+        string effectivenessMessage = ""; // reset every attack
+        float multiplier = GetAffinityMultiplier(moveAffinity, playerAffinity, out effectivenessMessage);
+        float finalDamage = baseDamage * multiplier;
+
+        LastEnemyEffectivenessMessage = effectivenessMessage; // store current, not previous
+
+        // NOW show the UI with the correct message
+        enemyBattleUIHandler.ShowEnemyAttackMessage(enemy.GetName(), enemyMove, effectivenessMessage);
 
         EnemyAnimatorHandler enemyAnim = enemy.GetComponent<EnemyAnimatorHandler>();
         if (enemyAnim != null)
             enemyAnim.PlayAttack();
 
         yield return new WaitUntil(() => cont);
-
-        float baseDamage = enemyMove.getDamage();
-
-        Affinity moveAffinity = enemyMove.getType();
-        Affinity playerAffinity = PlayerManager.Instance.GetAffinity();
-
-        string effectivenessMessage;
-        float multiplier = GetAffinityMultiplier(moveAffinity, playerAffinity, out effectivenessMessage);
-        float finalDamage = baseDamage * multiplier;
-
-     
-        LastEnemyEffectivenessMessage = effectivenessMessage;
 
         float remainingHealth = playerManager.ApplyDamage(finalDamage);
 
@@ -185,6 +185,7 @@ public class BattleManager : MonoBehaviour
             StartCoroutine(HandlePlayerDefeat());
         }
     }
+
 
     private IEnumerator HandlePlayerDefeat()
     {

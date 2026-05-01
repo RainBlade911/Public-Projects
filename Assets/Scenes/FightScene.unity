@@ -1424,6 +1424,7 @@ MonoBehaviour:
   nextEncounter: {fileID: 720534112}
   rewardController: {fileID: 1628928839}
   rewardDelay: 1.5
+  playerActionUI: {fileID: 1135902648}
   enemySpawner: {fileID: 111268739}
   enemyBattleUIHandler: {fileID: 1666483149}
   selectionManager: {fileID: 655711407}
@@ -11426,6 +11427,8 @@ MonoBehaviour:
   manaBar: {fileID: 1069278528}
   healthBar: {fileID: 65876137}
   playerSprite: {fileID: 21300000, guid: 33e431e1f0212ad4da9abf0fc2ed48bd, type: 3}
+  defaultAffinity: {fileID: 0}
+  currentAffinity: {fileID: 0}
   maxHealth: 50
   currentHealth: 50
   maxMana: 15

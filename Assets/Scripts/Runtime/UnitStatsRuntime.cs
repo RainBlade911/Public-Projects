@@ -35,6 +35,8 @@ public class UnitStatsRuntime : MonoBehaviour
 
     public float ApplyDamage(float damageAmount)
     {
+        Debug.Log($"Damage applied to: {gameObject.name}");
+
         damageAmount = Mathf.Max(0, damageAmount);
         currentHealth = damage.TakeDamage(currentHealth, maxHealth, damageAmount);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);

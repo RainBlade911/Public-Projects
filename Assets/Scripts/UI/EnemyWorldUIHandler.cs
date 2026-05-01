@@ -25,7 +25,7 @@ public class EnemyWorldUIHandler : MonoBehaviour
         if (affinityText != null)
             affinityText.text = enemyData.GetAffinity()?.affinityName ?? "None";
 
-
+        statsRuntime.OnHealthChanged += RefreshUI;
         RefreshUI(statsRuntime.CurrentHealth, statsRuntime.MaxHealth);
     }
 

@@ -1,142 +1,145 @@
-using TMPro;
-using UnityEngine;
-using UnityEngine.UIElements;
+//using TMPro;
+//using UnityEngine;
+//using UnityEngine.UIElements;
 
-public class EnemyUIHandler : MonoBehaviour
-{
-    [SerializeField] private UnitStatsRuntime statsRuntime;
-    [SerializeField] private ProgressBar progressBar;
-    [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI affinityText;
-    [SerializeField] private GameObject EnemyAttackUI;
-    [SerializeField] private BattleManager battleManager;
+//public class EnemyUIHandler : MonoBehaviour
+//{
+//    [SerializeField] private UnitStatsRuntime statsRuntime;
+//    [SerializeField] private ProgressBar progressBar;
+//    [SerializeField] private TextMeshProUGUI healthText;
+//    [SerializeField] private TextMeshProUGUI nameText;
+//    [SerializeField] private TextMeshProUGUI affinityText;
+//    [SerializeField] private GameObject EnemyAttackUI;
+//    [SerializeField] private BattleManager battleManager;
 
-    private Enemy enemyData;
-    public bool Continue = false;
+//    private Enemy enemyData;
+//    public bool Continue = false;
 
-    void Start()
-    {
-        if (statsRuntime == null)
-        {
-            Debug.LogError("EnemyUIHandler: No UnitStatsRuntime assigned!", this);
-            return;
-        }
+//    void Start()
+//    {
+//        if (statsRuntime == null)
+//        {
+//            Debug.LogError("EnemyUIHandler: No UnitStatsRuntime assigned!", this);
+//            return;
+//        }
 
-        if (EnemyAttackUI != null)
-        {
-            EnemyAttackUI.SetActive(false);
-        }
+//        if (EnemyAttackUI != null)
+//        {
+//            EnemyAttackUI.SetActive(false);
+//        }
 
-        enemyData = statsRuntime.GetEnemyData();
+//        enemyData = statsRuntime.GetEnemyData();
 
-        if (enemyData == null)
-        {
-            Debug.LogError("EnemyUIHandler: UnitStatsRuntime has no Enemy data assigned!", this);
-            return;
-        }
+//        if (enemyData == null)
+//        {
+//            Debug.LogError("EnemyUIHandler: UnitStatsRuntime has no Enemy data assigned!", this);
+//            return;
+//        }
 
-        if (nameText != null)
-        {
-            nameText.text = enemyData.GetEnemyName();
-        }
+//        if (nameText != null)
+//        {
+//            nameText.text = enemyData.GetEnemyName();
+//        }
 
-        if (affinityText != null)
-        {
-            affinityText.text = enemyData.GetAffinity()?.affinityName ?? "None";
-        }
+//        if (affinityText != null)
+//        {
+//            affinityText.text = enemyData.GetAffinity()?.affinityName ?? "None";
+//        }
 
-        statsRuntime.OnHealthChanged += RefreshUI;
-        RefreshUI(statsRuntime.CurrentHealth, statsRuntime.MaxHealth);
-    }
+//        statsRuntime.OnHealthChanged += RefreshUI;
+//        Debug.Log($"UI is listening to: {statsRuntime.gameObject.name}");
+//        RefreshUI(statsRuntime.CurrentHealth, statsRuntime.MaxHealth);
+//    }
 
-    private void OnDestroy()
-    {
-        if (statsRuntime != null)
-        {
-            statsRuntime.OnHealthChanged -= RefreshUI;
-        }
-    }
+//    private void OnDestroy()
+//    {
+//        if (statsRuntime != null)
+//        {
+//            statsRuntime.OnHealthChanged -= RefreshUI;
+//        }
+//    }
 
-    private void RefreshUI(float currentHealth, float maxHealth)
-    {
-        if (healthText != null)
-        {
-            healthText.text = $"{currentHealth}/{maxHealth}";
-        }
+//    private void RefreshUI(float currentHealth, float maxHealth)
+//    {
 
-        if (progressBar != null && maxHealth > 0)
-        {
-            progressBar.SetProgress(currentHealth / maxHealth);
-        }
-    }
+//        Debug.Log("Updating Enemy Health UI");
+//        if (healthText != null)
+//        {
+//            healthText.text = $"{currentHealth}/{maxHealth}";
+//        }
 
-    public void OnContinue()
-    {
-        Continue = true;
+//        if (progressBar != null && maxHealth > 0)
+//        {
+//            progressBar.SetProgress(currentHealth / maxHealth);
+//        }
+//    }
 
-        if (battleManager != null)
-        {
-            battleManager.ContinueBattle();
-        }
+//    public void OnContinue()
+//    {
+//        Continue = true;
 
-        HideEnemyAttackUI();
-    }
+//        if (battleManager != null)
+//        {
+//            battleManager.ContinueBattle();
+//        }
 
-    public void StartEnemyMessage(Move attack)
-    {
-        if (attack == null)
-        {
-            Debug.LogWarning("EnemyUIHandler: attack was null.");
-            return;
-        }
+//        HideEnemyAttackUI();
+//    }
 
-        string effectivenessMessage = "";
-        if (battleManager != null)
-        {
-            effectivenessMessage = battleManager.LastEnemyEffectivenessMessage;
-        }
+//    public void StartEnemyMessage(Move attack)
+//    {
+//        if (attack == null)
+//        {
+//            Debug.LogWarning("EnemyUIHandler: attack was null.");
+//            return;
+//        }
 
-        HandleEnemyAttackUI(enemyData.GetEnemyName(), attack.getMoveName(), effectivenessMessage);
-    }
+//        string effectivenessMessage = "";
+//        if (battleManager != null)
+//        {
+//            effectivenessMessage = battleManager.LastEnemyEffectivenessMessage;
+//        }
 
-    private void HandleEnemyAttackUI(string enemyName, string attackName, string effectivenessMessage)
-    {
-        Continue = false;
+//        HandleEnemyAttackUI(enemyData.GetEnemyName(), attack.getMoveName(), effectivenessMessage);
+//    }
 
-        if (EnemyAttackUI != null)
-        {
-            EnemyAttackUI.SetActive(true);
-        }
+//    private void HandleEnemyAttackUI(string enemyName, string attackName, string effectivenessMessage)
+//    {
+//        Continue = false;
 
-        var text = EnemyAttackUI.GetComponentInChildren<TextMeshProUGUI>();
-        if (text != null)
-        {
-            text.richText = true;
+//        if (EnemyAttackUI != null)
+//        {
+//            EnemyAttackUI.SetActive(true);
+//        }
 
-            string finalText = enemyName + " used " + attackName + "!";
+//        var text = EnemyAttackUI.GetComponentInChildren<TextMeshProUGUI>();
+//        if (text != null)
+//        {
+//            text.richText = true;
 
-            if (!string.IsNullOrEmpty(effectivenessMessage))
-            {
-                finalText += "\n" + effectivenessMessage;
-            }
+//            string finalText = enemyName + " used " + attackName + "!";
 
-            text.text = finalText;
-        }
-    }
+//            if (!string.IsNullOrEmpty(effectivenessMessage))
+//            {
+//                finalText += "\n" + effectivenessMessage;
+//            }
 
-    private void HideEnemyAttackUI()
-    {
-        if (EnemyAttackUI != null)
-        {
-            EnemyAttackUI.SetActive(false);
-        }
-    }
+//            text.text = finalText;
+//        }
+//    }
 
-    public void Bind(UnitStatsRuntime stats)
-    {
-        statsRuntime = stats;
-        enemyData = stats.GetEnemyData();
-        RefreshUI(stats.CurrentHealth, stats.MaxHealth);
-    }
-}
+//    private void HideEnemyAttackUI()
+//    {
+//        if (EnemyAttackUI != null)
+//        {
+//            EnemyAttackUI.SetActive(false);
+//        }
+//    }
+
+//    public void Bind(UnitStatsRuntime stats)
+//    {
+//        statsRuntime = stats;
+//        enemyData = stats.GetEnemyData();
+//        RefreshUI(stats.CurrentHealth, stats.MaxHealth);
+//    }
+//}

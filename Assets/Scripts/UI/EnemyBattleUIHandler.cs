@@ -15,21 +15,15 @@ public class EnemyBattleUIHandler : MonoBehaviour
         enemyAttackUI.SetActive(false);
     }
 
-    public void ShowEnemyAttackMessage(string enemyName, Move attack)
+    public void ShowEnemyAttackMessage(string enemyName, Move attack, string effectivenessMessage)
     {
         Continue = false;
-
         enemyAttackUI.SetActive(true);
-
-   
-        string effectivenessMessage = battleManager.LastEnemyEffectivenessMessage;
 
         string text = $"{enemyName} used {attack.getMoveName()}!";
 
         if (!string.IsNullOrEmpty(effectivenessMessage))
-        {
             text += "\n" + effectivenessMessage;
-        }
 
         attackText.text = text;
     }

@@ -173,10 +173,10 @@ public class TurnController : MonoBehaviour
     {
         battleManager.EnemyAttack(enemy);
 
-        enemyBattleUIHandler.ShowEnemyAttackMessage(
-            enemy.GetName(),
-            battleManager.enemyMove
-        );
+        //enemyBattleUIHandler.ShowEnemyAttackMessage(
+        //    enemy.GetName(),
+        //    battleManager.enemyMove
+        //);
 
         yield return new WaitUntil(() => enemyBattleUIHandler.Continue || battleStopped);
 
