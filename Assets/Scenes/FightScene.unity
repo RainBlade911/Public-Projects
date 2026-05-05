@@ -1424,13 +1424,13 @@ MonoBehaviour:
   nextEncounter: {fileID: 720534112}
   rewardController: {fileID: 1628928839}
   rewardDelay: 1.5
+  bossRewardController: {fileID: 1957954450}
   playerActionUI: {fileID: 1135902648}
   enemySpawner: {fileID: 111268739}
   enemyBattleUIHandler: {fileID: 1666483149}
   selectionManager: {fileID: 655711407}
   particlePlayer: {fileID: 279768970}
   enemyMove: {fileID: 0}
-  playerAttackInProgress: 0
 --- !u!4 &96767078
 Transform:
   m_ObjectHideFlags: 0
@@ -1635,6 +1635,8 @@ MonoBehaviour:
   - {fileID: 7878119514747652129, guid: 68b192e563e20574195865d326ea4a52, type: 3}
   - {fileID: 7878119514747652129, guid: 3145fcd814ebe4b5293129f34cb16d8c, type: 3}
   - {fileID: 7878119514747652129, guid: 8f02cd903e0eb7245a9240eaf4e9f415, type: 3}
+  bossPrefab: {fileID: 7878119514747652129, guid: db5ea6e6968564b47a017d081d899d2f, type: 3}
+  bossEncounterChance: 0.15
   spawnPoints:
   - {fileID: 1736892679}
   - {fileID: 1708148785}
@@ -4684,8 +4686,8 @@ RectTransform:
   - {fileID: 1666483148}
   - {fileID: 1135902647}
   - {fileID: 1662286725}
-  - {fileID: 1521843344}
   - {fileID: 720534111}
+  - {fileID: 1521843344}
   - {fileID: 813699507}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5465,6 +5467,7 @@ GameObject:
   - component: {fileID: 542534323}
   - component: {fileID: 542534326}
   - component: {fileID: 542534325}
+  - component: {fileID: 542534327}
   - component: {fileID: 542534324}
   m_Layer: 5
   m_Name: StrengthRewardUI
@@ -5536,13 +5539,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 9a2d9f0430e4f433aaed89919b28089d, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 542534327}
+        m_TargetAssemblyTypeName: BossRewardButton, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5586,6 +5589,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542534322}
   m_CullTransparentMesh: 1
+--- !u!114 &542534327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542534322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c322868e6473d496e91ca076a0fc5fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossRewardButton
+  playerMenus: {fileID: 0}
+  playerActionUI: {fileID: 0}
+  turnController: {fileID: 0}
+  bossRewardController: {fileID: 1957954450}
+  rewardType: 0
 --- !u!1 &556957952
 GameObject:
   m_ObjectHideFlags: 0
@@ -5598,6 +5618,7 @@ GameObject:
   - component: {fileID: 556957956}
   - component: {fileID: 556957955}
   - component: {fileID: 556957954}
+  - component: {fileID: 556957957}
   m_Layer: 5
   m_Name: KnowledgeRewardUI
   m_TagString: Untagged
@@ -5668,13 +5689,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 9a2d9f0430e4f433aaed89919b28089d, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 556957957}
+        m_TargetAssemblyTypeName: BossRewardButton, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5718,6 +5739,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556957952}
   m_CullTransparentMesh: 1
+--- !u!114 &556957957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556957952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c322868e6473d496e91ca076a0fc5fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossRewardButton
+  playerMenus: {fileID: 0}
+  playerActionUI: {fileID: 0}
+  turnController: {fileID: 0}
+  bossRewardController: {fileID: 1957954450}
+  rewardType: 1
 --- !u!4 &569111266 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3201316790093605036, guid: 4a769d0345654f345be733003b50a3e2, type: 3}
@@ -8350,6 +8388,8 @@ MonoBehaviour:
   speed: 0
   learnedMoves: []
   supportItems: []
+  EOS: 1
+  EOK: 1
   hasSavedState: 0
 --- !u!4 &807973715
 Transform:
@@ -8381,7 +8421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &813699507
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11784,6 +11824,7 @@ GameObject:
   - component: {fileID: 1521843344}
   - component: {fileID: 1521843346}
   - component: {fileID: 1521843345}
+  - component: {fileID: 1521843347}
   m_Layer: 5
   m_Name: RewardUI
   m_TagString: Untagged
@@ -11852,6 +11893,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521843343}
   m_CullTransparentMesh: 1
+--- !u!225 &1521843347
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521843343}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!95 &1523638970 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6557242774254812581, guid: 031d30dbb4f62d646b02e2058db2f371, type: 3}
@@ -11884,6 +11937,8 @@ MonoBehaviour:
   maxMana: 15
   currentMana: 15
   speed: 5
+  EOS: 1
+  EOK: 1
   playerUnit: {fileID: 1523638975}
   moveSet: {fileID: 11400000, guid: 49ece827812c0414ba7330d38aefe91b, type: 2}
 --- !u!114 &1523638973
@@ -12463,7 +12518,10 @@ MonoBehaviour:
   - Health Potion
   - Mana Potion
   rewardUI: {fileID: 1521843343}
+  rewardCanvasGroup: {fileID: 1521843347}
   fightSceneName: FightScene
+  rewardDelayBetweenChoices: 0.5
+  fadeDuration: 0.25
 --- !u!1 &1633247133
 GameObject:
   m_ObjectHideFlags: 0
@@ -15187,6 +15245,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951849896}
   m_CullTransparentMesh: 1
+--- !u!1 &1957954449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1957954451}
+  - component: {fileID: 1957954450}
+  m_Layer: 0
+  m_Name: BossRewardController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1957954450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957954449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53957d3d55404ae488cef4cbe7b9489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossRewardController
+  bossRewardUI: {fileID: 813699506}
+  fightSceneName: FightScene
+--- !u!4 &1957954451
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957954449}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.80445, y: 12.5, z: 0.2529}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974810778
 GameObject:
   m_ObjectHideFlags: 0
@@ -16322,3 +16426,4 @@ SceneRoots:
   - {fileID: 358534688}
   - {fileID: 1878930893}
   - {fileID: 502937969}
+  - {fileID: 1957954451}

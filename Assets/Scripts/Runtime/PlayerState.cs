@@ -14,6 +14,10 @@ public class PlayerState : MonoBehaviour
     public List<Move> learnedMoves = new();
     public List<string> supportItems = new();
 
+    // Added for boss reward persistence
+    public float EOS = 1f;
+    public float EOK = 1f;
+
     public bool hasSavedState = false;
 
     private void Awake()
@@ -35,7 +39,9 @@ public class PlayerState : MonoBehaviour
         float savedMaxMana,
         float savedSpeed,
         List<Move> savedMoves,
-        List<string> savedItems)
+        List<string> savedItems,
+        float savedEOS,
+        float savedEOK)
     {
         currentHealth = savedCurrentHealth;
         currentMana = savedCurrentMana;
@@ -46,6 +52,10 @@ public class PlayerState : MonoBehaviour
         learnedMoves = new List<Move>(savedMoves);
         supportItems = new List<string>(savedItems);
 
+        // Save boss reward multipliers
+        EOS = savedEOS;
+        EOK = savedEOK;
+
         hasSavedState = true;
 
         Debug.Log(
@@ -53,6 +63,8 @@ public class PlayerState : MonoBehaviour
             "HP: " + currentHealth + "/" + maxHealth +
             ", Mana: " + currentMana + "/" + maxMana +
             ", Speed: " + speed +
+            ", EOS: " + EOS +
+            ", EOK: " + EOK +
             ", Moves: " + learnedMoves.Count +
             ", Items: " + supportItems.Count
         );
@@ -63,5 +75,9 @@ public class PlayerState : MonoBehaviour
         hasSavedState = false;
         learnedMoves.Clear();
         supportItems.Clear();
+
+        // Reset boss rewards
+        EOS = 1f;
+        EOK = 1f;
     }
 }

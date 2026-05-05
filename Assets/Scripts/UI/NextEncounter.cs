@@ -42,6 +42,8 @@ public class NextEncounter : MonoBehaviour
             }
 
             // Fill UI for each enemy in this encounter
+            bool isBoss = enemySpawner.IsPreparedEncounterBoss(i);
+
             for (int j = 0; j < encounter.Count; j++)
             {
                 var data = encounter[j].GetEnemy().GetEnemyData();
@@ -50,7 +52,8 @@ public class NextEncounter : MonoBehaviour
                     j,
                     data.GetEnemyName(),
                     data.GetAffinity().GetAffinityName(),
-                    data.GetSprite()
+                    data.GetSprite(),
+                    isBoss
                 );
             }
 
