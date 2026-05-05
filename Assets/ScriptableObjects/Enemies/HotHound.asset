@@ -18,3 +18,4 @@ MonoBehaviour:
   affinity: {fileID: 11400000, guid: 97e87a8f85fbcfd44a2d81a45fc8d8e2, type: 2}
   speed: 6
   enemySprite: {fileID: 21300000, guid: 9d3507b5ddc84b5419a50cd53162d067, type: 3}
+  difficulty: 6

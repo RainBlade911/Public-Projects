@@ -24,7 +24,7 @@ public class TurnController : MonoBehaviour
     public void OnBattleStart()
     {
         turnIndex = 0;
-
+        Scorekeeper.Instance.IncrementRoundCounter();
         DetermineTurnOrder();
         turnOrderSlider.UpdateTurnOrder(TurnOrderToUI());
 
