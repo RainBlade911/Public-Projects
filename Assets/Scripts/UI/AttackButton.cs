@@ -41,8 +41,7 @@ public class AttackButton : ButtonScript
         }
 
        
-        SetAttackMessage();
-
+       
        
         if (battleManager.AttackSelected(selectedMove))
         {
@@ -57,8 +56,5 @@ public class AttackButton : ButtonScript
     }
 
 
-    public void SetAttackMessage()
-    {
-        SetActionMessage("Player attacks with " + attackLabel.text + "!");
-    }
+  
 }

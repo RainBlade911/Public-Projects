@@ -2411,6 +2411,7 @@ GameObject:
   - component: {fileID: 7878119514747652129}
   - component: {fileID: 3212517440373602764}
   - component: {fileID: 3732024447325671185}
+  - component: {fileID: 8933613202573175835}
   m_Layer: 0
   m_Name: Hot Hound
   m_TagString: Untagged
@@ -2533,6 +2534,18 @@ CapsuleCollider:
   m_Height: 2.1271455
   m_Direction: 1
   m_Center: {x: 0.009358704, y: 1.0548836, z: 2.7923194e-10}
+--- !u!114 &8933613202573175835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080877968278801042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f231db78616984030b5790a41319a131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimatorHandler
 --- !u!1 &9142561320367081105
 GameObject:
   m_ObjectHideFlags: 0
