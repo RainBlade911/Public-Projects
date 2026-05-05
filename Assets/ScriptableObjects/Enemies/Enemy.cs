@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 [CreateAssetMenu(fileName = "Enemy", menuName = "Scriptable Objects/Enemy")]
 public class Enemy : ScriptableObject
@@ -9,6 +11,9 @@ public class Enemy : ScriptableObject
     [SerializeField] Affinity affinity;
     [SerializeField] private float speed;
     [SerializeField] private Sprite enemySprite;
+    [SerializeField] private int difficulty;
+    private int killScore => difficulty * 10;
+
 
     public string GetEnemyName()
     {
@@ -52,6 +57,14 @@ public class Enemy : ScriptableObject
         return enemySprite;
     }
 
+    public int GetKillScore()
+    {
+        return killScore;
+    }
 
+    public int GetDifficulty()
+    {
+        return difficulty;
+    }
 
 }

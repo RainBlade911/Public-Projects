@@ -225,6 +225,8 @@ public class BattleManager : MonoBehaviour
 
         particlePlayer.PlayParticleEffect(deadEnemy.transform.position);
         RemoveFromBattle(deadEnemy);
+        Debug.Log("Dead Enemy Score: " + deadEnemy.GetEnemyData().GetKillScore());
+        Scorekeeper.Instance.addScore(deadEnemy.GetEnemyData().GetKillScore());
 
         if (enemyStatsRuntimes.Count > 0)
         {
@@ -248,6 +250,8 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator HandlePlayerDefeat()
     {
+        Scorekeeper.Instance.CalculateFinalScore();
+        Scorekeeper.Instance.ResetScore();
         yield return new WaitForSeconds(1f);
         SceneTransitionManager.LoadSceneWithTransition(deathSceneName);
     }

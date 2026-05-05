@@ -1430,7 +1430,6 @@ MonoBehaviour:
   selectionManager: {fileID: 655711407}
   particlePlayer: {fileID: 279768970}
   enemyMove: {fileID: 0}
-  playerAttackInProgress: 0
 --- !u!4 &96767078
 Transform:
   m_ObjectHideFlags: 0
@@ -9113,6 +9112,50 @@ MonoBehaviour:
   - {fileID: 796429419}
   - {fileID: 1978132692}
   - {fileID: 897448808}
+--- !u!1 &954917534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 954917536}
+  - component: {fileID: 954917535}
+  m_Layer: 0
+  m_Name: Scorekeeper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &954917535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954917534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b49df657026e0294e82bd075a4471301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scorekeeper
+--- !u!4 &954917536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954917534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.51182, y: 0, z: 1.23337}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &977449965
 GameObject:
   m_ObjectHideFlags: 0
@@ -14281,37 +14324,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -46}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1878930892
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1878930893}
-  m_Layer: 0
-  m_Name: PostRewardSkeletonSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1878930893
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1878930892}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9659259, z: -0, w: -0.25881898}
-  m_LocalPosition: {x: 2.08, y: 1.2, z: 2.33}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 210, z: 0}
 --- !u!1 &1886355227
 GameObject:
   m_ObjectHideFlags: 0
@@ -15870,5 +15882,5 @@ SceneRoots:
   - {fileID: 111268738}
   - {fileID: 2115996014}
   - {fileID: 358534688}
-  - {fileID: 1878930893}
   - {fileID: 502937969}
+  - {fileID: 954917536}
