@@ -11,7 +11,7 @@ public class NextEncounter : MonoBehaviour
     [SerializeField] private List<GameObject> EnemyContainers;
     [SerializeField] private BattleManager battleManager;
     [SerializeField] private EnemySpawner enemySpawner;
-    List<List<BattleUnit>> preparedEncounters = new List<List<BattleUnit>>();
+    //List<List<BattleUnit>> preparedEncounters = new List<List<BattleUnit>>();
     private EnemyEncounters enemyEncounter;
     private int enemyCount = 3;
     private string NextEncounterMessage;
@@ -24,24 +24,20 @@ public class NextEncounter : MonoBehaviour
 
     public void ShowEncounterScreen()
     {
-        preparedEncounters.Clear();
+        // Do NOT clear a local list anymore
+        // preparedEncounters.Clear();  // remove this line
 
         for (int i = 0; i < EnemyContainers.Count; i++)
         {
-            // Prepare encounter i
-            List<BattleUnit> encounter = enemySpawner.PrepareSpawn();
-            preparedEncounters.Add(encounter);
+            List<BattleUnit> encounter = enemySpawner.PrepareSpawn(i);
 
-            // Get the UI script for this encounter card
             EnemyEncounters encounterUI = EnemyContainers[i].GetComponent<EnemyEncounters>();
-
             if (encounterUI == null)
             {
                 Debug.LogError($"EnemyEncounters script missing on container {i}: {EnemyContainers[i].name}");
                 continue;
             }
 
-            // Fill UI for each enemy in this encounter
             for (int j = 0; j < encounter.Count; j++)
             {
                 var data = encounter[j].GetEnemy().GetEnemyData();
@@ -54,15 +50,11 @@ public class NextEncounter : MonoBehaviour
                 );
             }
 
-            // Hide unused slots
             encounterUI.HideUnusedSlots(encounter.Count);
-
-            // Activate the container for this encounter
             EnemyContainers[i].SetActive(true);
         }
-
-
     }
+
 
 
 

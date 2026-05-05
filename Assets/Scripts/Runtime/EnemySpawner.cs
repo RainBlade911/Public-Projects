@@ -10,6 +10,8 @@ public class EnemySpawner : MonoBehaviour
 
     private const int MAX_SPAWN_COUNT = 3;
 
+    private const int ENCOUNTER_COUNT = 3;  
+
     // Store ALL encounters here
     private List<List<BattleUnit>> preparedEncounters = new List<List<BattleUnit>>();
 
@@ -18,24 +20,74 @@ public class EnemySpawner : MonoBehaviour
 
     public static event Action<BattleUnit> OnEnemySpawned;
 
+    private bool ValidEncounter = false;
+
     // Called by NextEncounter for EACH encounter card
-    public List<BattleUnit> PrepareSpawn()
+    //public List<BattleUnit> PrepareSpawn()
+    //{
+    //    Debug.Log("Preparing enemies for a new encounter...");
+
+    //    List<BattleUnit> encounter = new List<BattleUnit>();
+
+    //    int count = Random.Range(1, MAX_SPAWN_COUNT + 1);
+
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        int randomIndex = Random.Range(0, enemyPrefabs.Count);
+    //        encounter.Add(enemyPrefabs[randomIndex]);
+    //    }
+
+    //    preparedEncounters.Add(encounter);
+    //    return encounter;
+    //}
+
+    public List<BattleUnit> PrepareSpawn(int tier)
     {
-        Debug.Log("Preparing enemies for a new encounter...");
+        Debug.Log($"Preparing encounter for tier {tier}...");
 
-        List<BattleUnit> encounter = new List<BattleUnit>();
+        int lowerBound = tier * 7 + 1;
+        int upperBound = lowerBound + 6;
 
-        int count = Random.Range(1, MAX_SPAWN_COUNT + 1);
+        const int MAX_ATTEMPTS = 500;
+        List<BattleUnit> lastEncounter = null;
+        int lastDifficulty = 0;
 
-        for (int i = 0; i < count; i++)
+        for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
         {
-            int randomIndex = Random.Range(0, enemyPrefabs.Count);
-            encounter.Add(enemyPrefabs[randomIndex]);
+            List<BattleUnit> encounter = new List<BattleUnit>();
+            int difficultySum = 0;
+
+            int count = Random.Range(1, MAX_SPAWN_COUNT + 1);
+
+            for (int i = 0; i < count; i++)
+            {
+                int randomIndex = Random.Range(0, enemyPrefabs.Count);
+                BattleUnit enemy = enemyPrefabs[randomIndex];
+
+                encounter.Add(enemy);
+                difficultySum += enemy.GetEnemy().GetEnemyData().GetDifficulty();
+            }
+
+            lastEncounter = encounter;
+            lastDifficulty = difficultySum;
+
+            if (difficultySum >= lowerBound && difficultySum <= upperBound)
+            {
+                preparedEncounters.Add(encounter);
+                return encounter;
+            }
         }
 
-        preparedEncounters.Add(encounter);
-        return encounter;
+        Debug.LogWarning(
+            $"EnemySpawner: Could not find encounter in [{lowerBound}, {upperBound}] after {MAX_ATTEMPTS} attempts. " +
+            $"Using closest difficulty {lastDifficulty} instead."
+        );
+
+        preparedEncounters.Add(lastEncounter);
+        return lastEncounter;
     }
+
+
 
     // Called by BattleManager AFTER player selects an encounter
     public List<BattleUnit> GetPreparedEnemies(int index)

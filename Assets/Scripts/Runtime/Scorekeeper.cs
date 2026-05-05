@@ -32,7 +32,7 @@ public class Scorekeeper : MonoBehaviour
     public void CalculateFinalScore()
     {
         FinalScore = currentScore * (1 + (RoundCounter/4f));
-        Debug.Log($"FINAL SCORE: {FinalScore} (Base Score: {currentScore}, Round Multiplier: {(1 + (RoundCounter/4))})");
+        Debug.Log($"FINAL SCORE: {FinalScore} (Base Score: {currentScore}, Round Multiplier: {(1 + (RoundCounter/4f))})");
     }
 
     public float GetFinalScore()

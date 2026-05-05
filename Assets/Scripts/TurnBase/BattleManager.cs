@@ -251,7 +251,6 @@ public class BattleManager : MonoBehaviour
     private IEnumerator HandlePlayerDefeat()
     {
         Scorekeeper.Instance.CalculateFinalScore();
-        Scorekeeper.Instance.ResetScore();
         yield return new WaitForSeconds(1f);
         SceneTransitionManager.LoadSceneWithTransition(deathSceneName);
     }

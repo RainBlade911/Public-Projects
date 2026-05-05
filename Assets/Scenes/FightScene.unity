@@ -1634,6 +1634,8 @@ MonoBehaviour:
   - {fileID: 7878119514747652129, guid: 68b192e563e20574195865d326ea4a52, type: 3}
   - {fileID: 7878119514747652129, guid: 3145fcd814ebe4b5293129f34cb16d8c, type: 3}
   - {fileID: 7878119514747652129, guid: 8f02cd903e0eb7245a9240eaf4e9f415, type: 3}
+  - {fileID: 7878119514747652129, guid: 365460de634d02449a576a36e58f9fe1, type: 3}
+  - {fileID: 7878119514747652129, guid: 06df14244843c5b42b1ee3e202fc9545, type: 3}
   spawnPoints:
   - {fileID: 1736892679}
   - {fileID: 1708148785}
@@ -3853,8 +3855,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enemy Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 241c6acceca8b844baad6cbcf60cefc7, type: 2}
+  m_sharedMaterial: {fileID: -699112959996641730, guid: 241c6acceca8b844baad6cbcf60cefc7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3878,7 +3880,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.15
+  m_fontSize: 24.25
   m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11478,7 +11480,7 @@ MonoBehaviour:
   currentMana: 15
   speed: 5
   playerUnit: {fileID: 1523638975}
-  moveSet: {fileID: 11400000, guid: 49ece827812c0414ba7330d38aefe91b, type: 2}
+  moveSet: {fileID: 11400000, guid: d64dd5d385b32524e9de03bcba0ba6be, type: 2}
 --- !u!114 &1523638973
 MonoBehaviour:
   m_ObjectHideFlags: 0
