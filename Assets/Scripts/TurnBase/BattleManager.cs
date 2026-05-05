@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class BattleManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
     [SerializeField] private RaycastSelectionManager selectionManager;
     [SerializeField] private ParticlePlayer particlePlayer;
+
 
     private bool cont = false;
 
@@ -89,6 +91,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator AttackRoutine(Move move)
     {
+        // 1. Player attack animation FIRST
         animator.SetTrigger("AttackTrigger");
 
         Vector3 hitPos = currentEnemy.transform.position + move.getOffset();
@@ -102,7 +105,7 @@ public class BattleManager : MonoBehaviour
         float multiplier = GetAffinityMultiplier(moveAffinity, enemyAffinity, out effectivenessMessage);
         float finalDamage = baseDamage * multiplier;
 
-        // Show player attack text immediately
+        // 2. Show player attack text immediately
         string text = "The Player used " + move.getMoveName() + "!";
         if (!string.IsNullOrEmpty(effectivenessMessage))
             text += "\n" + effectivenessMessage;
@@ -110,24 +113,32 @@ public class BattleManager : MonoBehaviour
         playerActionUI.SetActionText(text);
         playerActionUI.SetTextActive();
 
-        // Play particle while text is visible
+        // 3. Play particle WHILE the attack animation is happening
         if (hitEffect != null)
         {
             particlePlayer.PlayAttackParticle(hitPos, hitEffect, currentEnemy.transform);
             yield return new WaitForSeconds(hitEffect.main.duration);
         }
 
-        // Apply damage
+        // 4. Play enemy damage reaction BEFORE applying damage
+        var enemyAnim = currentEnemy.GetComponent<EnemyAnimatorHandler>();
+        if (enemyAnim != null)
+        {
+            enemyAnim.ResetDamageTrigger();
+            enemyAnim.PlayDamage();
+        }
+        // 5. Apply damage
         currentEnemy.ApplyDamage(finalDamage);
         playerManager.ApplyManaCost(move.getManaCost());
         playerManager.SetAffinity(moveAffinity);
 
-        // Hide UI
+        // 6. Hide UI
         playerActionUI.HideText();
 
         inputLocked = false;
         PlayerAttackInProgress = false;
     }
+
 
     // ============================
     // ENEMY ATTACK
@@ -166,6 +177,13 @@ public class BattleManager : MonoBehaviour
         float finalDamage = baseDamage * multiplier;
 
         LastEnemyEffectivenessMessage = effectivenessMessage;
+
+        var anim = enemy.GetComponent<EnemyAnimatorHandler>();
+        if (anim != null)
+        {
+            anim.ResetAttackTrigger();
+            anim.PlayAttack();
+        }
 
         enemyBattleUIHandler.ShowEnemyAttackMessage(enemy.GetName(), enemyMove, effectivenessMessage);
 
