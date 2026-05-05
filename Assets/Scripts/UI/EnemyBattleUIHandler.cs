@@ -34,4 +34,10 @@ public class EnemyBattleUIHandler : MonoBehaviour
         battleManager.ContinueBattle();
         enemyAttackUI.SetActive(false);
     }
+
+    public void ResetContinue()
+    {
+        Continue = false;
+    }
+
 }

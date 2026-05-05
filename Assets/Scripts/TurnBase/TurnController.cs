@@ -16,9 +16,6 @@ public class TurnController : MonoBehaviour
     [SerializeField] private EnemyBattleUIHandler enemyBattleUIHandler;
 
     private bool actionSelected = false;
-    private bool battleStopped = false;
-
-
 
     // ============================
     // BATTLE START
@@ -26,11 +23,10 @@ public class TurnController : MonoBehaviour
 
     public void OnBattleStart()
     {
-        battleStopped = false;
         turnIndex = 0;
 
         DetermineTurnOrder();
-        turnOrderSlider.UpdateTurnOrder(turnOrderToUI());
+        turnOrderSlider.UpdateTurnOrder(TurnOrderToUI());
 
         Debug.Log("=== TURN ORDER ===");
         for (int i = 0; i < orderedUnits.Count; i++)
@@ -40,16 +36,14 @@ public class TurnController : MonoBehaviour
         StartNextTurn();
     }
 
-    public void StopBattleFlow()
+    public void OnBattleEnded()
     {
-        battleStopped = true;
-        actionSelected = false;
         playerMenus.SetAllInactive();
         playerActionUI.HideText();
-        Debug.Log("TurnController: Battle flow stopped.");
+        Debug.Log("TurnController: Battle ended. Turn flow stopped.");
     }
 
-    private Sprite[] turnOrderToUI()
+    private Sprite[] TurnOrderToUI()
     {
         Sprite[] sprites = new Sprite[orderedUnits.Count];
 
@@ -67,14 +61,14 @@ public class TurnController : MonoBehaviour
     // ============================
     private void StartNextTurn()
     {
-        if (battleStopped) return;
+        if (battleManager.BattleEnded) return;
         if (orderedUnits.Count == 0) return;
 
         BattleUnit currentUnit = orderedUnits[turnIndex];
 
         Debug.Log($"It's {currentUnit.GetName()}'s turn!");
 
-        turnOrderSlider.UpdateTurnOrder(turnOrderToUI());
+        turnOrderSlider.UpdateTurnOrder(TurnOrderToUI());
 
         if (currentUnit.IsPlayer())
             StartPlayerTurn(currentUnit);
@@ -86,19 +80,24 @@ public class TurnController : MonoBehaviour
 
     private void EndTurn()
     {
-        if (battleStopped) return;
+        if (battleManager.BattleEnded) return;
 
         StartCoroutine(WaitAndStartNextTurn());
     }
 
     private IEnumerator WaitAndStartNextTurn()
     {
-        // Wait for player attack to finish
-        yield return new WaitUntil(() => !battleManager.playerAttackInProgress);
+        // Wait for any attack and enemy UI to finish, or battle to end
+        yield return new WaitUntil(() =>
+            battleManager.BattleEnded ||
+            (!battleManager.PlayerAttackInProgress &&
+             !battleManager.EnemyAttackInProgress &&
+             !battleManager.EnemyUIActive));
+
+        if (battleManager.BattleEnded) yield break;
 
         StartNextTurn();
     }
-
 
     // ============================
     // TURN ORDER SETUP
@@ -124,7 +123,7 @@ public class TurnController : MonoBehaviour
     // ============================
     private void StartPlayerTurn(BattleUnit player)
     {
-        if (battleStopped) return;
+        if (battleManager.BattleEnded) return;
 
         Debug.Log("Player's turn started. Awaiting player action...");
         StartCoroutine(PlayerActionRoutine(player));
@@ -135,26 +134,21 @@ public class TurnController : MonoBehaviour
         actionSelected = false;
         playerMenus.ChangeUITo("Default");
 
-        yield return new WaitUntil(() => actionSelected || battleStopped);
+        // Wait until the player chooses an action or the battle ends
+        yield return new WaitUntil(() => actionSelected || battleManager.BattleEnded);
 
-        if (battleStopped) yield break;
+        if (battleManager.BattleEnded) yield break;
 
         playerMenus.SetAllInactive();
-        playerActionUI.SetTextActive();
 
-        yield return new WaitForSeconds(1f);
+        Debug.Log("Player action selected. Waiting for attack to resolve...");
 
-        if (battleStopped) yield break;
-
-        playerActionUI.HideText();
-
-        Debug.Log("Player action completed.");
         EndTurn();
     }
 
     public void ActionSelected()
     {
-        if (battleStopped) return;
+        if (battleManager.BattleEnded) return;
         actionSelected = true;
     }
 
@@ -163,7 +157,7 @@ public class TurnController : MonoBehaviour
     // ============================
     private void StartEnemyTurn(BattleUnit enemy)
     {
-        if (battleStopped) return;
+        if (battleManager.BattleEnded) return;
 
         Debug.Log("ENEMY TURN: " + enemy.GetName());
         StartCoroutine(EnemyActionRoutine(enemy));
@@ -171,26 +165,25 @@ public class TurnController : MonoBehaviour
 
     private IEnumerator EnemyActionRoutine(BattleUnit enemy)
     {
+        // Hide player menus as soon as enemy turn starts
+        playerMenus.SetAllInactive();
+        playerActionUI.HideText();
+
+        enemyBattleUIHandler.ResetContinue();
+
+
         battleManager.EnemyAttack(enemy);
 
-        //enemyBattleUIHandler.ShowEnemyAttackMessage(
-        //    enemy.GetName(),
-        //    battleManager.enemyMove
-        //);
+        // Wait for enemy UI "Continue" or battle end
+        yield return new WaitUntil(() =>
+            enemyBattleUIHandler.Continue || battleManager.BattleEnded);
 
-        yield return new WaitUntil(() => enemyBattleUIHandler.Continue || battleStopped);
-
-        if (battleStopped) yield break;
-
-        playerActionUI.HideText();
-        playerMenus.SetAllInactive();
+        if (battleManager.BattleEnded) yield break;
 
         Debug.Log($"{enemy.GetName()} attacks!");
 
-
         EndTurn();
     }
-
 
     // ============================
     // UNIT REMOVAL
@@ -208,7 +201,7 @@ public class TurnController : MonoBehaviour
             if (removedIndex < turnIndex)
                 turnIndex--;
 
-            if (turnIndex >= orderedUnits.Count)
+            if (turnIndex >= orderedUnits.Count && orderedUnits.Count > 0)
                 turnIndex = 0;
         }
 
