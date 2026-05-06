@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 310db2d942780894db249bd88609e5be, type: 3}
-  m_Name: BIG Fireball
+  m_Name: Water Beam
   m_EditorClassIdentifier: Assembly-CSharp::Move
-  moveName: Fire Rain
-  damage: 8
-  type: {fileID: 11400000, guid: 97e87a8f85fbcfd44a2d81a45fc8d8e2, type: 2}
-  manaCost: 3
-  moveEffectPrefab: {fileID: 1464727972025482292, guid: ae31bd76404dc5f489339bd0b499df41, type: 3}
-  offset: {x: -2, y: 5, z: -2}
+  moveName: Water Beam
+  damage: 5
+  type: {fileID: 11400000, guid: 78c7d96016c4a7a49b4157b6186902e3, type: 2}
+  manaCost: 2
+  moveEffectPrefab: {fileID: 6908004891870850616, guid: d0ee5cbc52e3d2d4f961b03f4a5941d2, type: 3}
+  offset: {x: -3.5, y: 1.5, z: -3.5}

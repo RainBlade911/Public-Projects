@@ -12054,6 +12054,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9edd985d6dace8348bd39b651f7ed809, type: 2}
   - {fileID: 11400000, guid: a0af4f9dfa80ad14caa0affe97ddaae6, type: 2}
   - {fileID: 11400000, guid: 9ea8a43cd87d0a74681abbebc04761a4, type: 2}
+  - {fileID: 11400000, guid: eaecbffbd513a854da0e09d7d5f7b1f7, type: 2}
   supportItemRewardPool:
   - Health Potion
   - Mana Potion
