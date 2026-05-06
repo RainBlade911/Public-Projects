@@ -8,37 +8,54 @@ public class EnemyEncounters : MonoBehaviour
 {
     [SerializeField] private List<GameObject> EnemyInfo = new List<GameObject>();
 
-    public void SetEnemyInfo(int index, string enemyName, string affinity, Sprite enemyIcon)
+    public void SetEnemyInfo(int index, string enemyName, string affinity, Sprite enemyIcon, bool isBoss = false)
+{
+    if (EnemyInfo[index] == null)
     {
-        if (EnemyInfo[index] == null)
+        Debug.LogError($"EnemyInfo[{index}] is NULL on {name}");
+        return;
+    }
+
+    Transform stuff = EnemyInfo[index].transform;
+
+    var nameObj = stuff.Find("EnemyName");
+    var affinityObj = stuff.Find("Affinity");
+    var iconObj = stuff.Find("EnemyIcon");
+
+    if (nameObj == null)
+        Debug.LogError($"EnemyName NOT FOUND under {EnemyInfo[index].name}");
+
+    if (affinityObj == null)
+        Debug.LogError($"Affinity NOT FOUND under {EnemyInfo[index].name}");
+
+    if (iconObj == null)
+        Debug.LogError($"EnemyIcon NOT FOUND under {EnemyInfo[index].name}");
+
+    if (nameObj && affinityObj && iconObj)
+    {
+        var nameText = nameObj.GetComponent<TextMeshProUGUI>();
+        var affinityText = affinityObj.GetComponent<TextMeshProUGUI>();
+
+        nameText.text = enemyName;
+        affinityText.text = affinity;
+
+        iconObj.GetComponent<Image>().sprite = enemyIcon;
+
+        // Added: boss visual distinction
+        if (isBoss)
         {
-            Debug.LogError($"EnemyInfo[{index}] is NULL on {name}");
-            return;
+            nameText.color = Color.red;
+            affinityText.color = Color.red;
+
+            nameText.text = enemyName;
         }
-
-        Transform stuff = EnemyInfo[index].transform;
-
-        var nameObj = stuff.Find("EnemyName");
-        var affinityObj = stuff.Find("Affinity");
-        var iconObj = stuff.Find("EnemyIcon");
-
-        if (nameObj == null)
-            Debug.LogError($"EnemyName NOT FOUND under {EnemyInfo[index].name}");
-
-        if (affinityObj == null)
-            Debug.LogError($"Affinity NOT FOUND under {EnemyInfo[index].name}");
-
-        if (iconObj == null)
-            Debug.LogError($"EnemyIcon NOT FOUND under {EnemyInfo[index].name}");
-
-        // Only assign if all exist
-        if (nameObj && affinityObj && iconObj)
+        else
         {
-            nameObj.GetComponent<TextMeshProUGUI>().text = enemyName;
-            affinityObj.GetComponent<TextMeshProUGUI>().text = affinity;
-            iconObj.GetComponent<Image>().sprite = enemyIcon;
+            nameText.color = Color.white;
+            affinityText.color = Color.white;
         }
     }
+}
 
     public void HideUnusedSlots(int enemyCount)
     {

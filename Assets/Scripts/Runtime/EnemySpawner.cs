@@ -5,7 +5,14 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [Header("Normal Enemy Prefabs")]
     [SerializeField] private List<BattleUnit> enemyPrefabs;
+
+    [Header("Boss Prefab")]
+    [SerializeField] private BattleUnit bossPrefab;
+    [SerializeField] private float bossEncounterChance = 0.15f;
+
+    [Header("Spawn Points")]
     [SerializeField] private Transform[] spawnPoints;
 
     private const int MAX_SPAWN_COUNT = 3;
@@ -14,12 +21,15 @@ public class EnemySpawner : MonoBehaviour
 
     // Store ALL encounters here
     private List<List<BattleUnit>> preparedEncounters = new List<List<BattleUnit>>();
+    private List<bool> preparedEncounterIsBoss = new List<bool>();
 
-    // Tracks which enemy to spawn during battle
+    private List<BattleUnit> currentEncounter;
+    private bool currentEncounterIsBoss = false;
     private int nextIndex = 0;
 
     public static event Action<BattleUnit> OnEnemySpawned;
 
+<<<<<<< HEAD
     private bool ValidEncounter = false;
 
     // Called by NextEncounter for EACH encounter card
@@ -51,6 +61,20 @@ public class EnemySpawner : MonoBehaviour
         const int MAX_ATTEMPTS = 500;
         List<BattleUnit> lastEncounter = null;
         int lastDifficulty = 0;
+
+        //bool spawnBoss = bossPrefab != null && Random.value <= bossEncounterChance;
+
+        //if (spawnBoss)
+        //{
+        //    encounter.Add(bossPrefab);
+        //    preparedEncounters.Add(encounter);
+        //    preparedEncounterIsBoss.Add(true);
+
+        //    Debug.Log("Prepared boss encounter.");
+        //    return encounter;
+        //}
+
+        int count = Random.Range(1, MAX_SPAWN_COUNT + 1);
 
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
         {
@@ -89,20 +113,37 @@ public class EnemySpawner : MonoBehaviour
 
 
 
-    // Called by BattleManager AFTER player selects an encounter
+        preparedEncounters.Add(encounter);
+        //preparedEncounterIsBoss.Add(false);
+
+        return encounter;
+    }
+
+
     public List<BattleUnit> GetPreparedEnemies(int index)
     {
         return preparedEncounters[index];
     }
 
-    // Called by BattleManager to spawn enemies from the selected encounter
+    public bool IsPreparedEncounterBoss(int index)
+    {
+        if (index < 0 || index >= preparedEncounterIsBoss.Count)
+            return false;
+
+        return preparedEncounterIsBoss[index];
+    }
+
+    public bool IsCurrentEncounterBoss()
+    {
+        return currentEncounterIsBoss;
+    }
+
     public void BeginSpawningEncounter(int encounterIndex)
     {
         nextIndex = 0;
         currentEncounter = preparedEncounters[encounterIndex];
+        currentEncounterIsBoss = IsPreparedEncounterBoss(encounterIndex);
     }
-
-    private List<BattleUnit> currentEncounter;
 
     public BattleUnit SpawnNext()
     {
@@ -119,6 +160,12 @@ public class EnemySpawner : MonoBehaviour
         BattleUnit prefab = currentEncounter[nextIndex];
 
         BattleUnit enemy = Instantiate(prefab, point.position, point.rotation);
+
+        if (currentEncounterIsBoss)
+        {
+            enemy.transform.localScale *= 1.5f;
+        }
+
         OnEnemySpawned?.Invoke(enemy);
 
         nextIndex++;

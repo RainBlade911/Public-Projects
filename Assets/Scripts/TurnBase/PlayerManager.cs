@@ -30,13 +30,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float currentMana = 10f;
     [SerializeField] private float speed = 5f;
 
+    [Header("Boss Reward Damage Multipliers")]
+    [SerializeField] private float EOS = 1f;
+    [SerializeField] private float EOK = 1f;
+
     [Header("Battle Unit Reference")]
     [SerializeField] private BattleUnit playerUnit;
 
     private bool initialized = false;
 
     [SerializeField] private MoveSet moveSet; // ScriptableObject containing moves
-
 
     private void Awake()
     {
@@ -49,8 +52,6 @@ public class PlayerManager : MonoBehaviour
         Instance = this;
         moves = new List<Move>(moveSet.GetMoves());
     }
-
-    
 
     private void Start()
     {
@@ -73,11 +74,16 @@ public class PlayerManager : MonoBehaviour
             moves = new List<Move>(PlayerState.Instance.learnedMoves);
             supportItems = new List<string>(PlayerState.Instance.supportItems);
 
+            EOS = PlayerState.Instance.EOS;
+            EOK = PlayerState.Instance.EOK;
+
             Debug.Log(
                 "PlayerManager: Restored saved state. " +
                 "HP: " + currentHealth + "/" + maxHealth +
                 ", Mana: " + currentMana + "/" + maxMana +
                 ", Speed: " + speed +
+                ", EOS: " + EOS +
+                ", EOK: " + EOK +
                 ", Moves: " + moves.Count +
                 ", Items: " + supportItems.Count
             );
@@ -90,6 +96,9 @@ public class PlayerManager : MonoBehaviour
             moves = new List<Move>(moveSet.GetMoves());
 
             supportItems = new List<string>();
+
+            EOS = 1f;
+            EOK = 1f;
 
             Debug.Log(
                 "PlayerManager: Initialized fresh state. " +
@@ -229,6 +238,52 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("PlayerManager: Speed increased by " + amount + ". New Speed: " + speed);
     }
 
+    public void UpgradeEOS()
+    {
+        EOS += 0.1f;
+        Debug.Log("Essence of Strength upgraded. New EOS multiplier: " + EOS);
+    }
+
+    public void UpgradeEOK()
+    {
+        EOK += 0.05f;
+        Debug.Log("Essence of Knowledge upgraded. New EOK multiplier: " + EOK);
+    }
+
+    public void SetEOS(float value)
+    {
+        EOS = Mathf.Max(1f, value);
+    }
+
+    public void SetEOK(float value)
+    {
+        EOK = Mathf.Max(1f, value);
+    }
+
+    public float GetEOS()
+    {
+        return EOS;
+    }
+
+    public float GetEOK()
+    {
+        return EOK;
+    }
+
+    public float GetDamageMultiplierForMove(Move move)
+    {
+        if (move == null)
+            return 1f;
+
+        // EOS only applies to Strike.
+        // EOK only applies to non-Strike moves.
+        // These are intentionally not multiplied together.
+        if (move.getMoveName() == "Strike")
+            return EOS;
+
+        return EOK;
+    }
+
     public void SetAffinity(Affinity newAffinity)
     {
         currentAffinity = newAffinity;
@@ -296,7 +351,9 @@ public class PlayerManager : MonoBehaviour
             maxMana,
             speed,
             moves,
-            supportItems
+            supportItems,
+            EOS,
+            EOK
         );
     }
 
