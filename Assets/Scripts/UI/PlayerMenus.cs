@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMenus : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerMenus : MonoBehaviour
 
     [SerializeField] private AttackButton[] attackButtons;
     [SerializeField] private SupportItemButton[] itemButtons;
+    [SerializeField] private GameObject BackButton;
 
     public void FillAttackMenu()
     {
@@ -57,29 +59,35 @@ public class PlayerMenus : MonoBehaviour
     public void ChangeUITo(string menu)
     {
         Debug.Log("Changing menu to: " + menu);
+        BackButton.SetActive(true);
 
         switch (menu)
         {
             case "Attack":
                 Debug.Log("Attack");
                 SetSoloActive(attackMenu);
+                BackButton.SetActive(true);
                 FillAttackMenu();
                 break;
 
             case "Block":
                 Debug.Log("Block");
                 SetSoloActive(BlockMenu);
+
+                BackButton.SetActive(true);
                 break;
 
             case "Use Item":
                 Debug.Log("Use Item");
                 SetSoloActive(ItemMenu);
+                BackButton.SetActive(true);
                 FillItemMenu();
                 break;
 
             case "Default":
                 Debug.Log("Default");
                 SetSoloActive(DefaultMenu);
+                BackButton.SetActive(false);
                 break;
 
             default:
@@ -103,5 +111,6 @@ public class PlayerMenus : MonoBehaviour
         ItemMenu.SetActive(false);
         BlockMenu.SetActive(false);
         DefaultMenu.SetActive(false);
+        BackButton.SetActive(false);
     }
 }

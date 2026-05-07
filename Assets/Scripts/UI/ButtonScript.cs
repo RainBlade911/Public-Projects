@@ -27,4 +27,9 @@ public class ButtonScript : MonoBehaviour
     {
         turnController.ActionSelected();
     }
+
+    public void GoHome()
+    {
+        playerMenus.ChangeUITo("Default");
+    }
 }

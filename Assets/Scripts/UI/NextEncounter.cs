@@ -27,35 +27,68 @@ public class NextEncounter : MonoBehaviour
         // Do NOT clear a local list anymore
         // preparedEncounters.Clear();  // remove this line
 
-        for (int i = 0; i < EnemyContainers.Count; i++)
+        int roundCount = Scorekeeper.Instance.GetRoundCount() + 2;
+        Debug.Log("Round Count is: " + roundCount);
+
+        if (roundCount > 0 && roundCount % 5 == 0)
         {
-            List<BattleUnit> encounter = enemySpawner.PrepareSpawn(i);
+            // Prepare boss encounter properly
+            List<BattleUnit> bossEncounter = enemySpawner.PrepareBossEncounter();
 
-            EnemyEncounters encounterUI = EnemyContainers[i].GetComponent<EnemyEncounters>();
-            if (encounterUI == null)
+            // Fill UI for container 0
+            EnemyEncounters bossUI = EnemyContainers[0].GetComponent<EnemyEncounters>();
+            var data = bossEncounter[0].GetEnemy().GetEnemyData();
+
+            bossUI.SetEnemyInfo(
+                0,
+                data.GetEnemyName(),
+                data.GetAffinity().GetAffinityName(),
+                data.GetSprite(),
+                true
+            );
+
+            bossUI.HideUnusedSlots(1);
+            EnemyContainers[0].SetActive(true);
+
+            // Hide the other encounter cards
+            for (int i = 1; i < EnemyContainers.Count; i++)
+                EnemyContainers[i].SetActive(false);
+
+            return; // IMPORTANT: stop here so normal encounters don't generate
+        }
+        else
+        {
+
+            for (int i = 0; i < EnemyContainers.Count; i++)
             {
-                Debug.LogError($"EnemyEncounters script missing on container {i}: {EnemyContainers[i].name}");
-                continue;
+                List<BattleUnit> encounter = enemySpawner.PrepareSpawn(i);
+
+                EnemyEncounters encounterUI = EnemyContainers[i].GetComponent<EnemyEncounters>();
+                if (encounterUI == null)
+                {
+                    Debug.LogError($"EnemyEncounters script missing on container {i}: {EnemyContainers[i].name}");
+                    continue;
+                }
+
+                // Fill UI for each enemy in this encounter
+                //bool isBoss = enemySpawner.IsPreparedEncounterBoss(i);
+
+                for (int j = 0; j < encounter.Count; j++)
+                {
+                    var data = encounter[j].GetEnemy().GetEnemyData();
+
+                    encounterUI.SetEnemyInfo(
+                        j,
+                        data.GetEnemyName(),
+                        data.GetAffinity().GetAffinityName(),
+                        data.GetSprite(),
+                        false
+                    );
+                }
+
+                encounterUI.HideUnusedSlots(encounter.Count);
+                EnemyContainers[i].SetActive(true);
             }
-
-            // Fill UI for each enemy in this encounter
-            //bool isBoss = enemySpawner.IsPreparedEncounterBoss(i);
-
-            for (int j = 0; j < encounter.Count; j++)
-            {
-                var data = encounter[j].GetEnemy().GetEnemyData();
-
-                encounterUI.SetEnemyInfo(
-                    j,
-                    data.GetEnemyName(),
-                    data.GetAffinity().GetAffinityName(),
-                    data.GetSprite(),
-                    isBoss
-                );
-            }
-
-            encounterUI.HideUnusedSlots(encounter.Count);
-            EnemyContainers[i].SetActive(true);
         }
     }
 

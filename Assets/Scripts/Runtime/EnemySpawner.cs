@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
 
     private const int MAX_SPAWN_COUNT = 3;
 
-    private const int ENCOUNTER_COUNT = 3;  
+    private const int ENCOUNTER_COUNT = 3;
 
     // Store ALL encounters here
     private List<List<BattleUnit>> preparedEncounters = new List<List<BattleUnit>>();
@@ -29,7 +29,6 @@ public class EnemySpawner : MonoBehaviour
 
     public static event Action<BattleUnit> OnEnemySpawned;
 
-<<<<<<< HEAD
     private bool ValidEncounter = false;
 
     // Called by NextEncounter for EACH encounter card
@@ -74,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
         //    return encounter;
         //}
 
-        int count = Random.Range(1, MAX_SPAWN_COUNT + 1);
+        //int count = Random.Range(1, MAX_SPAWN_COUNT + 1);
 
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
         {
@@ -111,13 +110,32 @@ public class EnemySpawner : MonoBehaviour
         return lastEncounter;
     }
 
-
+    public List<BattleUnit> PrepareBossEncounter()
+    {
+        List<BattleUnit> encounter = new List<BattleUnit>();
+        encounter.Add(bossPrefab);
 
         preparedEncounters.Add(encounter);
-        //preparedEncounterIsBoss.Add(false);
+        preparedEncounterIsBoss.Add(true);
 
+        Debug.Log("Prepared boss encounter.");
         return encounter;
     }
+
+
+    public BattleUnit SpawnBoss()
+    {
+        return bossPrefab;
+    }
+
+
+
+
+    //    preparedEncounters.Add(encounter);
+    //    //preparedEncounterIsBoss.Add(false);
+
+    //    return encounter;
+    //}
 
 
     public List<BattleUnit> GetPreparedEnemies(int index)
@@ -163,7 +181,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (currentEncounterIsBoss)
         {
-            enemy.transform.localScale *= 1.5f;
+            enemy.transform.localScale *= 1f;
         }
 
         OnEnemySpawned?.Invoke(enemy);

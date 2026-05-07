@@ -7,7 +7,7 @@ public class Scorekeeper : MonoBehaviour
 
     private int currentScore = 0;
 
-    private int RoundCounter = -1;
+    [SerializeField] private int RoundCounter = -1;
 
     public static Scorekeeper Instance;
 
@@ -50,6 +50,11 @@ public class Scorekeeper : MonoBehaviour
         currentScore = 0;
         RoundCounter = -1;
         FinalScore = 0;
+    }
+
+    public int GetRoundCount()
+    {
+        return RoundCounter;
     }
 
     

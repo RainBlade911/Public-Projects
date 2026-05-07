@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -40,6 +41,8 @@ public class PlayerManager : MonoBehaviour
     private bool initialized = false;
 
     [SerializeField] private MoveSet moveSet; // ScriptableObject containing moves
+
+    [SerializeField] TextMeshProUGUI AffinityText;
 
     private void Awake()
     {
@@ -110,6 +113,8 @@ public class PlayerManager : MonoBehaviour
 
         currentAffinity = defaultAffinity;
         Debug.Log("Player affinity reset to: " + GetAffinityName());
+
+        AffinityText.text = currentAffinity.GetAffinityName();
 
         UpdateBars();
         initialized = true;
@@ -288,6 +293,8 @@ public class PlayerManager : MonoBehaviour
     {
         currentAffinity = newAffinity;
         Debug.Log("Player affinity changed to: " + GetAffinityName());
+
+        AffinityText.text = currentAffinity.GetAffinityName();
     }
 
     public Affinity GetAffinity()

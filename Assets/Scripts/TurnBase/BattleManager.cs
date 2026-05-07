@@ -131,7 +131,7 @@ public class BattleManager : MonoBehaviour
             text += "\n" + effectivenessMessage;
 
         // Added debug-style player text so you can verify the correct multiplier is working
-        text += "\nDamage Multiplier: x" + bossRewardMultiplier.ToString("0.00");
+        //text += "\nDamage Multiplier: x" + bossRewardMultiplier.ToString("0.00");
 
         playerActionUI.SetActionText(text);
         playerActionUI.SetTextActive();

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: King Shepherd
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   EnemyName: King Shepherd
-  Health: 50
+  Health: 35
   moves: {fileID: 11400000, guid: ea16640854e6b40609978839bbcac86c, type: 2}
   affinity: {fileID: 11400000, guid: 95ce979dc82ded14e97288118dc77ca2, type: 2}
   speed: 3
   enemySprite: {fileID: 21300000, guid: 26409601273d3254aaedc67829ebb98b, type: 3}
+  difficulty: 10
