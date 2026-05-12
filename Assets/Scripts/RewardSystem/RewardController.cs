@@ -9,12 +9,15 @@ public class RewardController : MonoBehaviour
     [SerializeField] private List<Move> moveRewardPool = new();
 
     [Header("Support Item Reward Pool")]
-    [SerializeField] private List<string> supportItemRewardPool = new() { "Health Potion", "Mana Potion" };
+    [SerializeField] private List<string> supportItemRewardPool = new() { "Health Potion", "Mana Potion", "Elixir Potion" };
 
     [Header("UI")]
     [SerializeField] private GameObject rewardUI;
     [SerializeField] private CanvasGroup rewardCanvasGroup;
     [SerializeField] private string fightSceneName = "FightScene";
+
+    [Header("Reward Wheel")]
+    [SerializeField] private RewardWheelSpinner rewardWheelSpinner;
 
     [Header("Reward Transition")]
     [SerializeField] private float rewardDelayBetweenChoices = 0.5f;
@@ -27,6 +30,9 @@ public class RewardController : MonoBehaviour
     {
         if (rewardUI != null && rewardCanvasGroup == null)
             rewardCanvasGroup = rewardUI.GetComponent<CanvasGroup>();
+
+        if (rewardWheelSpinner != null)
+            rewardWheelSpinner.HideWheel();
     }
 
     public void SetPendingRewardChoices(int amount)
@@ -91,26 +97,39 @@ public class RewardController : MonoBehaviour
         if (rewardChoiceLocked) return;
         rewardChoiceLocked = true;
 
+        StartCoroutine(ApplyRandomEquipmentUpgradeRoutine());
+    }
+
+    private IEnumerator ApplyRandomEquipmentUpgradeRoutine()
+    {
         if (PlayerManager.Instance == null)
         {
             Debug.LogError("RewardController: No PlayerManager instance found.");
-            return;
+            yield break;
         }
 
-        int roll = Random.Range(0, 2);
+        string chosenRewardName = GetRandomEquipmentRewardName();
 
-        if (roll == 0)
+        if (chosenRewardName == "Health Reward")
         {
             PlayerManager.Instance.IncreaseMaxHealth(5f);
             Debug.Log("Equipment Upgrade: Player gained +5 Max Health.");
         }
-        else
+        else if (chosenRewardName == "Mana Reward")
         {
             PlayerManager.Instance.IncreaseMaxMana(5f);
             Debug.Log("Equipment Upgrade: Player gained +5 Max Mana.");
         }
+        else if (chosenRewardName == "Combo Reward")
+        {
+            PlayerManager.Instance.IncreaseMaxHealth(5f);
+            PlayerManager.Instance.IncreaseMaxMana(5f);
+            Debug.Log("Equipment Upgrade: Player gained +5 Max Health and +5 Max Mana.");
+        }
 
-        StartCoroutine(FinishOneRewardChoiceRoutine());
+        yield return StartCoroutine(FadeOutRewardUI());
+        yield return StartCoroutine(PlayRewardWheelIfPossible(RewardWheelType.Equipment, chosenRewardName));
+        yield return StartCoroutine(FinishOneRewardChoiceRoutine());
     }
 
     public void ApplyRandomMovesetUpgrade()
@@ -118,17 +137,23 @@ public class RewardController : MonoBehaviour
         if (rewardChoiceLocked) return;
         rewardChoiceLocked = true;
 
+        StartCoroutine(ApplyRandomMovesetUpgradeRoutine());
+    }
+
+    private IEnumerator ApplyRandomMovesetUpgradeRoutine()
+    {
         if (PlayerManager.Instance == null)
         {
             Debug.LogError("RewardController: No PlayerManager instance found.");
-            return;
+            yield break;
         }
 
         if (moveRewardPool == null || moveRewardPool.Count == 0)
         {
             Debug.LogWarning("RewardController: No moves assigned in Move Reward Pool.");
-            StartCoroutine(FinishOneRewardChoiceRoutine());
-            return;
+            yield return StartCoroutine(FadeOutRewardUI());
+            yield return StartCoroutine(FinishOneRewardChoiceRoutine());
+            yield break;
         }
 
         List<Move> availableMoves = new List<Move>();
@@ -144,8 +169,9 @@ public class RewardController : MonoBehaviour
         if (availableMoves.Count == 0)
         {
             Debug.Log("Moveset Upgrade: No new moves available. Player already has all reward moves.");
-            StartCoroutine(FinishOneRewardChoiceRoutine());
-            return;
+            yield return StartCoroutine(FadeOutRewardUI());
+            yield return StartCoroutine(FinishOneRewardChoiceRoutine());
+            yield break;
         }
 
         Move chosenMove = availableMoves[Random.Range(0, availableMoves.Count)];
@@ -158,7 +184,9 @@ public class RewardController : MonoBehaviour
             " | Mana Cost: " + chosenMove.getManaCost()
         );
 
-        StartCoroutine(FinishOneRewardChoiceRoutine());
+        yield return StartCoroutine(FadeOutRewardUI());
+        yield return StartCoroutine(PlayRewardWheelIfPossible(RewardWheelType.Moveset, chosenMove.getMoveName()));
+        yield return StartCoroutine(FinishOneRewardChoiceRoutine());
     }
 
     public void ApplyRandomSupportItemUpgrade()
@@ -166,17 +194,23 @@ public class RewardController : MonoBehaviour
         if (rewardChoiceLocked) return;
         rewardChoiceLocked = true;
 
+        StartCoroutine(ApplyRandomSupportItemUpgradeRoutine());
+    }
+
+    private IEnumerator ApplyRandomSupportItemUpgradeRoutine()
+    {
         if (PlayerManager.Instance == null)
         {
             Debug.LogError("RewardController: No PlayerManager instance found.");
-            return;
+            yield break;
         }
 
         if (supportItemRewardPool == null || supportItemRewardPool.Count == 0)
         {
             Debug.LogWarning("RewardController: No support items assigned in Support Item Reward Pool.");
-            StartCoroutine(FinishOneRewardChoiceRoutine());
-            return;
+            yield return StartCoroutine(FadeOutRewardUI());
+            yield return StartCoroutine(FinishOneRewardChoiceRoutine());
+            yield break;
         }
 
         string chosenItem = supportItemRewardPool[Random.Range(0, supportItemRewardPool.Count)];
@@ -184,13 +218,50 @@ public class RewardController : MonoBehaviour
 
         Debug.Log("Support Item Upgrade: Player received " + chosenItem + ".");
 
-        StartCoroutine(FinishOneRewardChoiceRoutine());
+        yield return StartCoroutine(FadeOutRewardUI());
+        yield return StartCoroutine(PlayRewardWheelIfPossible(RewardWheelType.Support, chosenItem));
+        yield return StartCoroutine(FinishOneRewardChoiceRoutine());
+    }
+
+    private string GetRandomEquipmentRewardName()
+    {
+        int roll = Random.Range(0, 7);
+
+        switch (roll)
+        {
+            case 0:
+                return "Mana Reward";
+
+            case 1:
+                return "Health Reward";
+
+            case 2:
+                return "Mana Reward";
+
+            case 3:
+                return "Health Reward";
+
+            case 4:
+                return "Mana Reward";
+
+            case 5:
+                return "Combo Reward";
+
+            default:
+                return "Health Reward";
+        }
+    }
+
+    private IEnumerator PlayRewardWheelIfPossible(RewardWheelType wheelType, string rewardName)
+    {
+        if (rewardWheelSpinner == null)
+            yield break;
+
+        yield return StartCoroutine(rewardWheelSpinner.PlayWheel(wheelType, rewardName));
     }
 
     private IEnumerator FinishOneRewardChoiceRoutine()
     {
-        yield return StartCoroutine(FadeOutRewardUI());
-
         pendingRewardChoices--;
 
         if (pendingRewardChoices > 0)

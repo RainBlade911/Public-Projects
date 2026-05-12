@@ -208,6 +208,12 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log("Player used Mana Potion and restored 10 Mana.");
                 break;
 
+            case "Elixir Potion":
+                Heal(10f);
+                RestoreMana(10f);
+                Debug.Log("Player used Elixir Potion and restored 10 HP and 10 Mana.");
+                break;
+
             default:
                 Debug.Log("Player used " + itemName + ".");
                 break;

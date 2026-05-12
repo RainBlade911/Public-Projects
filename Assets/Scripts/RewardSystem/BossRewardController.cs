@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,21 @@ public class BossRewardController : MonoBehaviour
     [Header("Scene")]
     [SerializeField] private string fightSceneName = "FightScene";
 
+    [Header("Fade")]
+    [SerializeField] private CanvasGroup bossRewardCanvasGroup;
+    [SerializeField] private float fadeDuration = 0.25f;
+
+    private void Awake()
+    {
+        HideBossRewardUI();
+    }
+
     public void ShowBossRewardUI()
+    {
+        StartCoroutine(ShowBossRewardRoutine());
+    }
+
+    private IEnumerator ShowBossRewardRoutine()
     {
         if (bossRewardUI != null)
         {
@@ -17,15 +32,74 @@ public class BossRewardController : MonoBehaviour
             bossRewardUI.transform.SetAsLastSibling();
         }
 
+        if (bossRewardCanvasGroup != null)
+        {
+            bossRewardCanvasGroup.alpha = 0f;
+            bossRewardCanvasGroup.interactable = false;
+            bossRewardCanvasGroup.blocksRaycasts = false;
+
+            float timer = 0f;
+
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+
+                bossRewardCanvasGroup.alpha =
+                    Mathf.Lerp(0f, 1f, timer / fadeDuration);
+
+                yield return null;
+            }
+
+            bossRewardCanvasGroup.alpha = 1f;
+            bossRewardCanvasGroup.interactable = true;
+            bossRewardCanvasGroup.blocksRaycasts = true;
+        }
+
         Debug.Log("Boss Reward UI shown.");
     }
 
     public void HideBossRewardUI()
     {
-        if (bossRewardUI != null)
+        if (bossRewardCanvasGroup != null)
         {
-            bossRewardUI.SetActive(false);
+            bossRewardCanvasGroup.alpha = 0f;
+            bossRewardCanvasGroup.interactable = false;
+            bossRewardCanvasGroup.blocksRaycasts = false;
         }
+
+        if (bossRewardUI != null)
+            bossRewardUI.SetActive(false);
+    }
+
+    private IEnumerator HideBossRewardRoutine()
+    {
+        if (bossRewardCanvasGroup == null)
+        {
+            if (bossRewardUI != null)
+                bossRewardUI.SetActive(false);
+
+            yield break;
+        }
+
+        bossRewardCanvasGroup.interactable = false;
+        bossRewardCanvasGroup.blocksRaycasts = false;
+
+        float timer = 0f;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+
+            bossRewardCanvasGroup.alpha =
+                Mathf.Lerp(1f, 0f, timer / fadeDuration);
+
+            yield return null;
+        }
+
+        bossRewardCanvasGroup.alpha = 0f;
+
+        if (bossRewardUI != null)
+            bossRewardUI.SetActive(false);
     }
 
     public void ApplyEssenceOfStrength()
@@ -37,7 +111,8 @@ public class BossRewardController : MonoBehaviour
         }
 
         PlayerManager.Instance.UpgradeEOS();
-        ReloadFightScene();
+
+        StartCoroutine(ApplyRewardAndReloadRoutine());
     }
 
     public void ApplyEssenceOfKnowledge()
@@ -49,6 +124,14 @@ public class BossRewardController : MonoBehaviour
         }
 
         PlayerManager.Instance.UpgradeEOK();
+
+        StartCoroutine(ApplyRewardAndReloadRoutine());
+    }
+
+    private IEnumerator ApplyRewardAndReloadRoutine()
+    {
+        yield return StartCoroutine(HideBossRewardRoutine());
+
         ReloadFightScene();
     }
 
