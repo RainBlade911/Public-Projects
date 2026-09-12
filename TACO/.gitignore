@@ -1,0 +1,106 @@
+# =========================
+# GENERAL
+# =========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+
+# =========================
+# PYTHON (TACOserver)
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# VSCode Python stuff
+.python-version
+
+# =========================
+# NODE (if any websocket deps)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# UNITY (TACOUnity)
+# =========================
+[Tt]emp/
+[Ll]ibrary/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+
+# MemoryCaptures (optional)
+MemoryCaptures/
+
+# Unity cache
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# Ignore Unity-generated VS files
+.vs/
+
+# =========================
+# VISUAL STUDIO / C++ (TACOPlugin)
+# =========================
+.vs/
+*.VC.db
+*.VC.opendb
+
+# Build output folders
+Debug/
+Release/
+x64/
+x86/
+ARM/
+ARM64/
+
+# CMake (if used)
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# =========================
+# IMPORTANT: DLL HANDLING
+# =========================
+
+# Ignore ALL DLLs by default
+*.dll
+
+# BUT include your REQUIRED plugin DLL(s)
+!TACOPlugin/**/*.dll
+!TACOServer/runtime/*.dll
+
+# If you ONLY want specific DLLs:
+# !TACOPlugin/ARM64/Release/TACODLL.dll
+
+# =========================
+# OTHER BINARIES
+# =========================
+*.exe
+*.obj
+*.lib
+*.pdb
+
+# =========================
+# OPTIONAL: LARGE FILES
+# =========================
+# If you later use Git LFS, remove DLL ignore above
+# and track them with LFS instead
